@@ -1,0 +1,111 @@
+---
+plugins:
+  - duplicates
+  - embedart
+  - fetchart
+  - hook
+  - info
+  - inline
+  - lastgenre
+  - lyrics
+  - mbsync
+  - missing
+  - musicbrainz
+  - permissions
+  - replaygain
+  - scrub
+  - unimported
+  - web
+directory: /music
+library: /config/musiclibrary.blb
+timeout: 60.0
+threaded: yes
+original_date: no
+per_disc_numbering: no
+paths:
+  'disctotal:1': '${albumartist}/${album}/${albumartist}_${album}_${track}_$safe_title'
+  default: '${albumartist}/${album}/${albumartist}_${album}_${disc}-${track}_$safe_title'
+item_fields:
+  safe_title: |
+    import re
+    return title.replace('/', '∕')
+asciify_paths: no
+import:
+  write: yes
+  copy: no
+  move: yes
+  resume: ask
+  incremental: yes
+  quiet_fallback: skip
+  timid: no
+  log: /config/beet.log
+scrub:
+  auto: yes
+unimported:
+  ignore_extensions: jpg jpeg png nfo log m3u m3u8 cue txt lrc
+  ignore_subdirectories: .DS_Store
+match:
+  strong_rec_thresh: 0.15
+  preferred:
+    media: ['Digital Media']
+  ignored_media:
+    - 'None'
+    - 'Other'
+    - ''
+    - 'Vinyl'
+    - '12" Vinyl'
+    - '7" Vinyl'
+    - '10" Vinyl'
+    - 'Cassette'
+    - 'SACD'
+    - 'DualDisc'
+    - 'DVD-Audio'
+    - 'Blu-ray'
+    - 'Data CD'
+    - 'CD-R'
+    - '8-Track'
+    - 'DCC'
+    - 'MiniDisc'
+web:
+  host: 0.0.0.0
+  port: 8337
+permissions:
+  file: 644
+  dir: 755
+duplicates:
+  full: yes
+  format: '$albumartist - $title : $path'
+  checksum: ffmpeg -i {file} -f crc -
+fetchart:
+  auto: no
+  filename: cover
+  cover_names: cover front albumart
+  sources: filesystem itunes coverart *
+embedart:
+  auto: no
+  ifempty: yes
+replaygain:
+  auto: no
+  backend: ffmpeg
+  targetlevel: 89
+lastgenre:
+  auto: no
+  source: album
+  force: no
+  keep_existing: yes
+  whitelist: /config/whitelist.txt
+  canonical: no
+  count: 3
+  min_weight: 10.0
+lyrics:
+  auto: no
+  force: no
+  synced: yes
+  sources:
+    - lrclib
+    - genius
+hook:
+  hooks:
+    - event: album_imported
+      format: "Hook lancé pour: {album.id}"
+      command: bash -c "/config/beets-process-queue.sh {album.id} >> /config/background_process.log 2>&1 &"

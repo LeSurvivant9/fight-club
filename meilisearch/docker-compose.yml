@@ -1,0 +1,26 @@
+---
+services:
+  meilisearch:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: getmeili/meilisearch:latest
+    container_name: meilisearch
+    env_file:
+      - .env
+    networks:
+      - proxy
+    volumes:
+      - /opt/meilisearch:/meili_data
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.meilisearch-secure.entrypoints=https
+      - traefik.http.routers.meilisearch-secure.rule=Host(`meilisearch.${DOMAIN}`)
+      - traefik.http.routers.meilisearch-secure.tls=true
+      - traefik.http.routers.meilisearch-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.meilisearch-secure.service=meilisearch
+      - traefik.http.services.meilisearch.loadbalancer.server.port=7700
+networks:
+  proxy:
+    external: true

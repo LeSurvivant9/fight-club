@@ -1,0 +1,4 @@
+---
+- name: qmcgaw/gluetun:latest
+- name: ghcr.io/autobrr/autobrr:latest
+- name: adnanh/webhook:latest

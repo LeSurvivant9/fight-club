@@ -1,0 +1,13 @@
+---
+services:
+  sops:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/getsops/sops:v3.11.0
+    container_name: sops
+    volumes:
+      - ~/.config/sops/age:/root/.config/sops:ro
+    entrypoint:
+      - sleep
+      - infinity

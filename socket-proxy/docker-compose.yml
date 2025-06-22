@@ -1,0 +1,56 @@
+---
+services:
+  socket-proxy:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: socket-proxy
+    environment:
+      # Traefik needs: containers, services, networks
+      - CONTAINERS=1
+      - SERVICES=1
+      - NETWORKS=1
+      # Watchtower needs: containers, images
+      - IMAGES=1
+      # Dozzle needs: containers
+      - POST=0
+      - BUILD=0
+      - COMMIT=0
+      - CONFIGS=0
+      - DISTRIBUTION=0
+      - EXEC=0
+      - INFO=1
+      - NODES=0
+      - PING=1
+      - PLUGINS=0
+      - SECRETS=0
+      - SESSION=0
+      - SWARM=0
+      - SYSTEM=0
+      - TASKS=0
+      - VERSION=1
+      - VOLUMES=0
+      # Timeouts for HAProxy
+      - TIMEOUT_CLIENT=30s
+      - TIMEOUT_CONNECT=5s
+      - TIMEOUT_SERVER=30s
+    networks:
+      socket_proxy:
+        ipv4_address: 172.21.0.2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: [CMD-SHELL, "wget -qO- http://localhost:2375/_ping | grep -q OK"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    mem_limit: 128M
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+      - /run:noexec,nosuid,size=10m
+    read_only: true
+networks:
+  socket_proxy:
+    external: true

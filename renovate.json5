@@ -1,0 +1,80 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    'config:recommended',
+    ':pinOnlyDevDependencies',
+    'group:allNonMajor',
+  ],
+  enabledManagers: [
+    'docker-compose',
+    'dockerfile',
+  ],
+  dockerfile: {
+    fileMatch: [
+      '(^|/)Dockerfile$',
+      '(^|/).+\\.Dockerfile$'
+    ],
+  },
+  'docker-compose': {
+    fileMatch: [
+      '(^|/)docker-compose\\.ya?ml$',
+      '(^|/).+\\.compose\\.ya?ml$'
+    ],
+  },
+  schedule: [
+    'after 22:00 every weekday',
+    'before 06:00 every weekday',
+  ],
+  automerge: true,
+  automergeType: 'branch',
+  major: {
+    automerge: false,
+  },
+  packageRules: [
+    {
+      matchCategories: [
+        'docker',
+      ],
+      versioning: 'loose',
+    },
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      labels: [
+        'deps',
+        'docker',
+      ],
+      prHourlyLimit: 4,
+      commitMessagePrefix: 'chore(deps)',
+    },
+    {
+      matchManagers: [
+        'docker-compose',
+      ],
+      groupName: 'docker-compose updates',
+    },
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      matchCurrentVersion: 'latest',
+      enabled: true,
+      separateMinorPatch: true,
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "versioning": "docker",
+      "pinDigests": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchCurrentValue": "/nightly|dev|develop|master/i",
+      "enabled": false
+    }
+  ],
+}

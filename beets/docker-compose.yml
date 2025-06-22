@@ -1,0 +1,35 @@
+---
+services:
+  beets:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: lscr.io/linuxserver/beets:latest
+    container_name: beets
+    networks:
+      - proxy
+    volumes:
+      - /opt/beets/config:/config
+      - ./config.yaml:/config/config.yaml
+      - ./whitelist.txt:/config/whitelist.txt
+      - ${MEDIA}/musics:/music
+      - ${MEDIA}/downloads/deemix:/downloads
+      - /usr/local/bin/beets-discord-notify.sh:/scripts/beets-discord-notify.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, beet, version]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.beets-secure.entrypoints=https
+      - traefik.http.routers.beets-secure.rule=Host(`beets.${DOMAIN}`)
+      - traefik.http.routers.beets-secure.tls=true
+      - traefik.http.routers.beets-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.beets-secure.service=beets
+      - traefik.http.services.beets.loadbalancer.server.port=8337
+networks:
+  proxy:
+    external: true

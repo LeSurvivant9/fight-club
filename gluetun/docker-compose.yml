@@ -1,0 +1,319 @@
+---
+services:
+  autobrr:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/autobrr/autobrr:latest
+    container_name: autobrr
+    network_mode: service:gluetun
+    volumes:
+      - /opt/autobrr/config:/config
+    healthcheck:
+      test: [CMD-SHELL, 'curl -fsS http://localhost:7474/ >/dev/null']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      gluetun:
+        condition: service_healthy
+  flaresolverr:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER}
+      - LOG_HTML=${LOG_HTML}
+      - LOG_LEVEL=${LOG_LEVEL}
+    network_mode: service:gluetun
+    healthcheck:
+      test: [CMD-SHELL, 'curl -fsS http://localhost:8191/ >/dev/null']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      gluetun:
+        condition: service_healthy
+  gluetun:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    environment:
+      - DNS_KEEP_NAMESERVER=${DNS_KEEP_NAMESERVER}
+      - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - WIREGUARD_INTERFACE=${WIREGUARD_INTERFACE}
+      - WIREGUARD_MTU=${WIREGUARD_MTU}
+      - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
+    networks:
+      vpn_net:
+        ipv4_address: 172.31.0.10
+      media_int: null
+      proxy: null
+    ports:
+      - "8888:8888/tcp"
+      - "8388:8388/tcp"
+      - "8388:8388/udp"
+      - "5274:5274/tcp"
+      - "8191:8191"
+      - "65223:65223/udp"
+      - "65144:65144/tcp"
+      - "65144:65144/udp"
+    volumes:
+      - /opt/gluetun/appdata:/gluetun
+      - /lib/modules:/lib/modules:ro
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    configs:
+      - source: post-rules.txt
+        target: /iptables/post-rules.txt
+    healthcheck:
+      test: [CMD, /gluetun-entrypoint, healthcheck]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.qbittorrent-secure.entrypoints=https
+      - traefik.http.routers.qbittorrent-secure.rule=Host(`qbittorrent.${DOMAIN}`)
+      - traefik.http.routers.qbittorrent-secure.tls=true
+      - traefik.http.routers.qbittorrent-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.qbittorrent-secure.service=qbittorrent
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8081
+      - traefik.http.routers.nicotine-secure.entrypoints=https
+      - traefik.http.routers.nicotine-secure.rule=Host(`nicotine.${DOMAIN}`)
+      - traefik.http.routers.nicotine-secure.tls=true
+      - traefik.http.routers.nicotine-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.nicotine-secure.service=nicotine
+      - traefik.http.services.nicotine.loadbalancer.server.port=6565
+      - traefik.http.routers.znc-secure.entrypoints=https
+      - traefik.http.routers.znc-secure.rule=Host(`znc.${DOMAIN}`)
+      - traefik.http.routers.znc-secure.tls=true
+      - traefik.http.routers.znc-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.znc-secure.service=znc
+      - traefik.http.services.znc.loadbalancer.server.port=8080
+      - traefik.tcp.routers.znc-irc-tcp.entrypoints=websecure_tcp
+      - traefik.tcp.routers.znc-irc-tcp.rule=HostSNI(`znc-irc.${DOMAIN}`)
+      - traefik.tcp.routers.znc-irc-tcp.tls=true
+      - traefik.tcp.routers.znc-irc-tcp.tls.certresolver=cloudflare
+      - traefik.tcp.routers.znc-irc-tcp.tls.domains[0].main=${DOMAIN}
+      - traefik.tcp.routers.znc-irc-tcp.tls.domains[0].sans=*.${DOMAIN}
+      - traefik.tcp.routers.znc-irc-tcp.service=znc-irc-tcp
+      - traefik.tcp.services.znc-irc-tcp.loadbalancer.server.port=6697
+      - traefik.http.routers.prowlarr-secure.entrypoints=https
+      - traefik.http.routers.prowlarr-secure.rule=Host(`prowlarr.${DOMAIN}`)
+      - traefik.http.routers.prowlarr-secure.tls=true
+      - traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.prowlarr-secure.service=prowlarr
+      - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+      - traefik.http.routers.autobrr-secure.entrypoints=https
+      - traefik.http.routers.autobrr-secure.rule=Host(`autobrr.${DOMAIN}`)
+      - traefik.http.routers.autobrr-secure.tls=true
+      - traefik.http.routers.autobrr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.autobrr-secure.service=autobrr
+      - traefik.http.services.autobrr.loadbalancer.server.port=7474
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    privileged: true
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.rp_filter=0
+      - net.ipv4.conf.default.rp_filter=0
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=1
+  nicotineplus-proper:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: sirjmann92/nicotineplus-proper:latest
+    container_name: nicotine
+    environment:
+      - LOGIN=${LOGIN}
+      - PASSW=${PASSW}
+      - WEB_UI_PORT=${WEB_UI_PORT}
+    network_mode: service:gluetun
+    volumes:
+      - ${MEDIA}/downloads/deemix:/downloads
+      - ${MEDIA}/musics:/musics
+      - /opt/nicotine/shared:/shared
+      - /opt/nicotine/config:/config
+      - /opt/nicotine/config/data:/data
+    healthcheck:
+      test: [CMD-SHELL, 'curl -fsS http://localhost:6565/ >/dev/null']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    shm_size: 1gb
+  prowlarr:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    network_mode: service:gluetun
+    volumes:
+      - /opt/prowlarr/config:/config
+      - ${MEDIA}:/media
+    healthcheck:
+      test: [CMD-SHELL, 'curl -fsS http://localhost:9696/ >/dev/null']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    mem_limit: 512M
+  qbittorrent:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - TORRENTING_PORT=${TORRENTING_PORT}
+      - WEBUI_PORT=${WEBUI_PORT}
+    network_mode: service:gluetun
+    volumes:
+      - /opt/qbittorrent/config:/config
+      - ${MEDIA}:/media
+    healthcheck:
+      test: [CMD-SHELL, 'curl -fsS http://localhost:8081/ >/dev/null']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    mem_limit: 2048M
+    memswap_limit: 4096M
+  wg-easy:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/wg-easy/wg-easy:15
+    container_name: wg-easy
+    environment:
+      - INIT_ENABLED=${INIT_ENABLED}
+      - INIT_USERNAME=${INIT_USERNAME}
+      - INIT_PASSWORD=${INIT_PASSWORD}
+      - INIT_HOST=${INIT_HOST}
+      - INIT_PORT=${INIT_PORT}
+      - INIT_DNS=${INIT_DNS}
+      - INIT_IPV4_CIDR=${INIT_IPV4_CIDR}
+      - INIT_IPV6_CIDR=${INIT_IPV6_CIDR}
+      - DISABLE_IPV6=${DISABLE_IPV6}
+      - WG_MTU=${WG_MTU}
+      - WG_HOST=${WG_HOST}
+      - WG_PORT=${WG_PORT}
+      - WG_DEFAULT_DNS=${WG_DEFAULT_DNS}
+      - WG_POST_UP=VPN_IF=$(ip -4 addr show | grep 'inet 172.31.0.' | awk '{print $NF}'); ip route del default; ip route add default via 172.31.0.10 dev $VPN_IF; iptables -t nat -A POSTROUTING -o $VPN_IF -j MASQUERADE; iptables -t nat -A POSTROUTING -d 172.19.0.0/16 -j MASQUERADE
+      - WG_POST_DOWN=VPN_IF=$(ip -4 addr show | grep 'inet 172.31.0.' | awk '{print $NF}'); ip route del default; ip route add default via 172.31.0.1 dev $VPN_IF; iptables -t nat -D POSTROUTING -o $VPN_IF -j MASQUERADE; iptables -t nat -D POSTROUTING -d 172.19.0.0/16 -j MASQUERADE
+    networks:
+      proxy: null
+      vpn_net:
+        ipv4_address: 172.31.0.20
+    volumes:
+      - /opt/wg-easy/etc_wireguard:/etc/wireguard
+      - /lib/modules:/lib/modules:ro
+    healthcheck:
+      test: [CMD-SHELL, timeout 5s wg show | grep -q interface >/dev/null]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.wg-secure.tls=true
+      - traefik.http.routers.wg-secure.entrypoints=https
+      - traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)
+      - traefik.http.routers.wg-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.wg-secure.service=wg
+      - traefik.http.services.wg.loadbalancer.server.port=51821
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.conf.all.rp_filter=0
+      - net.ipv4.conf.default.rp_filter=0
+  znc:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: lscr.io/linuxserver/znc:latest
+    container_name: znc
+    environment:
+      - IRC_INVITE_TOKEN=${IRC_INVITE_TOKEN}
+      - IRC_NICK=${IRC_NICK}
+      - RELAY_PASSWORD=${RELAY_PASSWORD}
+    network_mode: service:gluetun
+    volumes:
+      - /opt/znc:/config
+    healthcheck:
+      test: [CMD-SHELL, 'curl -fsS http://localhost:8080/ >/dev/null']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      gluetun:
+        condition: service_healthy
+networks:
+  media_int:
+    external: true
+  vpn_net:
+    external: true
+  proxy:
+    external: true
+configs:
+  post-rules.txt:
+    content: |-
+      # 0. Optimisation MSS (Fix pour Lag/Timeouts WireGuard)
+      iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1240
+      iptables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1240
+
+      # 1. Accès Internet via VPN pour les clients (wg-easy -> tun0)
+      iptables -I FORWARD -s 172.31.0.0/16 -o tun0 -j ACCEPT
+      iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
+
+      # 2. Port Forwarding entrant pour WireGuard (Connexion depuis l'extérieur vers Gluetun)
+      iptables -t nat -A PREROUTING -i tun0 -p udp --dport 65223 -j DNAT --to-destination 172.31.0.20:65223
+      iptables -t nat -A POSTROUTING -s 172.31.0.20 -p udp --dport 65223 -j MASQUERADE
+      iptables -A FORWARD -i tun0 -d 172.31.0.20 -p udp --dport 65223 -j ACCEPT
+
+      # 3. Règles standards de retour et stateful
+      iptables -A FORWARD -o tun0 -j ACCEPT
+      iptables -A FORWARD -i tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+      # 4. Accès DNS (AdGuard)
+      iptables -A FORWARD -d 172.31.0.123 -p udp --dport 53 -j ACCEPT
+      iptables -A FORWARD -d 172.31.0.123 -p tcp --dport 53 -j ACCEPT
+
+      # 5. Accès LAN local
+      iptables -A FORWARD -d 192.168.1.0/24 -j ACCEPT
+      iptables -A FORWARD -s 192.168.1.0/24 -j ACCEPT

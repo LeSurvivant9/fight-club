@@ -1,0 +1,13 @@
+[
+  {
+    "id": "autoheal",
+    "execute-command": "/bin/sh",
+    "command-working-directory": "/opt/scripts/",
+    "pass-arguments-to-command": [
+      {
+        "source": "string",
+        "name": "autoheal.sh"
+      }
+    ]
+  }
+]

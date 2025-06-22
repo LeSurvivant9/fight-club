@@ -1,0 +1,62 @@
+---
+services:
+  traefik:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: traefik:latest
+    container_name: traefik
+    environment:
+      - CF_API_EMAIL=${CF_API_EMAIL}
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+      - DOMAIN=${DOMAIN}
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - TRAEFIK_ACCESSLOG=${TRAEFIK_ACCESSLOG}
+      - TRAEFIK_ACCESSLOG_FILEPATH=${TRAEFIK_ACCESSLOG_FILEPATH}
+      - TRAEFIK_ACCESSLOG_FORMAT=${TRAEFIK_ACCESSLOG_FORMAT}
+    networks:
+      proxy:
+        ipv4_address: 172.19.0.80
+      socket_proxy:
+    ports:
+      - "80:80"
+      - "443:443"
+      - "444:444"
+      - "8080:8080"
+    volumes:
+      - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./config/dynamic:/etc/traefik/dynamic:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/traefik/config/acme.json:/etc/traefik/acme.json
+      - /var/log/traefik:/var/log/traefik
+    healthcheck:
+      test: [CMD, traefik, healthcheck]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.traefik-secure.entrypoints=https
+      - traefik.http.routers.traefik-secure.rule=Host(`traefik.${DOMAIN}`)
+      - traefik.http.routers.traefik-secure.tls=true
+      - traefik.http.routers.traefik-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.traefik-secure.service=api@internal
+      - traefik.http.routers.traefik-secure.middlewares=traefik-auth
+      - traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - traefik.http.routers.traefik-secure.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.traefik-secure.tls.domains[0].sans=*.${DOMAIN}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  proxy:
+    external: true
+    name: proxy
+  socket_proxy:
+    external: true
+    name: socket_proxy

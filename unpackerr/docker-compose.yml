@@ -1,0 +1,35 @@
+---
+services:
+  unpackerr:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: golift/unpackerr:latest
+    container_name: unpackerr
+    environment:
+      - UN_ACTIVITY=${UN_ACTIVITY}
+      - UN_DEBUG=${UN_DEBUG}
+      - UN_DIR_MODE=${UN_DIR_MODE}
+      - UN_ERROR_STDERR=${UN_ERROR_STDERR}
+      - UN_FILE_MODE=${UN_FILE_MODE}
+      - UN_FOLDER_0_PATH=${UN_FOLDER_0_PATH}
+      - UN_INTERVAL=${UN_INTERVAL}
+      - UN_LOG_FILE=${UN_LOG_FILE}
+      - UN_LOG_FILES=${UN_LOG_FILES}
+      - UN_LOG_FILE_MB=${UN_LOG_FILE_MB}
+      - UN_LOG_QUEUES=${UN_LOG_QUEUES}
+      - UN_MAX_RETRIES=${UN_MAX_RETRIES}
+      - UN_PARALLEL=${UN_PARALLEL}
+      - UN_QUIET=${UN_QUIET}
+      - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
+      - UN_RETRY_DELAY=${UN_RETRY_DELAY}
+      - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
+      - UN_START_DELAY=${UN_START_DELAY}
+    networks:
+      - media_int
+    volumes:
+      - ${MEDIA}:/media
+    mem_limit: 512M
+networks:
+  media_int:
+    external: true

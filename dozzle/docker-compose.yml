@@ -1,0 +1,33 @@
+---
+services:
+  dozzle:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    environment:
+      - DOCKER_HOST=tcp://socket-proxy:2375
+    networks:
+      - proxy
+      - socket_proxy
+    healthcheck:
+      test: [CMD, /dozzle, healthcheck]
+      interval: 30s
+      timeout: 10s
+      retries: 2
+      start_period: 40s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.dozzle-secure.entrypoints=https
+      - traefik.http.routers.dozzle-secure.rule=Host(`dozzle.${DOMAIN}`)
+      - traefik.http.routers.dozzle-secure.tls=true
+      - traefik.http.routers.dozzle-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.dozzle-secure.service=dozzle
+      - traefik.http.services.dozzle.loadbalancer.server.port=8080
+networks:
+  proxy:
+    external: true
+  socket_proxy:
+    external: true

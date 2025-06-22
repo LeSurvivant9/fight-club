@@ -1,0 +1,33 @@
+---
+services:
+  deemix:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/bambanah/deemix:latest
+    container_name: deemix
+    environment:
+      - DEEMIX_SINGLE_USER=${DEEMIX_SINGLE_USER}
+    networks:
+      - proxy
+    volumes:
+      - /opt/deemix/config:/config
+      - ${MEDIA}/downloads/deemix:/downloads
+    healthcheck:
+      test: [CMD-SHELL, 'wget --no-verbose --tries=1 --spider http://127.0.0.1:6595/ >/dev/null || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.deemix-secure.entrypoints=https
+      - traefik.http.routers.deemix-secure.rule=Host(`deemix.${DOMAIN}`)
+      - traefik.http.routers.deemix-secure.tls=true
+      - traefik.http.routers.deemix-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.deemix-secure.service=deemix
+      - traefik.http.services.deemix.loadbalancer.server.port=6595
+networks:
+  proxy:
+    external: true
