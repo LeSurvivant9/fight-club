@@ -24,8 +24,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - ./prowlarr/data:/config
-      - C:/Users/LS/Videos/Torrents/Downloads:/downloads
-      - C:/Users/LS/Videos/Torrents:/media
+      - ${DOWNLOADS}:/downloads
+      - ${MEDIA}:/media
     ports:
       - "9696:9696"
     restart: unless-stopped
@@ -41,8 +41,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - ./radarr/data:/config
-      - C:/Users/LS/Videos/Torrents/Downloads:/downloads
-      - C:/Users/LS/Videos/Torrents:/media
+      - ${DOWNLOADS}:/downloads
+      - ${MEDIA}:/media
     ports:
       - "7878:7878"
     restart: unless-stopped
@@ -58,8 +58,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - ./sonarr/data:/config
-      - C:/Users/LS/Videos/Torrents/Downloads:/downloads
-      - C:/Users/LS/Videos/Torrents:/media
+      - ${DOWNLOADS}:/downloads
+      - ${MEDIA}:/media
     ports:
       - "8989:8989"
     restart: unless-stopped
@@ -79,8 +79,8 @@ services:
     volumes:
       - ./whisparr/config:/config
       - ./whisparr/data:/data
-      - C:/Users/LS/Videos/Torrents/Downloads:/downloads
-      - C:/Users/LS/Videos/Torrents:/media
+      - ${DOWNLOADS}:/downloads
+      - ${MEDIA}:/media
     restart: unless-stopped
 
   readarr:
@@ -94,8 +94,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - ./readarr/data:/config
-      - C:/Users/LS/Videos/Torrents/Downloads:/downloads
-      - C:/Users/LS/Book:/book
+      - ${DOWNLOADS}:/downloads
+      - ${BOOK}:/book
     ports:
       - "8787:8787"
     restart: unless-stopped
@@ -113,11 +113,32 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ./qbittorrent/appdata:/config
-      - C:/Users/LS/Videos/Torrents/Downloads:/downloads
+      - ${DOWNLOADS}:/downloads
     ports:
       - "8080:8080"
       - "6881:6881"
       - "6881:6881/udp"
+    restart: unless-stopped
+
+  emby:
+    image: emby/embyserver
+    container_name: embyserver
+    networks:
+      - arr_net
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - LIBYA_DRIVER_NAME=radeonsi
+      - DRI_DEVICE=/dev/dri/renderD128
+    volumes:
+      - ./emby/config:/config
+      - ${MEDIA}:/media
+    ports:
+      - "8096:8096/tcp"  # HTTP
+      - "8920:8920/tcp"  # HTTPS
+      - "1900:1900/udp"  # DLNA
+      - "7359:7359/udp"  # Découverte réseau
     restart: unless-stopped
 
 networks:
