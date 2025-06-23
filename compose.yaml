@@ -1,0 +1,9 @@
+include:
+  - emby/compose.yml
+  - flaresolverr/compose.yml
+  - prowlarr/compose.yml
+  - qbittorrent/compose.yml
+  - radarr/compose.yml
+  - readarr/compose.yml
+  - sonarr/compose.yml
+  - whisparr/compose.yml

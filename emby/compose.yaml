@@ -1,0 +1,24 @@
+services:
+  emby:
+    image: emby/embyserver
+    container_name: embyserver
+    networks:
+      - arr_net
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - LIBYA_DRIVER_NAME=radeonsi
+      - DRI_DEVICE=/dev/dri/renderD128
+    volumes:
+      - ./config:/config
+      - ${MEDIA}:/media
+    ports:
+      - "8096:8096/tcp"  # HTTP
+      - "8920:8920/tcp"  # HTTPS
+      - "1900:1900/udp"  # DLNA
+      - "7359:7359/udp"  # Découverte réseau
+    restart: unless-stopped
+
+include:
+  - ../network.yaml

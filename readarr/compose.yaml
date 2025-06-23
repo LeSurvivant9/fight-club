@@ -1,0 +1,20 @@
+services:
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    networks:
+      - arr_net
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./data:/config
+      - ${DOWNLOADS}:/downloads
+      - ${BOOK}:/book
+    ports:
+      - "8787:8787"
+    restart: unless-stopped
+
+include:
+  - ../network.yaml

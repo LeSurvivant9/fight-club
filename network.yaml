@@ -1,0 +1,4 @@
+networks:
+  arr_net:
+    driver: bridge
+    name: arr_net
