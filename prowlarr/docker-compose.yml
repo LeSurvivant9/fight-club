@@ -2,19 +2,19 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
-    networks:
-      - arr_net
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
     volumes:
       - ./data:/config
-      - ${DOWNLOADS}:/downloads
       - ${MEDIA}:/media
-    ports:
-      - "9696:9696"
     restart: unless-stopped
+    depends_on:
+      gluetun:
+        condition: service_healthy
+        restart: true
+    network_mode: service:gluetun
 
 include:
   - ../network.yaml

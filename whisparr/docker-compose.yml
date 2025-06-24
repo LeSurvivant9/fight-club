@@ -3,7 +3,8 @@ services:
     container_name: whisparr
     image: ghcr.io/hotio/whisparr:latest
     networks:
-      - arr_net
+      arr_net:
+        ipv4_address: 172.18.0.8
     ports:
       - "6969:6969"
     environment:
@@ -14,7 +15,6 @@ services:
     volumes:
       - ./config:/config
       - ./data:/data
-      - ${DOWNLOADS}:/downloads
       - ${MEDIA}:/media
     restart: unless-stopped
 

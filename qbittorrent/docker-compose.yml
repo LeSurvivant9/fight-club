@@ -2,8 +2,6 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
-    networks:
-      - arr_net
     environment:
       - PUID=1000
       - PGID=1000
@@ -12,11 +10,18 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ./appdata:/config
-      - ${DOWNLOADS}:/downloads
-    ports:
-      - "8080:8080"
-      - "6881:6881"
-      - "6881:6881/udp"
+      - ${MEDIA}:/media
+    depends_on:
+      gluetun:
+        condition: service_healthy
+        restart: true
+    network_mode: service:gluetun
+    healthcheck:
+      test: ping -c 1 www.google.com || exit 1
+      interval: 60s
+      retries: 3
+      start_period: 20s
+      timeout: 10s
     restart: unless-stopped
 
 include:

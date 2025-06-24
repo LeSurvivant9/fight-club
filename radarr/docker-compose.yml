@@ -1,19 +1,19 @@
 services:
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
     networks:
-      - arr_net
+      arr_net:
+        ipv4_address: 172.18.0.4
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
     volumes:
       - ./data:/config
-      - ${DOWNLOADS}:/downloads
       - ${MEDIA}:/media
     ports:
-      - "8989:8989"
+      - "7878:7878"
     restart: unless-stopped
 
 include:

@@ -1,9 +1,10 @@
 services:
   emby:
-    image: emby/embyserver
+    image: emby/embyserver:latest
     container_name: embyserver
     networks:
-      - arr_net
+      arr_net:
+        ipv4_address: 172.18.0.2
     environment:
       - PUID=1000
       - PGID=1000
