@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ./data:/config
+      - ./appdata:/config
       - ${MEDIA}:/media
     ports:
       - "8090:8090"
@@ -17,4 +17,4 @@ services:
 
 
 include:
-  - ../network.yaml
+  - ../network.yml

@@ -12,7 +12,7 @@ services:
       - LIBYA_DRIVER_NAME=radeonsi
       - DRI_DEVICE=/dev/dri/renderD128
     volumes:
-      - ./config:/config
+      - ./appdata:/config
       - ${MEDIA}:/media
     ports:
       - "8096:8096/tcp"  # HTTP
@@ -22,4 +22,4 @@ services:
     restart: unless-stopped
 
 include:
-  - ../network.yaml
+  - ../network.yml

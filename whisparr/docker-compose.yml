@@ -13,10 +13,10 @@ services:
       - UMASK=002
       - TZ=Europe/Paris
     volumes:
-      - ./config:/config
-      - ./data:/data
+      - ./appdata/config:/config
+      - ./appdata/data:/data
       - ${MEDIA}:/media
     restart: unless-stopped
 
 include:
-  - ../network.yaml
+  - ../network.yml

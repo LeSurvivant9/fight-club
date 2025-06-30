@@ -10,11 +10,11 @@ services:
       - PGID=1000
       - TZ=Europe/Paris
     volumes:
-      - ./data:/config
+      - ./appdata:/config
       - ${MEDIA}:/media
     ports:
       - "8989:8989"
     restart: unless-stopped
 
 include:
-  - ../network.yaml
+  - ../network.yml
