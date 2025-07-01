@@ -1,8 +1,8 @@
 include:
-  - emby/docker-compose.yml
+#  - emby/docker-compose.yml
   - flaresolverr/docker-compose.yml
   - gluetun/docker-compose.yml
-  - jellyfin/docker-compose.yml
+#  - jellyfin/docker-compose.yml
   - lidarr/docker-compose.yml
 #  - mylar/docker-compose.yml
   - prowlarr/docker-compose.yml
