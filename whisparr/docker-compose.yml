@@ -2,21 +2,18 @@ services:
   whisparr:
     container_name: whisparr
     image: ghcr.io/hotio/whisparr:latest
-    networks:
-      arr_net:
-        ipv4_address: 172.18.0.8
-    ports:
-      - "6969:6969"
+    network_mode: service:gluetun
     environment:
       - PUID=1000
       - PGID=1000
       - UMASK=002
-      - TZ=Europe/Paris
+      - TZ=${TIMEZONE}
     volumes:
       - ./appdata/config:/config
       - ./appdata/data:/data
       - ${MEDIA}:/media
+    depends_on:
+      gluetun:
+        condition: service_healthy
+        restart: true
     restart: unless-stopped
-
-include:
-  - ../network.yml

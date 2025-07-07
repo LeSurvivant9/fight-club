@@ -2,10 +2,11 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
+    network_mode: service:gluetun
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=${TIMEZONE}
       - WEBUI_PORT=8080
       - TORRENTING_PORT=6881
     volumes:
@@ -15,7 +16,6 @@ services:
       gluetun:
         condition: service_healthy
         restart: true
-    network_mode: service:gluetun
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
       interval: 60s
@@ -23,6 +23,3 @@ services:
       start_period: 20s
       timeout: 10s
     restart: unless-stopped
-
-include:
-  - ../network.yml

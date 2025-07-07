@@ -1,13 +1,10 @@
 include:
-#  - emby/docker-compose.yml
+  - bazarr/docker-compose.yml
   - flaresolverr/docker-compose.yml
   - gluetun/docker-compose.yml
 #  - jellyfin/docker-compose.yml
-  - lidarr/docker-compose.yml
-#  - mylar/docker-compose.yml
   - prowlarr/docker-compose.yml
   - qbittorrent/docker-compose.yml
   - radarr/docker-compose.yml
-#  - readarr/docker-compose.yml
   - sonarr/docker-compose.yml
   - whisparr/docker-compose.yml

@@ -1,7 +1,0 @@
-networks:
-  arr_net:
-    driver: bridge
-    name: arr_net
-    ipam:
-      config:
-        - subnet: 172.18.0.0/24

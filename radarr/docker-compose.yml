@@ -2,19 +2,16 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    networks:
-      arr_net:
-        ipv4_address: 172.18.0.4
+    network_mode: service:gluetun
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Paris
+      - TZ=${TIMEZONE}
     volumes:
       - ./appdata:/config
       - ${MEDIA}:/media
-    ports:
-      - "7878:7878"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+        restart: true
     restart: unless-stopped
-
-include:
-  - ../network.yml

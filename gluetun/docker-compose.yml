@@ -2,18 +2,19 @@ services:
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
-    networks:
-      arr_net:
-        ipv4_address: 172.18.0.9
     cap_add:
       - NET_ADMIN
     volumes:
       - ./appdata:/gluetun
     ports:
+      - "6767:6767" # bazarr
+      - "9696:9696" # prowlarr
+      - "7878:7878" # radarr
+      - "8989:8989" # sonarr
+      - "6969:6969" # whisparr
+      - "8191:8191" # flaresolverr
       - "8080:8080" # qbittorrent web interface
       - "6881:6881" # qbittorrent torrent port
-      - "9696:9696" # prowlarr
-      - "${PORT:-8191}:8191" # flaresolverr
     environment:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
@@ -25,6 +26,3 @@ services:
       timeout: 10s
       retries: 5
     restart: unless-stopped
-
-include:
-  - ../network.yml
