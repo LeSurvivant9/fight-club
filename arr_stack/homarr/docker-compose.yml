@@ -4,9 +4,9 @@ services:
     image: ghcr.io/homarr-labs/homarr:latest
     restart: unless-stopped
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - //var/run/docker.sock:/var/run/docker.sock:ro
       - ./appdata:/appdata
     environment:
-      - SECRET_ENCRYPTION_KEY=727ecd33fb7caa69fb6d55979a52b2571f47f271b3fb9224a2bc7e3bb3a148de
+      - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
     ports:
       - '7575:7575'

@@ -1,16 +1,14 @@
 services:
-  whisparr:
-    container_name: whisparr
-    image: ghcr.io/hotio/whisparr:latest
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
     network_mode: service:gluetun
     environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK=002
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TIMEZONE}
     volumes:
-      - ./appdata/config:/config
-      - ./appdata/data:/data
+      - ./appdata:/config
       - ${MEDIA}:/media
     depends_on:
       gluetun:

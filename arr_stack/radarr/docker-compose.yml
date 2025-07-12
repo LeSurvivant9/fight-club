@@ -1,11 +1,11 @@
 services:
-  bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
-    container_name: bazarr
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
     network_mode: service:gluetun
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TIMEZONE}
     volumes:
       - ./appdata:/config

@@ -13,13 +13,12 @@ services:
       - "8989:8989" # sonarr
       - "6969:6969" # whisparr
       - "8191:8191" # flaresolverr
-      - "8080:8080" # qbittorrent web interface
+      - "8081:8080" # qbittorrent web interface
       - "6881:6881" # qbittorrent torrent port
     environment:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_KEY}
-      - SERVER_COUNTRIES=France
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
       interval: 20s
