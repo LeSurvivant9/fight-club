@@ -3,6 +3,7 @@ include:
   - flaresolverr/docker-compose.yml
   - gluetun/docker-compose.yml
 #  - jellyfin/docker-compose.yml
+  - jellyseerr/docker-compose.yml
   - prowlarr/docker-compose.yml
   - qbittorrent/docker-compose.yml
   - radarr/docker-compose.yml

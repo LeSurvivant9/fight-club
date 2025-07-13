@@ -8,12 +8,14 @@ services:
       - ./appdata:/gluetun
     ports:
       - "6767:6767" # bazarr
+      - "5454:5454" # notifiarr
       - "9696:9696" # prowlarr
       - "7878:7878" # radarr
       - "8989:8989" # sonarr
       - "6969:6969" # whisparr
       - "8191:8191" # flaresolverr
-      - "8081:8080" # qbittorrent web interface
+      - "5055:5055" # jellyseerr
+      - "8081:8081" # qbittorrent web interface
       - "6881:6881" # qbittorrent torrent port
     environment:
       - VPN_SERVICE_PROVIDER=nordvpn

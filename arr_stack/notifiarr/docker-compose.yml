@@ -1,0 +1,13 @@
+services:
+  notifiarr:
+    container_name: notifiarr
+    hostname: notifiarr
+    image: golift/notifiarr:latest
+    network_mode: service:gluetun
+    environment:
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./appdata:/config
+      - //var/run/utmp:/var/run/utmp
+      - //etc/machine-id:/etc/machine-id
+    restart: unless-stopped
