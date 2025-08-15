@@ -4,7 +4,7 @@ services:
     container_name: jellyfin
     network_mode: "host"
     volumes:
-      - ./appdata/config:/config
-      - ./appdata/cache:/cache
+      - ./config:/config
+      - ./cache:/cache
       - ${MEDIA}:/media
     restart: 'unless-stopped'

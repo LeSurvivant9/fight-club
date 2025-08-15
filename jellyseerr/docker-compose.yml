@@ -7,5 +7,5 @@ services:
       - LOG_LEVEL=debug
       - TZ=${TIMEZONE}
     volumes:
-      - ./appdata/config:/app/config
+      - ./config:/config
     restart: unless-stopped

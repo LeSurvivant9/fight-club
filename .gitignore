@@ -2,4 +2,6 @@
 .DS-Store
 .idea
 
-**/appdata/
+**/config/
+**/data/
+**/cache/

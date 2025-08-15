@@ -5,7 +5,7 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - ./appdata:/gluetun
+      - ./config:/config
     ports:
       - "6767:6767" # bazarr
       - "5454:5454" # notifiarr

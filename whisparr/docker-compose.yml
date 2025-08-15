@@ -9,8 +9,8 @@ services:
       - UMASK=002
       - TZ=${TIMEZONE}
     volumes:
-      - ./appdata/config:/config
-      - ./appdata/data:/data
+      - ./config:/config
+      - ./data:/data
       - ${MEDIA}:/media
     depends_on:
       gluetun:
