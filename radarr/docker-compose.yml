@@ -10,8 +10,4 @@ services:
     volumes:
       - ./config:/config
       - ${MEDIA}:/media
-    depends_on:
-      gluetun:
-        condition: service_healthy
-        restart: true
     restart: unless-stopped
