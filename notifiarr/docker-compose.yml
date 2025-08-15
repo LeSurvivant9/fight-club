@@ -1,7 +1,6 @@
 services:
   notifiarr:
     container_name: notifiarr
-    hostname: notifiarr
     image: golift/notifiarr:latest
     network_mode: container:gluetun
     environment:
