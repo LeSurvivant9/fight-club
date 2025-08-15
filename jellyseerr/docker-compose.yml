@@ -2,7 +2,7 @@ services:
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
-    network_mode: service:gluetun
+    network_mode: container:gluetun
     environment:
       - LOG_LEVEL=debug
       - TZ=${TIMEZONE}

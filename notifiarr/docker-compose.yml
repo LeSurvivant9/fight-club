@@ -3,7 +3,7 @@ services:
     container_name: notifiarr
     hostname: notifiarr
     image: golift/notifiarr:latest
-    network_mode: service:gluetun
+    network_mode: container:gluetun
     environment:
       - TZ=${TIMEZONE}
     volumes:

@@ -2,7 +2,7 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    network_mode: service:gluetun
+    network_mode: container:gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

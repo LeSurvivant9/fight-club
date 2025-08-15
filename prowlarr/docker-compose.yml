@@ -2,7 +2,7 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
-    network_mode: service:gluetun
+    network_mode: container:gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -10,8 +10,4 @@ services:
     volumes:
       - ./config:/config
       - ${MEDIA}:/media
-    depends_on:
-      gluetun:
-        condition: service_healthy
-        restart: true
     restart: unless-stopped

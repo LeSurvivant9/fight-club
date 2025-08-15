@@ -2,7 +2,7 @@ services:
   whisparr:
     container_name: whisparr
     image: ghcr.io/hotio/whisparr:latest
-    network_mode: service:gluetun
+    network_mode: container:gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -12,8 +12,4 @@ services:
       - ./config:/config
       - ./data:/data
       - ${MEDIA}:/media
-    depends_on:
-      gluetun:
-        condition: service_healthy
-        restart: true
     restart: unless-stopped

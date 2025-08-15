@@ -2,7 +2,7 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
-    network_mode: service:gluetun
+    network_mode: container:gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -12,10 +12,6 @@ services:
     volumes:
       - ./config:/config
       - ${MEDIA}:/media
-    depends_on:
-      gluetun:
-        condition: service_healthy
-        restart: true
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
       interval: 60s
