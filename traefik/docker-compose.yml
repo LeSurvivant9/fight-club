@@ -21,7 +21,7 @@ services:
       - /opt/traefik/config/traefik.yml:/traefik.yml:ro
       - /opt/traefik/config/config.yml:/config.yml:ro
       - /opt/traefik/config/acme.json:/acme.json
-      - ./logs:/var/log/traefik
+      - /opt/traefik/logs:/var/log/traefik
     labels:
         - "traefik.enable=true"
         - "traefik.http.routers.traefik.entrypoints=http"
