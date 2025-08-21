@@ -16,7 +16,7 @@ services:
       FTLCONF_webserver_api_password: ${PIHOLE_PASSWORD}
       PIHOLE_DNS_: 172.23.0.4#5053
     volumes:
-      - ./config:/config
+      - ./etc-pihole:/etc/pihole
     restart: unless-stopped
 
 networks:
