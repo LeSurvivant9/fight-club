@@ -2,6 +2,9 @@ services:
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
+    networks:
+      dns_net:
+        ipv4_address: 172.23.0.2
     cap_add:
       - NET_ADMIN
     volumes:
@@ -21,9 +24,15 @@ services:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_KEY}
+      - UPDATER_PERIOD=24h
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
       interval: 20s
       timeout: 10s
       retries: 5
     restart: unless-stopped
+
+
+networks:
+  dns_net:
+    external: true
