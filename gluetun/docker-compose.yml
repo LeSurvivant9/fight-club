@@ -16,6 +16,9 @@ services:
       - 8888:8888/tcp # HTTP proxy
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
+      - 8000:8000/tcp # Web UI
+      - 6881:6881/tcp # Torrenting TCP
+      - 6881:6881/udp # Torrenting UDP
     environment:
       - TZ=${TIMEZONE}
       - VPN_SERVICE_PROVIDER=nordvpn
