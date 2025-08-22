@@ -13,6 +13,7 @@ services:
       TZ: ${TIMEZONE}
       FTLCONF_webserver_api_password: ${PIHOLE_PASSWORD}
       PIHOLE_DNS_: 172.23.0.4#5053
+      FTLCONF_misc_etc_dnsmasq_d: 'true'
     volumes:
       - ./etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
