@@ -2,7 +2,6 @@ services:
   unbound:
     container_name: unbound
     image: mvance/unbound:latest
-    platform: linux/arm64/v8
     expose:
       - "53"
     networks:
