@@ -4,7 +4,7 @@ services:
     container_name: gluetun
     networks:
       dns_net:
-#        ipv4_address: 172.23.0.2
+        ipv4_address: 172.23.0.2
       proxy:
     cap_add:
       - NET_ADMIN
