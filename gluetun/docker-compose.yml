@@ -51,7 +51,7 @@ services:
       - "traefik.http.routers.flaresolverr-secure.tls=true"
       - "traefik.http.routers.flaresolverr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.flaresolverr-secure.service=flaresolverr"
-      - "traefik.http.services.flaresolverr.loadbalancer.server.port=8081"
+      - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
 
       - "traefik.http.routers.homarr.entrypoints=http"
       - "traefik.http.routers.homarr.rule=Host(`homarr.${DOMAIN}`)"
