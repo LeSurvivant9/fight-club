@@ -3,10 +3,9 @@ services:
     container_name: homarr
     image: ghcr.io/homarr-labs/homarr:latest
     restart: unless-stopped
+    network_mode: container:gluetun
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config:/config
     environment:
       - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
-    ports:
-      - '7575:7575'

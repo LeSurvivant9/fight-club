@@ -2,7 +2,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
-    network_mode: "host"
+    network_mode: container:gluetun
     volumes:
       - ./config:/config
       - ./cache:/cache

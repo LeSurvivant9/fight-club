@@ -8,7 +8,6 @@ services:
       - PGID=${PGID}
       - TZ=${TIMEZONE}
       - WEBUI_PORT=8081
-      - TORRENTING_PORT=6881
     volumes:
       - ./config:/config
       - ${MEDIA}:/media
