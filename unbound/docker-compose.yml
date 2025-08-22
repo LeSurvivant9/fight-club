@@ -11,3 +11,7 @@ services:
       - "5053:53/tcp"
       - "5053:53/udp"
     restart: unless-stopped
+
+networks:
+  dns_net:
+    external: true
