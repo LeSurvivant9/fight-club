@@ -26,14 +26,14 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
   file:
-    filename: /config.yml
+    filename: /etc/traefik/config.yml
 certificatesResolvers:
   cloudflare:
     acme:
       # caServer: https://acme-v02.api.letsencrypt.org/directory # production (default)
       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging (testing)
       email: your@email.com # Cloudflare email (or other provider)
-      storage: acme.json
+      storage: /etc/traefik/acme.json
       dnsChallenge:
         provider: cloudflare
         # disablePropagationCheck: true # Some people using Cloudflare note this can solve DNS propagation issues.
