@@ -6,6 +6,6 @@ services:
     network_mode: container:gluetun
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./config:/config
+      - ./appdata:/appdata
     environment:
       - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
