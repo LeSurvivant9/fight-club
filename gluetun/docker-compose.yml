@@ -4,27 +4,26 @@ services:
     container_name: gluetun
     networks:
       dns_net:
-        ipv4_address: 172.23.0.2
+#        ipv4_address: 172.23.0.2
       proxy:
     cap_add:
       - NET_ADMIN
     devices:
-        - /dev/net/tun:/dev/net/tun
-    volumes:
-      - ./config:/config
+      - /dev/net/tun:/dev/net/tun
     ports:
       - 8888:8888/tcp # HTTP proxy
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
-      - 8000:8000/tcp # Web UI
-      - 6881:6881/tcp # Torrenting TCP
-      - 6881:6881/udp # Torrenting UDP
+      - 8081:8081     # qbittorrent web interface
+      - 6881:6881     # qbittorrent torrent port
+    volumes:
+      - ./appdata:/gluetun
     environment:
       - TZ=${TIMEZONE}
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_KEY}
-      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESS}
+      - SERVER_CITIES=Amsterdam
       - UPDATER_PERIOD=24h
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
@@ -56,17 +55,6 @@ services:
       - "traefik.http.routers.flaresolverr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.flaresolverr-secure.service=flaresolverr"
       - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
-
-      - "traefik.http.routers.gluetun.entrypoints=http"
-      - "traefik.http.routers.gluetun.rule=Host(`gluetun.${DOMAIN}`)"
-      - "traefik.http.middlewares.gluetun-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.gluetun.middlewares=gluetun-https-redirect"
-      - "traefik.http.routers.gluetun-secure.entrypoints=https"
-      - "traefik.http.routers.gluetun-secure.rule=Host(`gluetun.${DOMAIN}`)"
-      - "traefik.http.routers.gluetun-secure.tls=true"
-      - "traefik.http.routers.gluetun-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.gluetun-secure.service=gluetun"
-      - "traefik.http.services.gluetun.loadbalancer.server.port=8000"
 
       - "traefik.http.routers.homarr.entrypoints=http"
       - "traefik.http.routers.homarr.rule=Host(`homarr.${DOMAIN}`)"
