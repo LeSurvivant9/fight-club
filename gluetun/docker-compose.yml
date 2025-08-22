@@ -24,6 +24,10 @@ services:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESS}
+      - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBKEY}
+      - WIREGUARD_ENDPOINT_IP=${WIREGUARD_ENDPOINT}
+      - WIREGUARD_ENDPOINT_PORT=${WIREGUARD_PORT}
       - UPDATER_PERIOD=24h
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
