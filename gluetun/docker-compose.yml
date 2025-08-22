@@ -16,6 +16,9 @@ services:
       - 8888:8888/tcp # HTTP proxy
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
+      - 6881:6881/tcp # qBitt port torrenting
+      - 6881:6881/udp # qBitt port torrenting
+      - 8081:8081/tcp # qBitt port WebUI
     environment:
       - TZ=${TIMEZONE}
       - VPN_SERVICE_PROVIDER=nordvpn
@@ -152,6 +155,7 @@ services:
       - "traefik.http.routers.whisparr-secure.service=whisparr"
       - "traefik.http.services.whisparr.loadbalancer.server.port=6969"
 
+      - "autoheal=true"
 networks:
   dns_net:
     external: true
