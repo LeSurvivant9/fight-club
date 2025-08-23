@@ -3,20 +3,25 @@ services:
     container_name: pihole
     image: pihole/pihole:latest
     networks:
-      dns_net:
-        ipv4_address: 172.23.0.3
       proxy:
+        ipv4_address: 172.23.0.3
     ports:
       - "53:53/tcp"
       - "53:53/udp"
     environment:
       TZ: ${TIMEZONE}
       FTLCONF_webserver_api_password: ${PIHOLE_PASSWORD}
-      FTLCONF_misc_etc_dnsmasq_d: 'true'
+      FTLCONF_misc_etc_dnsmasq_d: "true"
     volumes:
       - ./etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/" ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -31,8 +36,9 @@ services:
       - "traefik.http.routers.pihole-secure.service=pihole"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
 
+      - autoheal=true
+      - autoheal.stop.timeout=30
+
 networks:
   proxy:
-    external: true
-  dns_net:
     external: true

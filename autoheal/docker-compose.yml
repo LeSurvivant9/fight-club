@@ -1,12 +1,21 @@
 services:
   autoheal:
     mem_limit: 512M
-    deploy:
-      replicas: 1
-    container_name: autoheal
     image: willfarrell/autoheal:latest
-    network_mode: none
+    container_name: autoheal
+    networks:
+      proxy:
     restart: always
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal
+      - AUTOHEAL_INTERVAL=10
+      - AUTOHEAL_START_PERIOD=30
+      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=20
+      - AUTOHEAL_ONLY_MONITOR_RUNNING=true
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  proxy:
+    external: true

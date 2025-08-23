@@ -15,11 +15,12 @@ services:
       - ./config:/config
       - ${MEDIA}:/media
     healthcheck:
-      test: ping -c 1 www.google.com || exit 1
+      test: ["CMD", "curl", "-f", "http://localhost:8081/"]
       interval: 60s
-      retries: 3
-      start_period: 20s
       timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
-      autoheal: true
+      - autoheal=true
+      - autoheal.stop.timeout=30
     restart: unless-stopped
