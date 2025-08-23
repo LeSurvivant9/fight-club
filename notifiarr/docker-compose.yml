@@ -12,11 +12,10 @@ services:
       - /etc/machine-id:/etc/machine-id
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5454/"]
-      interval: 60s
-      timeout: 10s
+      test: ["CMD-SHELL", "cat < /dev/null > /dev/tcp/localhost/5454 || exit 1"]
+      interval: 30s
+      timeout: 5s
       retries: 3
-      start_period: 30s
     labels:
       - autoheal=true
       - autoheal.stop.timeout=30
