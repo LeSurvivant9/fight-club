@@ -26,5 +26,7 @@ services:
       - UN_DIR_MODE=0755
       - UN_ACTIVITY=false
       - UN_FOLDER_0_PATH=/media/downloads
-      - UN_RADARR_0_URL=${RADARR_URL}
-      - UN_RADARR_0_APIKEY=${RADARR_APIKEY}
+      - UN_SONARR_0_URL=http://172.23.0.2:8989
+      - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
+      - UN_RADARR_0_URL=http://172.23.0.2:7878
+      - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
