@@ -24,7 +24,7 @@ services:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_KEY}
-      - SERVER_CITIES=Amsterdam
+      - SERVER_COUNTRY=Netherlands
       - UPDATER_PERIOD=24h
     healthcheck:
       test: ping -c 1 www.google.com || exit 1

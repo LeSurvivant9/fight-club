@@ -11,7 +11,7 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ./config:/config
-      - ${MEDIA}:/media
+      - ${MEDIA}/downloads:/downloads
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
       interval: 60s
