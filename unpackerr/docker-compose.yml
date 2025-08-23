@@ -3,7 +3,7 @@ services:
     image: golift/unpackerr
     container_name: unpackerr
     volumes:
-      - ${MEDIA}/downloads:/downloads
+      - ${MEDIA}:/media
     restart: unless-stopped
     user: 1000:100
     environment:
@@ -13,7 +13,7 @@ services:
       - UN_DEBUG=false
       - UN_ERROR_STDERR=false
       - UN_LOG_QUEUES=1m
-      - UN_LOG_FILE=/downloads/unpackerr.log
+      - UN_LOG_FILE=/media/unpackerr.log
       - UN_LOG_FILES=10
       - UN_LOG_FILE_MB=10
       - UN_INTERVAL=2m
