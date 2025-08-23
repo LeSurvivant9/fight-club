@@ -10,12 +10,3 @@ services:
       - ./appdata:/appdata
     environment:
       - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:7575/"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-    labels:
-      - autoheal=true
-      - autoheal.stop.timeout=30

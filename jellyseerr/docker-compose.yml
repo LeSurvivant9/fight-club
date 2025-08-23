@@ -10,12 +10,3 @@ services:
     volumes:
       - ./config:/config
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5055/"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-    labels:
-      - autoheal=true
-      - autoheal.stop.timeout=30

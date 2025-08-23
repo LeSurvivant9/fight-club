@@ -11,11 +11,3 @@ services:
       - /var/run/utmp:/var/run/utmp
       - /etc/machine-id:/etc/machine-id
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "5055"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-    labels:
-      - autoheal=true
-      - autoheal.stop.timeout=30
