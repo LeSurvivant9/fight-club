@@ -3,6 +3,7 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     network_mode: container:gluetun
+    mem_limit: 512M
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

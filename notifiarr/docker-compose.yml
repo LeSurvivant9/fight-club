@@ -2,6 +2,7 @@ services:
   notifiarr:
     container_name: notifiarr
     image: golift/notifiarr:latest
+    mem_limit: 512M
     network_mode: container:gluetun
     environment:
       - TZ=${TIMEZONE}

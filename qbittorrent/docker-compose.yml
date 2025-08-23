@@ -2,6 +2,8 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
+    mem_limit: 2048M
+    memswap_limit: 4096M
     network_mode: container:gluetun
     environment:
       - PUID=${PUID}

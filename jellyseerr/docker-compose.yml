@@ -2,6 +2,7 @@ services:
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
+    mem_limit: 1024M
     network_mode: container:gluetun
     environment:
       - LOG_LEVEL=debug

@@ -2,6 +2,14 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
+    mem_limit: 8192M
+    memswap_limit: 12288M
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
     network_mode: container:gluetun
     volumes:
       - ./config:/config

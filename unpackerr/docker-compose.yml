@@ -3,6 +3,7 @@ services:
     image: golift/unpackerr
     container_name: unpackerr
     network_mode: container:gluetun
+    mem_limit: 512M
     volumes:
       - ${MEDIA}:/media
     restart: unless-stopped

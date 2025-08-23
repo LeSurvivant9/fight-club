@@ -2,6 +2,7 @@ services:
   homarr:
     container_name: homarr
     image: ghcr.io/homarr-labs/homarr:latest
+    mem_limit: 512M
     restart: unless-stopped
     network_mode: container:gluetun
     volumes:

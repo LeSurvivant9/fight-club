@@ -3,6 +3,7 @@ services:
     container_name: whisparr
     image: ghcr.io/hotio/whisparr:latest
     network_mode: container:gluetun
+    mem_limit: 1024M
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

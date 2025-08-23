@@ -3,6 +3,7 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     network_mode: container:gluetun
+    mem_limit: 1024M
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

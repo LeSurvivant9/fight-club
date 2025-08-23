@@ -3,6 +3,7 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     network_mode: container:gluetun
+    mem_limit: 1024M
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
