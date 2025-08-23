@@ -4,7 +4,6 @@ services:
     image: pihole/pihole:latest
     networks:
       proxy:
-        ipv4_address: 172.23.0.3
     ports:
       - "53:53/tcp"
       - "53:53/udp"

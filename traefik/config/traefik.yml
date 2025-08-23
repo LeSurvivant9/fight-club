@@ -1,10 +1,12 @@
 general:
   checkNewVersion: false
   sendAnonymousUsage: false
+ping:
+  entryPoint: traefik
 api:
   dashboard: true
-  insecure: true
-ping: {}
+  debug: false
+  insecure: false
 entryPoints:
   http:
     address: ":80"
@@ -15,6 +17,8 @@ entryPoints:
           scheme: "https"
   https:
     address: ":443"
+  traefik:
+    address: ":8080"
 serversTransport:
   insecureSkipVerify: true
 log:

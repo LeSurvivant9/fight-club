@@ -22,12 +22,6 @@ services:
       - /opt/traefik/config/config.yml:/etc/traefik/config.yml:ro
       - /opt/traefik/config/acme.json:/etc/traefik/acme.json
       - /opt/traefik/logs:/var/log/traefik
-    healthcheck:
-      test: [ "CMD", "traefik", "healthcheck" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
