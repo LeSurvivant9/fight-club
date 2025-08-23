@@ -16,6 +16,7 @@ services:
       - 8388:8388/udp # Shadowsocks
       - 8081:8081     # qbittorrent web interface
       - 6881:6881     # qbittorrent torrent port
+      - 6881:6881/udp # qbittorrent torrent port
     volumes:
       - ./appdata:/gluetun
     environment:
