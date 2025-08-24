@@ -3,8 +3,9 @@ services:
     image: qmcgaw/gluetun
     container_name: gluetun
     networks:
-      proxy:
+      arr_net:
         ipv4_address: 172.23.0.2
+      proxy:
     cap_add:
       - NET_ADMIN
     devices:
@@ -158,4 +159,6 @@ services:
 
 networks:
   proxy:
+    external: true
+  arr_net:
     external: true
