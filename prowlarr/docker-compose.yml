@@ -5,6 +5,7 @@ services:
     mem_limit: 512M
     networks:
       arr_net:
+        - ipv4_address: 172.23.0.4
       proxy:
     ports:
       - "9696:9696"

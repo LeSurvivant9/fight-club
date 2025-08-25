@@ -2,6 +2,9 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
+    networks:
+      arr_net:
+        - ipv4_address: 172.23.0.3
     mem_limit: 512M
     ports:
       - "${PORT:-8191}:8191"
