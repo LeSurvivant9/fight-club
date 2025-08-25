@@ -10,7 +10,10 @@ services:
           memory: 8G
         reservations:
           memory: 4G
-    network_mode: container:gluetun
+    networks:
+      arr_net:
+        ipv4_address: 172.23.0.6
+      proxy:
     volumes:
       - ./config:/config
       - ./cache:/cache
@@ -23,5 +26,24 @@ services:
       retries: 3
       start_period: 30s
     labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.jellyfin.entrypoints=http"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${DOMAIN}`)"
+      - "traefik.http.middlewares.jellyfin-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.jellyfin.middlewares=jellyfin-https-redirect"
+      - "traefik.http.routers.jellyfin-secure.entrypoints=https"
+      - "traefik.http.routers.jellyfin-secure.rule=Host(`jellyfin.${DOMAIN}`)"
+      - "traefik.http.routers.jellyfin-secure.tls=true"
+      - "traefik.http.routers.jellyfin-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.jellyfin-secure.service=jellyfin"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+
       - autoheal=true
       - autoheal.stop.timeout=30
+
+networks:
+  proxy:
+    external: true
+  arr_net:
+    external: true

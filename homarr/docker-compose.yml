@@ -4,9 +4,31 @@ services:
     image: ghcr.io/homarr-labs/homarr:latest
     mem_limit: 512M
     restart: unless-stopped
-    network_mode: container:gluetun
+    networks:
+      arr_net:
+        ipv4_address: 172.23.0.5
+      proxy:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./appdata:/appdata
     environment:
       - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.homarr.entrypoints=http"
+      - "traefik.http.routers.homarr.rule=Host(`homarr.${DOMAIN}`)"
+      - "traefik.http.middlewares.homarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.homarr.middlewares=homarr-https-redirect"
+      - "traefik.http.routers.homarr-secure.entrypoints=https"
+      - "traefik.http.routers.homarr-secure.rule=Host(`homarr.${DOMAIN}`)"
+      - "traefik.http.routers.homarr-secure.tls=true"
+      - "traefik.http.routers.homarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.homarr-secure.service=homarr"
+      - "traefik.http.services.homarr.loadbalancer.server.port=7575"
+
+networks:
+  proxy:
+    external: true
+  arr_net:
+    external: true

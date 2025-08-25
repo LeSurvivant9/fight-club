@@ -3,7 +3,10 @@ services:
     container_name: notifiarr
     image: golift/notifiarr:latest
     mem_limit: 512M
-    network_mode: container:gluetun
+    networks:
+      arr_net:
+        ipv4_address: 172.23.0.9
+      proxy:
     environment:
       - TZ=${TIMEZONE}
     volumes:
@@ -11,3 +14,23 @@ services:
       - /var/run/utmp:/var/run/utmp
       - /etc/machine-id:/etc/machine-id
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.notifiarr.entrypoints=http"
+      - "traefik.http.routers.notifiarr.rule=Host(`notifiarr.${DOMAIN}`)"
+      - "traefik.http.middlewares.notifiarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.notifiarr.middlewares=notifiarr-https-redirect"
+      - "traefik.http.routers.notifiarr-secure.entrypoints=https"
+      - "traefik.http.routers.notifiarr-secure.rule=Host(`notifiarr.${DOMAIN}`)"
+      - "traefik.http.routers.notifiarr-secure.tls=true"
+      - "traefik.http.routers.notifiarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.notifiarr-secure.service=notifiarr"
+      - "traefik.http.services.notifiarr.loadbalancer.server.port=5454"
+
+
+networks:
+  proxy:
+    external: true
+  arr_net:
+    external: true

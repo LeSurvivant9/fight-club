@@ -5,7 +5,7 @@ services:
     mem_limit: 512M
     networks:
       arr_net:
-        ipv4_address: 172.23.0.4
+        ipv4_address: 172.23.0.10
       proxy:
     environment:
       - PUID=${PUID}
@@ -37,7 +37,6 @@ services:
 
       - autoheal=true
       - autoheal.stop.timeout=30
-
 
 networks:
   arr_net:

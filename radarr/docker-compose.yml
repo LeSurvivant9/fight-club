@@ -2,7 +2,10 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    network_mode: container:gluetun
+    networks:
+      arr_net:
+        ipv4_address: 172.23.0.11
+      proxy:
     mem_limit: 1024M
     environment:
       - PUID=${PUID}
@@ -19,5 +22,24 @@ services:
       start_period: 30s
     restart: unless-stopped
     labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.radarr.entrypoints=http"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.${DOMAIN}`)"
+      - "traefik.http.middlewares.radarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.radarr.middlewares=radarr-https-redirect"
+      - "traefik.http.routers.radarr-secure.entrypoints=https"
+      - "traefik.http.routers.radarr-secure.rule=Host(`radarr.${DOMAIN}`)"
+      - "traefik.http.routers.radarr-secure.tls=true"
+      - "traefik.http.routers.radarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.radarr-secure.service=radarr"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+
       - autoheal=true
       - autoheal.stop.timeout=30
+
+networks:
+  proxy:
+    external: true
+  arr_net:
+    external: true

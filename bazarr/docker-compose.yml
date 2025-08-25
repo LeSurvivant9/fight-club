@@ -2,7 +2,10 @@ services:
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
-    network_mode: container:gluetun
+    networks:
+      arr_net:
+        ipv4_address: 172.23.0.4
+      proxy:
     mem_limit: 512M
     environment:
       - PUID=${PUID}
@@ -19,5 +22,24 @@ services:
       start_period: 30s
     restart: unless-stopped
     labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.bazarr.entrypoints=http"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.${DOMAIN}`)"
+      - "traefik.http.middlewares.bazarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.bazarr.middlewares=bazarr-https-redirect"
+      - "traefik.http.routers.bazarr-secure.entrypoints=https"
+      - "traefik.http.routers.bazarr-secure.rule=Host(`bazarr.${DOMAIN}`)"
+      - "traefik.http.routers.bazarr-secure.tls=true"
+      - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.bazarr-secure.service=bazarr"
+      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+
       - autoheal=true
       - autoheal.stop.timeout=30
+
+networks:
+  proxy:
+    external: true
+  arr_net:
+    external: true
