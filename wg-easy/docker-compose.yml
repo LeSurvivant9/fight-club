@@ -33,8 +33,6 @@ services:
       - "traefik.http.routers.wireguard.middlewares=wireguard-https-redirect"
       - "traefik.http.routers.wireguard-secure.entrypoints=https"
       - "traefik.http.routers.wireguard-secure.rule=Host(`wireguard.${DOMAIN}`)"
-      - "traefik.http.routers.wireguard-secure.tls=true"
-      - "traefik.http.routers.wireguard-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.wireguard-secure.service=wireguard"
       - "traefik.http.services.wireguard.loadbalancer.server.port=51821"
 
@@ -49,3 +47,5 @@ networks:
       driver: default
       config:
         - subnet: 10.42.42.0/24
+  proxy:
+    external: true
