@@ -3,7 +3,11 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     mem_limit: 512M
-    network_mode: container:gluetun
+    networks:
+      arr_net:
+      proxy:
+    ports:
+      - "9696:9696"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -12,12 +16,32 @@ services:
       - ./config:/config
       - ${MEDIA}:/media
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9696/"]
+      test: [ "CMD", "curl", "-f", "http://localhost:9696/" ]
       interval: 60s
       timeout: 10s
       retries: 3
       start_period: 30s
     restart: unless-stopped
     labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.prowlarr.entrypoints=http"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${DOMAIN}`)"
+      - "traefik.http.middlewares.prowlarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.prowlarr.middlewares=prowlarr-https-redirect"
+      - "traefik.http.routers.prowlarr-secure.entrypoints=https"
+      - "traefik.http.routers.prowlarr-secure.rule=Host(`prowlarr.${DOMAIN}`)"
+      - "traefik.http.routers.prowlarr-secure.tls=true"
+      - "traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.prowlarr-secure.service=prowlarr"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+
       - autoheal=true
       - autoheal.stop.timeout=30
+
+
+networks:
+  arr_net:
+    external: true
+  proxy:
+    external: true
