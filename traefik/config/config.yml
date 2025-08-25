@@ -21,12 +21,6 @@ http:
         scheme: https
         permanent: true
 
-    # Authentification basique pour le dashboard de Traefik
-    dashboard-auth:
-      basicAuth:
-        users:
-          - ${DASHBOARD_CREDENTIALS}
-
     # Compression des réponses
     compress:
       compress: { }
