@@ -4,7 +4,7 @@ services:
     image: ghcr.io/hotio/whisparr:latest
     networks:
       arr_net:
-        ipv4_address: 172.23.0.13
+        ipv4_address: 172.23.0.14
       proxy:
     mem_limit: 1024M
     environment:
