@@ -1,5 +1,6 @@
 http:
   middlewares:
+    # Sécurité des headers HTTP
     default-security-headers:
       headers:
         customBrowserXSSValue: 0                            # X-XSS-Protection=1; mode=block
@@ -13,7 +14,29 @@ http:
         contentSecurityPolicy: "default-src 'self'"
         customRequestHeaders:
           X-Forwarded-Proto: https
+
+    # Redirection HTTP vers HTTPS
     https-redirectscheme:
       redirectScheme:
         scheme: https
         permanent: true
+
+    # Authentification basique pour le dashboard de Traefik
+    dashboard-auth:
+      basicAuth:
+        users:
+          - ${DASHBOARD_CREDENTIALS}
+
+    # Compression des réponses
+    compress:
+      compress: { }
+
+# Configuration TLS
+tls:
+  options:
+    default:
+      cipherSuites:
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+      sniStrict: true
