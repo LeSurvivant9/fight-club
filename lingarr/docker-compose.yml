@@ -1,0 +1,39 @@
+services:
+  lingarr:
+    image: lingarr/lingarr:latest-arm64
+    container_name: lingarr
+    networks:
+      arr_net:
+        ipv4_address: 172.23.0.17
+      proxy:
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+      - ASPNETCORE_URLS=http://+:9876
+    volumes:
+      - ./config:/config
+      - ${MEDIA}:/media
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.lingarr.entrypoints=http"
+      - "traefik.http.routers.lingarr.rule=Host(`lingarr.${DOMAIN}`)"
+      - "traefik.http.middlewares.lingarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.lingarr.middlewares=lingarr-https-redirect"
+      - "traefik.http.routers.lingarr-secure.entrypoints=https"
+      - "traefik.http.routers.lingarr-secure.rule=Host(`lingarr.${DOMAIN}`)"
+      - "traefik.http.routers.lingarr-secure.tls=true"
+      - "traefik.http.routers.lingarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.lingarr-secure.service=lingarr"
+      - "traefik.http.services.lingarr.loadbalancer.server.port=9876"
+
+      - autoheal=true
+      - autoheal.stop.timeout=30
+
+networks:
+  proxy:
+    external: true
+  arr_net:
+    external: true
