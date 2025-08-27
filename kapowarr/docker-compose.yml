@@ -13,6 +13,7 @@ services:
     volumes:
       - ./config:/config
       - ${MEDIA}:/media
+      - ${MEDIA}/downloads:/app/temp_downloads
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5656/"]
       interval: 60s
