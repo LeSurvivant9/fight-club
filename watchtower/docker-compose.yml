@@ -5,7 +5,7 @@ services:
     environment:
       - TZ=${TIMEZONE}
       - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_DISABLE_CONTAINERS=traefik pihole wg-easy gluetun qbittorrent
+      - WATCHTOWER_DISABLE_CONTAINERS=traefik pihole wg-easy gluetun qbittorrent jellyfin
       - WATCHTOWER_ROLLING_RESTART=true
       - WATCHTOWER_REVIVE_STOPPED=true
       - WATCHTOWER_POLL_INTERVAL=43200 # Every 12 hours
