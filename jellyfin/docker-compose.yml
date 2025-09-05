@@ -1,6 +1,9 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: local_jellyfin
     container_name: jellyfin
     mem_limit: 8192M
     memswap_limit: 12288M
