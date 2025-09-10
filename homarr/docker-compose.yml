@@ -9,8 +9,8 @@ services:
         ipv4_address: 172.23.0.5
       proxy:
     volumes:
+      - /opt/homarr/appdata:/appdata
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./appdata:/appdata
     environment:
       - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
     labels:

@@ -12,7 +12,7 @@ services:
       FTLCONF_webserver_api_password: ${PIHOLE_PASSWORD}
       FTLCONF_misc_etc_dnsmasq_d: 'true'
     volumes:
-      - ./etc-pihole:/etc/pihole
+      - /opt/pihole/etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
     restart: unless-stopped
     labels:

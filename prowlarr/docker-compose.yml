@@ -12,7 +12,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIMEZONE}
     volumes:
-      - ./config:/config
+      - /opt/prowlarr/config:/config
       - ${MEDIA}:/media
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9696/" ]

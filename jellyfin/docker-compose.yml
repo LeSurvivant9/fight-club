@@ -18,8 +18,8 @@ services:
         ipv4_address: 172.23.0.6
       proxy:
     volumes:
-      - ./config:/config
-      - ./cache:/cache
+      - /opt/jellyfin/config:/config
+      - /opt/jellyfin/cache:/cache
       - ${MEDIA}:/media
     restart: unless-stopped
     healthcheck:

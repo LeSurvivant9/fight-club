@@ -13,8 +13,8 @@ services:
       - UMASK=002
       - TZ=${TIMEZONE}
     volumes:
-      - ./config:/config
-      - ./data:/data
+      - /opt/whisparr/config:/config
+      - /opt/whisparr/data:/data
       - ${MEDIA}:/media
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:6969/"]

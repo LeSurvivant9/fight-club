@@ -4,8 +4,8 @@ services:
     container_name: diun
     command: serve
     volumes:
-      - ./data:/data
       - ./diun.yml:/diun.yml:ro
+      - /opt/diun/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TZ=${TIMEZONE}

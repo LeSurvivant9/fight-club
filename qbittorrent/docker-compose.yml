@@ -12,7 +12,7 @@ services:
       - WEBUI_PORT=8081
       - TORRENTING_PORT=6881
     volumes:
-      - ./config:/config
+      - /opt/qbittorrent/config:/config
       - ${MEDIA}:/media
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/"]

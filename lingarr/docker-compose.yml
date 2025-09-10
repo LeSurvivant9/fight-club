@@ -13,7 +13,7 @@ services:
       - TZ=${TIMEZONE}
       - ASPNETCORE_URLS=http://+:9876
     volumes:
-      - ./config:/config
+      - /opt/lingarr/config:/config
       - ${MEDIA}:/media
     labels:
       - "traefik.enable=true"

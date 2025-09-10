@@ -5,7 +5,7 @@ services:
     networks:
       proxy:
     volumes:
-      - ./config:/app/data
+      - /opt/uptime-kuma/config:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     labels:

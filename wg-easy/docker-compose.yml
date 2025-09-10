@@ -7,7 +7,7 @@ services:
         ipv4_address: 10.42.42.42
       proxy:
     volumes:
-      - ./etc_wireguard:/etc/wireguard
+      - /opt/wg-easy/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
     ports:
       - "51820:51820/udp"

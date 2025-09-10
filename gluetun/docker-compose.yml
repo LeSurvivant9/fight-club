@@ -15,7 +15,7 @@ services:
       - "8388:8388/tcp" # Shadowsocks
       - "8388:8388/udp" # Shadowsocks
     volumes:
-      - ./appdata:/gluetun
+      - /opt/gluetun/appdata:/gluetun
     environment:
       - TZ=${TIMEZONE}
       - VPN_SERVICE_PROVIDER=nordvpn

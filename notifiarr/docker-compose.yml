@@ -10,7 +10,7 @@ services:
     environment:
       - TZ=${TIMEZONE}
     volumes:
-      - ./config:/config
+      - /opt/notifiarr/config:/config
       - /var/run/utmp:/var/run/utmp
       - /etc/machine-id:/etc/machine-id
     restart: unless-stopped

@@ -11,7 +11,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIMEZONE}
     volumes:
-      - ./config:/config
+      - /opt/mylar/config:/config
       - ${MEDIA}:/media
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8090/" ]

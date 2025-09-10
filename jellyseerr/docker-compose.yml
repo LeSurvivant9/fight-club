@@ -11,7 +11,7 @@ services:
       - LOG_LEVEL=debug
       - TZ=${TIMEZONE}
     volumes:
-      - ./appdata/config:/app/config
+      - /opt/jellyseerr/appdata/config:/app/config
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
