@@ -1,6 +1,6 @@
 services:
   watchtower:
-    image: containrrr/watchtower
+    image: containrrr/watchtower:latest
     container_name: watchtower
     environment:
       - TZ=${TIMEZONE}
@@ -8,6 +8,8 @@ services:
       - WATCHTOWER_DISABLE_CONTAINERS=traefik pihole wg-easy gluetun qbittorrent jellyfin
       - WATCHTOWER_ROLLING_RESTART=true
       - WATCHTOWER_REVIVE_STOPPED=true
+      - WATCHTOWER_REMOVE_VOLUMES=true
+      - WATCHTOWER_LIFECYCLE_HOOKS=true
       - WATCHTOWER_POLL_INTERVAL=43200 # Every 12 hours
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
