@@ -7,6 +7,11 @@ api:
   dashboard: true
   debug: false
   insecure: false
+log:
+  filePath: /var/log/traefik/traefik.log
+  level: INFO
+accessLog:
+  filePath: /var/log/traefik/access.log
 entryPoints:
   http:
     address: ":80"
