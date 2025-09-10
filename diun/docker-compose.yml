@@ -10,4 +10,5 @@ services:
       - TZ=${TIMEZONE}
       - LOG_LEVEL=info
       - LOG_JSON=false
+      - DIUN_DISCORD_WEBHOOK=${DIUN_DISCORD_WEBHOOK}
     restart: always

@@ -7,7 +7,7 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     watchByDefault: true
   file:
-    filename: ./images.yml
+    filename: /data/images.yml
 
 notif:
   discord:
