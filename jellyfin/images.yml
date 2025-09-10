@@ -1,0 +1,5 @@
+- name: lscr.io/linuxserver/jellyfin:nightly
+  watch_repo: true
+  notify_on:
+    - new
+    - update
