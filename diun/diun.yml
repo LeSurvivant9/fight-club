@@ -6,6 +6,9 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     watchByDefault: true
+  static:
+    - name: jellyfin-upstream
+      image: lscr.io/linuxserver/jellyfin:nightly
 
 notif:
   discord:
