@@ -11,7 +11,7 @@ providers:
 
 notif:
   discord:
-    webhookURL: ${DIUN_DISCORD_WEBHOOK}
+    webhookURL: "https://discordapp.com/api/webhooks/xxxxx/yyyyy"
     renderFields: true
     timeout: 10s
     templateBody: |

@@ -1,5 +1,5 @@
-- name: lscr.io/linuxserver/jellyfin:nightly
-  watch_repo: true
-  notify_on:
-    - new
-    - update
+- name: lscr.io/linuxserver/jellyfin:arm64v8-nightly
+  platform:
+    os: linux
+    arch: arm64
+    variant: v8

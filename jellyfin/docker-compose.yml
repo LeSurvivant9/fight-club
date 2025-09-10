@@ -45,6 +45,10 @@ services:
       - autoheal=true
       - autoheal.stop.timeout=30
 
+    devices:
+      - /dev/video19:/dev/video19   # décodeur HEVC
+      - /dev/media0:/dev/media0     # interface du décodeur
+
 networks:
   proxy:
     external: true
