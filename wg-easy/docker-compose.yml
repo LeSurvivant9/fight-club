@@ -9,8 +9,6 @@ services:
     volumes:
       - /opt/wg-easy/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
-    environment:
-      - INSECURE=true
     ports:
       - "51820:51820/udp"
       - "51821:51821/tcp"
