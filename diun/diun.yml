@@ -15,7 +15,4 @@ notif:
     renderFields: true
     timeout: 10s
     templateBody: |
-      🚀 Nouvelle image disponible : **{{ .Entry.Image }}**
-      🔎 Source : {{ .Entry.Provider }}
-      📦 Tag : {{ .Entry.ImageDigest }}
-      📅 Détectée à {{ .Entry.Created }}
+      Docker tag {{ .Entry.Image }} which you subscribed to through {{ .Entry.Provider }} provider is available.
