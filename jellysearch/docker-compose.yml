@@ -1,0 +1,15 @@
+services:
+  jellysearch:
+    image: domistyle/jellysearch
+    restart: unless-stopped
+    volumes:
+      - config:/config:ro
+    environment:
+      MEILI_MASTER_KEY: "1234"
+      INDEX_CRON: "0 0 0/2 ? * * *"
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.jellysearch.loadbalancer.server.port=5000
+
+      - traefik.http.routers.jellysearch.rule=Host(`demo.jellyfin.org`) && (QueryRegexp(`searchTerm`, `(.*?)`) || QueryRegexp(`SearchTerm`, `(.*?)`))
+
