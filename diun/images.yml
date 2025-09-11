@@ -1,4 +1,4 @@
-- name: lscr.io/linuxserver/jellyfin:arm64v8-nightly
+- name: lscr.io/linuxserver/jellyfin:arm64v8-lastest
   platform:
     os: linux
     arch: arm64
