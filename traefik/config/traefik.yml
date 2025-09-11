@@ -22,13 +22,6 @@ entryPoints:
           scheme: "https"
   https:
     address: ":443"
-    http:
-      middlewares:
-        - default-security-headers@file
-        - compress@file
-      tls:
-        certResolver: cloudflare
-    http3: { }   # Active HTTP/3 sur 443/udp
   traefik:
     address: ":8080"
 serversTransport:
