@@ -1,4 +1,4 @@
-FROM lscr.io/linuxserver/jellyfin:arm64v8-lastest
+FROM lscr.io/linuxserver/jellyfin:arm64v8-latest
 
 RUN set -eux; \
     apt-get update; \
