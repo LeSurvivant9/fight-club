@@ -35,9 +35,6 @@ services:
       - "traefik.http.routers.kapowarr-secure.service=kapowarr"
       - "traefik.http.services.kapowarr.loadbalancer.server.port=5656"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
-
 networks:
   proxy:
     external: true

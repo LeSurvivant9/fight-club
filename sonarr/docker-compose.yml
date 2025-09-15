@@ -35,9 +35,6 @@ services:
       - "traefik.http.routers.sonarr-secure.service=sonarr"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
-
 networks:
   proxy:
     external: true

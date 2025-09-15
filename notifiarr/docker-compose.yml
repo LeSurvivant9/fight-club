@@ -28,7 +28,6 @@ services:
       - "traefik.http.routers.notifiarr-secure.service=notifiarr"
       - "traefik.http.services.notifiarr.loadbalancer.server.port=5454"
 
-
 networks:
   proxy:
     external: true

@@ -35,9 +35,6 @@ services:
       - "traefik.http.routers.tvheadend-secure.service=tvheadend"
       - "traefik.http.services.tvheadend.loadbalancer.server.port=9981"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
-
 networks:
   proxy:
     external: true

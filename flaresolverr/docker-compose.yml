@@ -20,9 +20,6 @@ services:
       retries: 3
       start_period: 30s
     restart: unless-stopped
-    labels:
-      - autoheal=true
-      - autoheal.stop.timeout=30
 
 networks:
   arr_net:

@@ -22,9 +22,6 @@ services:
       - "traefik.http.routers.uptime-kuma-secure.service=uptime-kuma"
       - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
-
 networks:
   proxy:
     external: true

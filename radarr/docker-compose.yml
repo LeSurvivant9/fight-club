@@ -35,9 +35,6 @@ services:
       - "traefik.http.routers.radarr-secure.service=radarr"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
-
 networks:
   proxy:
     external: true

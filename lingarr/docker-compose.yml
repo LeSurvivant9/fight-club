@@ -29,9 +29,6 @@ services:
       - "traefik.http.routers.lingarr-secure.service=lingarr"
       - "traefik.http.services.lingarr.loadbalancer.server.port=9876"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
-
 networks:
   proxy:
     external: true

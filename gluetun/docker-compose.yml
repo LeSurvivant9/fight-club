@@ -44,8 +44,7 @@ services:
       - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
 
-      - autoheal=true
-      - autoheal.start_period=300
+      - diun.enable=true
 
 networks:
   proxy:

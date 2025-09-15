@@ -38,8 +38,7 @@ services:
       - "traefik.http.routers.wireguard-secure.service=wireguard"
       - "traefik.http.services.wireguard.loadbalancer.server.port=51821"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
+      - diun.enable=true
 
 networks:
   wg:

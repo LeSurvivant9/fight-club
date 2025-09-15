@@ -5,7 +5,7 @@ watch:
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
-    watchByDefault: true
+    watchByDefault: false
   file:
     filename: /data/images.yml
 

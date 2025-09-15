@@ -35,9 +35,6 @@ services:
       - "traefik.http.routers.bazarr-secure.service=bazarr"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
 
-      - autoheal=true
-      - autoheal.stop.timeout=30
-
 networks:
   proxy:
     external: true

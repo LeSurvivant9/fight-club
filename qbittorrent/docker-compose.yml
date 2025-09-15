@@ -21,6 +21,5 @@ services:
       retries: 3
       start_period: 30s
     labels:
-      - autoheal=true
-      - autoheal.stop.timeout=30
+      - diun.enable=true
     restart: unless-stopped
