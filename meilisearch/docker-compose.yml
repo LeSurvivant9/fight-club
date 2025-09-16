@@ -6,3 +6,4 @@ services:
       - /opt/meilisearch:/meili_data
     environment:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_NO_ANALYTICS: true
