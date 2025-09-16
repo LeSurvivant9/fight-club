@@ -5,4 +5,4 @@ services:
     volumes:
       - meilisearch:/meili_data
     environment:
-      MEILI_MASTER_KEY: "1234"
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
