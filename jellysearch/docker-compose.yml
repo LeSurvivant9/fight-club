@@ -5,7 +5,7 @@ services:
     networks:
       proxy:
     volumes:
-      - /opt/jellysearch/config:/config:ro
+      - /opt/jellyfin/config:/config:ro
     environment:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       INDEX_CRON: "0 0 0/2 ? * * *"
