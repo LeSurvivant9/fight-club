@@ -3,6 +3,8 @@ services:
     image: postgres:15.2
     shm_size: 1gb
     container_name: jellystat-db
+    networks:
+      proxy:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
