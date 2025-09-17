@@ -14,6 +14,8 @@ services:
       - /opt/kapowarr/config:/config
       - ${MEDIA}:/media
       - ${MEDIA}/downloads:/app/temp_downloads
+    ports:
+      - "5656:5656"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5656/"]
       interval: 60s
