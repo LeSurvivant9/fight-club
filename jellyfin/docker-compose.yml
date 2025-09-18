@@ -20,6 +20,7 @@ services:
     volumes:
       - /opt/jellyfin/config:/config
       - /opt/jellyfin/cache:/cache
+      - /opt/jellyfin/config/index.html:/usr/share/jellyfin/web/index.html
       - ${MEDIA}:/media
     restart: unless-stopped
     healthcheck:
