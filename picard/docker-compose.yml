@@ -3,6 +3,10 @@ services:
     image: jlesage/musicbrainz-picard
     networks:
       proxy:
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
       - /opt/picard/config:/config:rw
       - ${MEDIA}/musics:/storage:rw
