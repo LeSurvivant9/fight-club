@@ -19,7 +19,7 @@ services:
       proxy:
     volumes:
       - /opt/jellyfin/config:/config
-#      - /opt/jellyfin/config/index.html:/usr/share/jellyfin/web/index.html
+      - /opt/jellyfin/config/index.html:/usr/share/jellyfin/web/index.html
       - /opt/jellyfin/cache:/cache
       - ${MEDIA}:/media
     restart: unless-stopped
