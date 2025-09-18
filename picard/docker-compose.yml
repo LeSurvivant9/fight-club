@@ -1,6 +1,6 @@
 services:
   picard:
-    image: mikenye/picard:latest
+    image: jlesage/musicbrainz-picard
     networks:
       proxy:
     volumes:
