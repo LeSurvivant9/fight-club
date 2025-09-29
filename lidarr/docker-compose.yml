@@ -3,8 +3,6 @@ services:
     image: lscr.io/linuxserver/lidarr:nightly
     container_name: lidarr
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.8
       proxy:
     environment:
       - PUID=${PUID}
@@ -30,6 +28,4 @@ services:
 
 networks:
   proxy:
-    external: true
-  arr_net:
     external: true

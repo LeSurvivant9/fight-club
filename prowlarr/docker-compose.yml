@@ -4,8 +4,6 @@ services:
     container_name: prowlarr
     mem_limit: 512M
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.10
       proxy:
     environment:
       - PUID=${PUID}
@@ -36,7 +34,5 @@ services:
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
 
 networks:
-  arr_net:
-    external: true
   proxy:
     external: true

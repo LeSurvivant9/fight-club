@@ -1,6 +1,7 @@
 services:
   picard:
     image: jlesage/musicbrainz-picard
+    container_name: picard
     networks:
       proxy:
     environment:

@@ -14,8 +14,6 @@ services:
         reservations:
           memory: 4G
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.6
       proxy:
     volumes:
       - /opt/jellyfin/config:/config
@@ -45,6 +43,4 @@ services:
 
 networks:
   proxy:
-    external: true
-  arr_net:
     external: true

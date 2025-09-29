@@ -3,8 +3,7 @@ services:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.3
+      proxy:
     mem_limit: 512M
     ports:
       - "${PORT:-8191}:8191"
@@ -12,7 +11,7 @@ services:
       - LOG_LEVEL=${LOG_LEVEL:-info}
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
-      - TZ=Europe/London
+      - TZ=${TIMEZONE}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8191/" ]
       interval: 60s
@@ -22,5 +21,5 @@ services:
     restart: unless-stopped
 
 networks:
-  arr_net:
+  proxy:
     external: true

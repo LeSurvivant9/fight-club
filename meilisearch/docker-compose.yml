@@ -1,16 +1,30 @@
 services:
   meilisearch:
-    image: getmeili/meilisearch
+    image: getmeili/meilisearch:v1.22
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.18
+      proxy:
+    ports:
+      - "7700:7700"
     volumes:
       - /opt/meilisearch:/meili_data
     environment:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_NO_ANALYTICS: true
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.meilisearch.entrypoints=http"
+      - "traefik.http.routers.meilisearch.rule=Host(`meilisearch.${DOMAIN}`)"
+      - "traefik.http.middlewares.meilisearch-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.meilisearch.middlewares=meilisearch-https-redirect"
+      - "traefik.http.routers.meilisearch-secure.entrypoints=https"
+      - "traefik.http.routers.meilisearch-secure.rule=Host(`meilisearch.${DOMAIN}`)"
+      - "traefik.http.routers.meilisearch-secure.tls=true"
+      - "traefik.http.routers.meilisearch-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.meilisearch-secure.service=meilisearch"
+      - "traefik.http.services.meilisearch.loadbalancer.server.port=7700"
 
 networks:
-  arr_net:
+  proxy:
     external: true

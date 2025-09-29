@@ -3,8 +3,6 @@ services:
     image: lingarr/lingarr:latest-arm64
     container_name: lingarr
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.17
       proxy:
     restart: unless-stopped
     environment:
@@ -31,6 +29,4 @@ services:
 
 networks:
   proxy:
-    external: true
-  arr_net:
     external: true

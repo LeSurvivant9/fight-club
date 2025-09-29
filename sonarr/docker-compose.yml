@@ -3,8 +3,6 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.12
       proxy:
     mem_limit: 1024M
     environment:
@@ -37,6 +35,4 @@ services:
 
 networks:
   proxy:
-    external: true
-  arr_net:
     external: true

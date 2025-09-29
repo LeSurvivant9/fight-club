@@ -4,8 +4,6 @@ services:
     container_name: jellyseerr
     mem_limit: 1024M
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.7
       proxy:
     environment:
       - LOG_LEVEL=debug
@@ -29,6 +27,4 @@ services:
 
 networks:
   proxy:
-    external: true
-  arr_net:
     external: true

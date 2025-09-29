@@ -4,8 +4,6 @@ services:
     image: golift/notifiarr:latest
     mem_limit: 512M
     networks:
-      arr_net:
-        ipv4_address: 172.23.0.9
       proxy:
     environment:
       - TZ=${TIMEZONE}
@@ -30,6 +28,4 @@ services:
 
 networks:
   proxy:
-    external: true
-  arr_net:
     external: true
