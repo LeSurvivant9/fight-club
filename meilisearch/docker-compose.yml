@@ -1,6 +1,7 @@
 services:
   meilisearch:
     image: getmeili/meilisearch:v1.22
+    container_name: meilisearch
     networks:
       proxy:
     ports:
