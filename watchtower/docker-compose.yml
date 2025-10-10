@@ -5,7 +5,7 @@ services:
     environment:
       - TZ=${TIMEZONE}
       - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_DISABLE_CONTAINERS=traefik pihole wg-easy gluetun qbittorrent jellyfin meilisearch
+      - WATCHTOWER_DISABLE_CONTAINERS=traefik pihole wg-easy gluetun qbittorrent nicotine jellyfin meilisearch
       - WATCHTOWER_ROLLING_RESTART=true
       - WATCHTOWER_REVIVE_STOPPED=true
       - WATCHTOWER_REMOVE_VOLUMES=true
