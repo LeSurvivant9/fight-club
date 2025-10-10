@@ -12,6 +12,8 @@ services:
       - "8888:8888/tcp" # HTTP proxy
       - "8388:8388/tcp" # Shadowsocks
       - "8388:8388/udp" # Shadowsocks
+      - "61122:61122" # example listening port, check Options -> Login
+      - "61123:61123" # example obfuscated port, check Options -> Login
     volumes:
       - /opt/gluetun/appdata:/gluetun
     environment:
@@ -41,6 +43,17 @@ services:
       - "traefik.http.routers.qbittorrent-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
+
+      - "traefik.http.routers.soulseek.entrypoints=http"
+      - "traefik.http.routers.soulseek.rule=Host(`soulseek.${DOMAIN}`)"
+      - "traefik.http.middlewares.soulseek-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.soulseek.middlewares=soulseek-https-redirect"
+      - "traefik.http.routers.soulseek-secure.entrypoints=https"
+      - "traefik.http.routers.soulseek-secure.rule=Host(`soulseek.${DOMAIN}`)"
+      - "traefik.http.routers.soulseek-secure.tls=true"
+      - "traefik.http.routers.soulseek-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.soulseek-secure.service=soulseek"
+      - "traefik.http.services.soulseek.loadbalancer.server.port=6080"
 
       - diun.enable=true
 

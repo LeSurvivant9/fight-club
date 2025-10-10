@@ -1,0 +1,26 @@
+services:
+  soulseek:
+    image: realies/soulseek:latest
+    container_name: soulseek
+    mem_limit: 2048M
+    memswap_limit: 4096M
+    network_mode: container:gluetun
+    volumes:
+      - /opt/soulseek/appdata:/data/.SoulseekQt
+      - /opt/soulseek/logs:/data/Soulseek Chat Logs
+      - /opt/soulseek/shared:/data/Soulseek Shared Folder
+      - ${MEDIA}/downloads:/data/Soulseek Downloads
+      - ${MEDIA}/musics:/musics
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:6080/" ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      - diun.enable=true
+    restart: unless-stopped
