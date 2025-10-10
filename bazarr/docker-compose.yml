@@ -22,10 +22,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.bazarr.entrypoints=http"
-      - "traefik.http.routers.bazarr.rule=Host(`bazarr.${DOMAIN}`)"
-      - "traefik.http.middlewares.bazarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.bazarr.middlewares=bazarr-https-redirect"
       - "traefik.http.routers.bazarr-secure.entrypoints=https"
       - "traefik.http.routers.bazarr-secure.rule=Host(`bazarr.${DOMAIN}`)"
       - "traefik.http.routers.bazarr-secure.tls=true"
