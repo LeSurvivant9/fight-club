@@ -15,10 +15,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.notifiarr.entrypoints=http"
-      - "traefik.http.routers.notifiarr.rule=Host(`notifiarr.${DOMAIN}`)"
-      - "traefik.http.middlewares.notifiarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.notifiarr.middlewares=notifiarr-https-redirect"
       - "traefik.http.routers.notifiarr-secure.entrypoints=https"
       - "traefik.http.routers.notifiarr-secure.rule=Host(`notifiarr.${DOMAIN}`)"
       - "traefik.http.routers.notifiarr-secure.tls=true"

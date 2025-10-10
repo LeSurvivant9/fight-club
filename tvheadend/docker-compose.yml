@@ -22,12 +22,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-
-      - "traefik.http.routers.tvheadend.entrypoints=http"
-      - "traefik.http.routers.tvheadend.rule=Host(`tvheadend.${DOMAIN}`)"
-      - "traefik.http.middlewares.tvheadend-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.tvheadend.middlewares=tvheadend-https-redirect"
-
       - "traefik.http.routers.tvheadend-secure.entrypoints=https"
       - "traefik.http.routers.tvheadend-secure.rule=Host(`tvheadend.${DOMAIN}`)"
       - "traefik.http.routers.tvheadend-secure.tls=true"

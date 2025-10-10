@@ -15,10 +15,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.lidarr.entrypoints=http"
-      - "traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN}`)"
-      - "traefik.http.middlewares.lidarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.lidarr.middlewares=lidarr-https-redirect"
       - "traefik.http.routers.lidarr-secure.entrypoints=https"
       - "traefik.http.routers.lidarr-secure.rule=Host(`lidarr.${DOMAIN}`)"
       - "traefik.http.routers.lidarr-secure.tls=true"

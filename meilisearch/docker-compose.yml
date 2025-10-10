@@ -15,10 +15,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.meilisearch.entrypoints=http"
-      - "traefik.http.routers.meilisearch.rule=Host(`meilisearch.${DOMAIN}`)"
-      - "traefik.http.middlewares.meilisearch-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.meilisearch.middlewares=meilisearch-https-redirect"
       - "traefik.http.routers.meilisearch-secure.entrypoints=https"
       - "traefik.http.routers.meilisearch-secure.rule=Host(`meilisearch.${DOMAIN}`)"
       - "traefik.http.routers.meilisearch-secure.tls=true"

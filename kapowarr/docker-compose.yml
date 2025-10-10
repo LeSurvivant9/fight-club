@@ -24,10 +24,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.kapowarr.entrypoints=http"
-      - "traefik.http.routers.kapowarr.rule=Host(`kapowarr.${DOMAIN}`)"
-      - "traefik.http.middlewares.kapowarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.kapowarr.middlewares=kapowarr-https-redirect"
       - "traefik.http.routers.kapowarr-secure.entrypoints=https"
       - "traefik.http.routers.kapowarr-secure.rule=Host(`kapowarr.${DOMAIN}`)"
       - "traefik.http.routers.kapowarr-secure.tls=true"

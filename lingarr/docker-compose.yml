@@ -16,10 +16,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.lingarr.entrypoints=http"
-      - "traefik.http.routers.lingarr.rule=Host(`lingarr.${DOMAIN}`)"
-      - "traefik.http.middlewares.lingarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.lingarr.middlewares=lingarr-https-redirect"
       - "traefik.http.routers.lingarr-secure.entrypoints=https"
       - "traefik.http.routers.lingarr-secure.rule=Host(`lingarr.${DOMAIN}`)"
       - "traefik.http.routers.lingarr-secure.tls=true"

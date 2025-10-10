@@ -15,10 +15,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.picard.entrypoints=http"
-      - "traefik.http.routers.picard.rule=Host(`picard.${DOMAIN}`)"
-      - "traefik.http.middlewares.picard-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.picard.middlewares=picard-https-redirect"
       - "traefik.http.routers.picard-secure.entrypoints=https"
       - "traefik.http.routers.picard-secure.rule=Host(`picard.${DOMAIN}`)"
       - "traefik.http.routers.picard-secure.tls=true"

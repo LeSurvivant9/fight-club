@@ -32,10 +32,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.qbittorrent.entrypoints=http"
-      - "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${DOMAIN}`)"
-      - "traefik.http.middlewares.qbittorrent-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.qbittorrent.middlewares=qbittorrent-https-redirect"
       - "traefik.http.routers.qbittorrent-secure.entrypoints=https"
       - "traefik.http.routers.qbittorrent-secure.rule=Host(`qbittorrent.${DOMAIN}`)"
       - "traefik.http.routers.qbittorrent-secure.tls=true"
@@ -43,10 +39,6 @@ services:
       - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
 
-      - "traefik.http.routers.nicotine.entrypoints=http"
-      - "traefik.http.routers.nicotine.rule=Host(`nicotine.${DOMAIN}`)"
-      - "traefik.http.middlewares.nicotine-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.nicotine.middlewares=nicotine-https-redirect"
       - "traefik.http.routers.nicotine-secure.entrypoints=https"
       - "traefik.http.routers.nicotine-secure.rule=Host(`nicotine.${DOMAIN}`)"
       - "traefik.http.routers.nicotine-secure.tls=true"

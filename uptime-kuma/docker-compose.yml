@@ -11,10 +11,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.uptime-kuma.entrypoints=http"
-      - "traefik.http.routers.uptime-kuma.rule=Host(`uptime-kuma.${DOMAIN}`)"
-      - "traefik.http.middlewares.uptime-kuma-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.uptime-kuma.middlewares=uptime-kuma-https-redirect"
       - "traefik.http.routers.uptime-kuma-secure.entrypoints=https"
       - "traefik.http.routers.uptime-kuma-secure.rule=Host(`uptime-kuma.${DOMAIN}`)"
       - "traefik.http.routers.uptime-kuma-secure.tls=true"
