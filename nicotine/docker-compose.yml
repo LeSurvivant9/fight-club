@@ -1,0 +1,21 @@
+
+services:
+  nicotineplus-proper:
+    image: 'sirjmann92/nicotineplus-proper:latest'
+    container_name: nicotine
+    network_mode: container:gluetun
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+      - LOGIN=${SOULSEEK_LOGIN}
+      - PASSW=${SOULSEEK_PASSWORD}
+      - WEB_UI_PORT=6565
+    volumes:
+      - ${MEDIA}/downloads:/downloads
+      - ${MEDIA}/musics:/musics
+      - /opt/nicotine/shared:/shared
+      - /opt/nicotine/config:/config
+      - /opt/nicotine/config/data:/data
+    restart: unless-stopped
+
