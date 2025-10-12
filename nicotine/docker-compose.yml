@@ -12,7 +12,7 @@ services:
       - PASSW=${SOULSEEK_PASSWORD}
       - WEB_UI_PORT=6565
     volumes:
-      - ${MEDIA}/downloads:/downloads
+      - ${MEDIA}/musics/not_imported:/downloads
       - ${MEDIA}/musics:/musics
       - /opt/nicotine/shared:/shared
       - /opt/nicotine/config:/config
