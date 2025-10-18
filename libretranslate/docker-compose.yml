@@ -5,6 +5,9 @@ services:
     networks:
       proxy:
     environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
       - LT_API_KEYS=true
       - LT_UPDATE_MODELS=true
       - LT_LOAD_ONLY=en,fr
