@@ -10,8 +10,8 @@ services:
       - LT_LOAD_ONLY=en,fr
       - LT_API_KEYS_DB_PATH=/app/db/api_keys.db
     volumes:
-      - ./libretranslate_api_keys:/app/db
-      - ./libretranslate_models:/home/libretranslate/.local:rw
+      - /opt/libretranslate/libretranslate_api_keys:/app/db
+      - /opt/libretranslate/libretranslate_models:/home/libretranslate/.local:rw
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
