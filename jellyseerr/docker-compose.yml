@@ -1,3 +1,4 @@
+---
 services:
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
@@ -20,7 +21,6 @@ services:
       - "traefik.http.routers.jellyseerr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.jellyseerr-secure.service=jellyseerr"
       - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
-
 networks:
   proxy:
     external: true

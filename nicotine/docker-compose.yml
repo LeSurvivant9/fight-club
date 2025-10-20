@@ -1,4 +1,4 @@
-
+---
 services:
   nicotineplus-proper:
     image: 'sirjmann92/nicotineplus-proper:latest'
@@ -20,4 +20,3 @@ services:
     labels:
       - diun.enable=true
     restart: unless-stopped
-

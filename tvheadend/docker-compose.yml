@@ -1,3 +1,4 @@
+---
 services:
   tvheadend:
     image: lscr.io/linuxserver/tvheadend:arm64v8-latest
@@ -13,7 +14,7 @@ services:
       - /opt/tvheadend/data:/config
       - /opt/tvheadend/recordings:/recordings
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9981/" ]
+      test: ["CMD", "curl", "-f", "http://localhost:9981/"]
       interval: 60s
       timeout: 10s
       retries: 3
@@ -28,7 +29,6 @@ services:
       - "traefik.http.routers.tvheadend-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.tvheadend-secure.service=tvheadend"
       - "traefik.http.services.tvheadend.loadbalancer.server.port=9981"
-
 networks:
   proxy:
     external: true

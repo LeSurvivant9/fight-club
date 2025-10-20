@@ -1,3 +1,4 @@
+---
 - name: lscr.io/linuxserver/jellyfin:arm64v8-latest
   platform:
     os: linux

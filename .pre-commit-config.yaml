@@ -1,0 +1,12 @@
+---
+repos:
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.19.0
+    hooks:
+      - id: yamlfmt
+        files: \.(yaml|yml)$
+        args:
+          - -conf
+          - yamlfmt.yml
+          - -gitignore_excludes
+          - -v

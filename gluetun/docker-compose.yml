@@ -1,3 +1,4 @@
+---
 services:
   gluetun:
     image: qmcgaw/gluetun
@@ -23,7 +24,7 @@ services:
       - SERVER_COUNTRY=Netherlands
       - UPDATER_PERIOD=24h
     healthcheck:
-      test: [ "CMD", "/gluetun-entrypoint", "healthcheck" ]
+      test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -38,16 +39,13 @@ services:
       - "traefik.http.routers.qbittorrent-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
-
       - "traefik.http.routers.nicotine-secure.entrypoints=https"
       - "traefik.http.routers.nicotine-secure.rule=Host(`nicotine.${DOMAIN}`)"
       - "traefik.http.routers.nicotine-secure.tls=true"
       - "traefik.http.routers.nicotine-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.nicotine-secure.service=nicotine"
       - "traefik.http.services.nicotine.loadbalancer.server.port=6565"
-
       - diun.enable=true
-
 networks:
   proxy:
     external: true

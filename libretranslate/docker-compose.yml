@@ -1,3 +1,4 @@
+---
 services:
   libretranslate:
     container_name: libretranslate
@@ -25,7 +26,7 @@ services:
       - "traefik.http.routers.libretranslate-secure.service=libretranslate"
       - "traefik.http.services.libretranslate.loadbalancer.server.port=5000"
     healthcheck:
-      test: [ 'CMD-SHELL', './venv/bin/python scripts/healthcheck.py' ]
+      test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
       interval: 10s
       timeout: 4s
       retries: 4
@@ -35,5 +36,5 @@ networks:
   proxy:
     external: true
 volumes:
- libretranslate_api_keys:
- libretranslate_models:
+  libretranslate_api_keys:
+  libretranslate_models:

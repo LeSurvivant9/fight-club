@@ -1,3 +1,4 @@
+---
 services:
   kapowarr:
     container_name: kapowarr
@@ -30,7 +31,6 @@ services:
       - "traefik.http.routers.kapowarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.kapowarr-secure.service=kapowarr"
       - "traefik.http.services.kapowarr.loadbalancer.server.port=5656"
-
 networks:
   proxy:
     external: true

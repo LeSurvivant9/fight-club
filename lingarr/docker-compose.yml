@@ -1,3 +1,4 @@
+---
 services:
   lingarr:
     image: lingarr/lingarr:latest-arm64
@@ -22,7 +23,6 @@ services:
       - "traefik.http.routers.lingarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.lingarr-secure.service=lingarr"
       - "traefik.http.services.lingarr.loadbalancer.server.port=9876"
-
 networks:
   proxy:
     external: true

@@ -1,3 +1,4 @@
+---
 services:
   jellyfin:
     build:
@@ -36,7 +37,6 @@ services:
       - "traefik.http.routers.jellyfin-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.jellyfin-secure.service=jellyfin"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-
 networks:
   proxy:
     external: true

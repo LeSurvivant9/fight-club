@@ -1,3 +1,4 @@
+---
 services:
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -28,7 +29,6 @@ services:
       - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.bazarr-secure.service=bazarr"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
-
 networks:
   proxy:
     external: true
