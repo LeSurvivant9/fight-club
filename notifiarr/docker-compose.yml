@@ -8,6 +8,14 @@ services:
       proxy:
     environment:
       - TZ=${TIMEZONE}
+      - DN_API_KEY=${DN_API_KEY}
+      - DN_UI_PASSWORD=${DN_UI_PASSWORD}
+      - DN_LIDARR_0_API_KEY=${LIDARR_API_KEY}
+      - DN_PROWLARR_0_API_KEY=${PROWLARR_API_KEY}
+      - DN_RADARR_0_API_KEY=${RADARR_API_KEY}
+      - DN_SONARR_0_API_KEY=${SONARR_API_KEY}
+      - DN_QBIT_0_API_USER=${QBIT_USERNAME}
+      - DN_QBIT_0_API_PASS=${QBIT_PASSWORD}
     volumes:
       - /opt/notifiarr/config:/config
       - /var/run/utmp:/var/run/utmp

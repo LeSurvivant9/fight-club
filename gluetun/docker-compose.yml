@@ -5,6 +5,8 @@ services:
     container_name: gluetun
     networks:
       proxy:
+      vpn:
+        ipv4_address: 172.32.0.4
     cap_add:
       - NET_ADMIN
     devices:
@@ -16,6 +18,10 @@ services:
       - "2234:2234" # Nicotine+
     volumes:
       - /opt/gluetun/appdata:/gluetun
+      - ./post-rules.txt:/iptables/post-rules.txt:ro
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
     environment:
       - TZ=${TIMEZONE}
       - VPN_SERVICE_PROVIDER=nordvpn
@@ -48,4 +54,6 @@ services:
       - diun.enable=true
 networks:
   proxy:
+    external: true
+  vpn:
     external: true
