@@ -13,6 +13,7 @@ services:
     environment:
       - TZ=${TZ}
       # General config
+
       - UN_QUIET=false
       - UN_DEBUG=false
       - UN_ERROR_STDERR=false

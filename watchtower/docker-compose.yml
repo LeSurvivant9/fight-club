@@ -4,16 +4,32 @@ services:
     image: containrrr/watchtower:latest
     container_name: watchtower
     environment:
-      - TZ=${TIMEZONE}
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_DISABLE_CONTAINERS=traefik pihole wg-easy gluetun qbittorrent nicotine jellyfin meilisearch
-      - WATCHTOWER_ROLLING_RESTART=true
-      - WATCHTOWER_REVIVE_STOPPED=true
-      - WATCHTOWER_REMOVE_VOLUMES=true
-      - WATCHTOWER_LIFECYCLE_HOOKS=true
-      - WATCHTOWER_SCHEDULE=0 0 * * * *
-      - WATCHTOWER_NOTIFICATION_REPORT=true
-      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_NOTIFICATION_URL}
+      TZ: ${TIMEZONE}
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_DISABLE_CONTAINERS: "traefik pihole wg-easy gluetun qbittorrent nicotine jellyfin meilisearch"
+      WATCHTOWER_ROLLING_RESTART: "true"
+      WATCHTOWER_REVIVE_STOPPED: "true"
+      WATCHTOWER_REMOVE_VOLUMES: "true"
+      WATCHTOWER_LIFECYCLE_HOOKS: "true"
+      WATCHTOWER_SCHEDULE: "0 0 * * * *"
+      WATCHTOWER_NOTIFICATION_REPORT: "true"
+      WATCHTOWER_NOTIFICATION_URL: ${WATCHTOWER_NOTIFICATION_URL}
+      WATCHTOWER_NOTIFICATION_TEMPLATE: |
+        {{- if .Report -}}
+          {{- with .Report -}}
+            {{- if ( or .Updated .Failed ) -}}
+        {{len .Updated}} Updated, {{len .Failed}} Failed
+              {{- range .Updated}}
+        - {{.Name}} ({{.ImageName}}): {{.CurrentImageID.ShortID}} updated to {{.LatestImageID.ShortID}}
+              {{- end -}}
+              {{- range .Failed}}
+        - {{.Name}} ({{.ImageName}}): {{.State}}: {{.Error}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- else -}}
+          {{range .Entries -}}{{.Message}}{{"\n"}}{{- end -}}
+        {{- end -}}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
