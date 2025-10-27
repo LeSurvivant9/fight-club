@@ -32,8 +32,9 @@ services:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_KEY}
-      - SERVER_COUNTRY=Netherlands
+      - SERVER_REGIONS=${VPN_REGIONS}
       - UPDATER_PERIOD=24h
+      - DNS_ADDRESS=${DNS_IP}
     healthcheck:
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s
