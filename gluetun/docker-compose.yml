@@ -35,6 +35,7 @@ services:
       - SERVER_REGIONS=${VPN_REGIONS}
       - UPDATER_PERIOD=24h
       - DNS_ADDRESS=${DNS_IP}
+      - DOT=off
     healthcheck:
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s
