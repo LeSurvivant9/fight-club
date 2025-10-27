@@ -9,7 +9,6 @@ services:
         ipv4_address: 172.32.0.8
     environment:
       - WG_IPV6_ENABLED=false
-      - INSECURE=true
       # Make all peers route all traffic via VPN and use Pi-hole as DNS
       - WG_ALLOWED_IPS=0.0.0.0/0
       - WG_DEFAULT_DNS=172.32.0.16
