@@ -4,8 +4,6 @@ services:
     image: ghcr.io/wg-easy/wg-easy:15
     container_name: wg-easy
     networks:
-      wg:
-        ipv4_address: 10.42.42.42
       proxy:
       vpn:
         ipv4_address: 172.32.0.8
@@ -35,6 +33,7 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=1
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -46,13 +45,6 @@ services:
       - "traefik.http.services.wireguard.loadbalancer.server.port=51821"
       - diun.enable=true
 networks:
-  wg:
-    driver: bridge
-    enable_ipv6: false
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.42.42.0/24
   proxy:
     external: true
   vpn:
