@@ -8,15 +8,7 @@ services:
       vpn:
         ipv4_address: 172.32.0.8
     environment:
-      - WG_IPV6_ENABLED=false
-      - INSECURE=true
-      # Make all peers route all traffic via VPN and use Pi-hole as DNS
-      - WG_ALLOWED_IPS=0.0.0.0/0
-      - WG_DEFAULT_DNS=172.32.0.16
-      # IPv4-only PostUp/Down hooks to route via gluetun (172.32.0.4) on the vpn network
-
-      - WG_POST_UP=VPN=$(ifconfig | grep -B1 '172.32.0.8' | grep -o '^\w*'); iptables -P FORWARD DROP; iptables -A INPUT -p udp -m udp --dport {{port}} -j ACCEPT; iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -A FORWARD -s {{ipv4Cidr}} -d {{ipv4Cidr}} -i wg0 -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -s {{ipv4Cidr}} -o $VPN -j MASQUERADE; iptables -A OUTPUT -o $VPN -d 172.32.0.16 -p udp --dport 53 -j ACCEPT; iptables -A OUTPUT -o $VPN -d 172.32.0.16 -p tcp --dport 53 -j ACCEPT; iptables -A OUTPUT -p tcp --dport 53 -j REJECT; iptables -A OUTPUT -p udp --dport 53 -j REJECT; ip rule add from {{ipv4Cidr}} table 200; ip route add 172.32.0.0/16 via 172.32.0.1 dev $VPN table 200; ip route add 192.168.0.0/16 via 172.32.0.1 dev $VPN table 200; ip route add default via 172.32.0.4 dev $VPN table 200; ip route add {{ipv4Cidr}} dev wg0 table 200
-      - WG_POST_DOWN=VPN=$(ifconfig | grep -B1 '172.32.0.8' | grep -o '^\w*'); iptables -P FORWARD DROP; iptables -D INPUT -p udp -m udp --dport {{port}} -j ACCEPT; iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -D FORWARD -s {{ipv4Cidr}} -d {{ipv4Cidr}} -i wg0 -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -s {{ipv4Cidr}} -o $VPN -j MASQUERADE; iptables -D OUTPUT -o $VPN -d 172.32.0.16 -p udp --dport 53 -j ACCEPT; iptables -D OUTPUT -o $VPN -d 172.32.0.16 -p tcp --dport 53 -j ACCEPT; iptables -D OUTPUT -p tcp --dport 53 -j REJECT; iptables -D OUTPUT -p udp --dport 53 -j REJECT; ip rule del from {{ipv4Cidr}} table 200; ip route del 172.32.0.0/16 via 172.32.0.1 dev $VPN table 200; ip route del 192.168.0.0/16 via 172.32.0.1 dev $VPN table 200; ip route del default via 172.32.0.4 dev $VPN table 200; ip route del {{ipv4Cidr}} dev wg0 table 200
+      - DISABLE_IPV6=true
     volumes:
       - /opt/wg-easy/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
