@@ -11,6 +11,8 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - /opt/lidarr/config:/config
+      - /opt/lidarr/custom-services.d:/custom-services.d
+      - ./custom-cont-init.d:/custom-cont-init.d
       - ${MEDIA}:/media
     restart: unless-stopped
     labels:
