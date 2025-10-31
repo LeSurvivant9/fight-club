@@ -6,10 +6,8 @@ services:
     networks:
       proxy:
     mem_limit: 1024M
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
+    env_file:
+      - .env
     volumes:
       - /opt/radarr/config:/config
       - ${MEDIA}:/media

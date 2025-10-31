@@ -5,10 +5,8 @@ services:
     image: mrcas/kapowarr:latest
     networks:
       proxy:
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
+    env_file:
+      - .env
     volumes:
       - /opt/kapowarr/config:/config
       - ${MEDIA}:/media

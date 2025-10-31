@@ -8,11 +8,11 @@ services:
     mem_limit: 512M
     ports:
       - "${PORT:-8191}:8191"
+    env_file:
+      - .env
     environment:
-      - LOG_LEVEL=${LOG_LEVEL:-info}
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
-      - TZ=${TIMEZONE}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8191/"]
       interval: 60s

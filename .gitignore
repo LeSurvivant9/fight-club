@@ -1,6 +1,6 @@
-.env
 .DS-Store
 .idea
+**/.env.example
 
 **/config/
 **/data/

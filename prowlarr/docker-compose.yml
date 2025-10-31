@@ -6,10 +6,8 @@ services:
     mem_limit: 512M
     networks:
       proxy:
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
+    env_file:
+      - .env
     volumes:
       - /opt/prowlarr/config:/config
       - ${MEDIA}:/media

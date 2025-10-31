@@ -6,8 +6,9 @@ services:
     mem_limit: 512M
     networks:
       proxy:
+    env_file:
+      - .env
     environment:
-      - TZ=${TIMEZONE}
       - DN_API_KEY=${DN_API_KEY}
       - DN_UI_PASSWORD=${DN_UI_PASSWORD}
       - DN_LIDARR_0_API_KEY=${LIDARR_API_KEY}

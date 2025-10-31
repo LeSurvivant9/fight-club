@@ -6,9 +6,8 @@ services:
     mem_limit: 1024M
     networks:
       proxy:
-    environment:
-      - LOG_LEVEL=debug
-      - TZ=${TIMEZONE}
+    env_file:
+      - .env
     volumes:
       - /opt/jellyseerr/appdata/config:/app/config
     restart: unless-stopped

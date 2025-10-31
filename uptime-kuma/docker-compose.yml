@@ -5,6 +5,8 @@ services:
     container_name: uptime-kuma
     networks:
       proxy:
+    env_file:
+      - .env
     volumes:
       - /opt/uptime-kuma/config:/app/data
       - /var/run/docker.sock:/var/run/docker.sock

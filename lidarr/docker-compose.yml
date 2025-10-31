@@ -5,10 +5,8 @@ services:
     container_name: lidarr
     networks:
       proxy:
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
+    env_file:
+      - .env
     volumes:
       - /opt/lidarr/config:/config
       - /opt/lidarr/custom-services.d:/custom-services.d

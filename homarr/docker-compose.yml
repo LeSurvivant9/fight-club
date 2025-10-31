@@ -10,8 +10,8 @@ services:
     volumes:
       - /opt/homarr/appdata:/appdata
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
+    env_file:
+      - .env
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"

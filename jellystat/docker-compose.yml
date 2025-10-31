@@ -7,9 +7,8 @@ services:
     networks:
       proxy:
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - .env
     volumes:
       - /opt/postgres:/var/lib/postgresql/data
   jellystat:
@@ -18,13 +17,11 @@ services:
     networks:
       proxy:
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_IP: jellystat-db
       POSTGRES_PORT: 5432
-      JWT_SECRET: ${JWT_SECRET}
-      TZ: ${TIMEZONE}
     volumes:
       - /opt/jellystat:/app/backend/backup-data
     depends_on:

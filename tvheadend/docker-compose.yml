@@ -6,10 +6,8 @@ services:
     mem_limit: 1024M
     networks:
       proxy:
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
+    env_file:
+      - .env
     volumes:
       - /opt/tvheadend/data:/config
       - /opt/tvheadend/recordings:/recordings

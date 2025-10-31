@@ -4,12 +4,9 @@ services:
     image: 'sirjmann92/nicotineplus-proper:latest'
     container_name: nicotine
     network_mode: container:gluetun
+    env_file:
+      - .env
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
-      - LOGIN=${SOULSEEK_LOGIN}
-      - PASSW=${SOULSEEK_PASSWORD}
       - WEB_UI_PORT=6565
     volumes:
       - ${MEDIA}/musics/not_imported:/downloads

@@ -6,10 +6,9 @@ services:
     mem_limit: 2048M
     memswap_limit: 4096M
     network_mode: container:gluetun
+    env_file:
+      - .env
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
       - WEBUI_PORT=8081
       - TORRENTING_PORT=6881
     volumes:

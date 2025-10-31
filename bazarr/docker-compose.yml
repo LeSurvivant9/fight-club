@@ -6,6 +6,8 @@ services:
     networks:
       proxy:
     mem_limit: 512M
+    env_file:
+      - .env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
