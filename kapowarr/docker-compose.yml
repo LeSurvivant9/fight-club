@@ -5,8 +5,7 @@ services:
     image: mrcas/kapowarr:latest
     networks:
       proxy:
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - /opt/kapowarr/config:/config
       - ${MEDIA}:/media

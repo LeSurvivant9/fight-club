@@ -6,8 +6,7 @@ services:
     mem_limit: 1024M
     networks:
       proxy:
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - /opt/tvheadend/data:/config
       - /opt/tvheadend/recordings:/recordings

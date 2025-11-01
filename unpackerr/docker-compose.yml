@@ -10,8 +10,7 @@ services:
       - ${MEDIA}:/media
     restart: unless-stopped
     user: 1000:100
-    env_file:
-      - .env
+    env_file: .env
     environment:
       - UN_QUIET=false
       - UN_DEBUG=false

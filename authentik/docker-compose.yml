@@ -1,8 +1,7 @@
 ---
 services:
   postgresql:
-    env_file:
-      - .env
+    env_file: .env
     environment:
       POSTGRES_DB: ${PG_DB:-authentik}
       POSTGRES_PASSWORD: ${PG_PASS:?database password required}

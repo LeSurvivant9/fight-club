@@ -6,8 +6,7 @@ services:
     mem_limit: 512M
     networks:
       proxy:
-    env_file:
-      - .env
+    env_file: .env
     environment:
       - DN_API_KEY=${DN_API_KEY}
       - DN_UI_PASSWORD=${DN_UI_PASSWORD}

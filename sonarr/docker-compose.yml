@@ -6,8 +6,7 @@ services:
     networks:
       proxy:
     mem_limit: 1024M
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - /opt/sonarr/config:/config
       - ${MEDIA}:/media

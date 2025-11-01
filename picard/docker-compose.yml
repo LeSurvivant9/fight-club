@@ -5,8 +5,7 @@ services:
     container_name: picard
     networks:
       proxy:
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - /opt/picard/config:/config:rw
       - ${MEDIA}/musics:/storage:rw

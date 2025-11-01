@@ -6,12 +6,7 @@ services:
     networks:
       proxy:
     mem_limit: 512M
-    env_file:
-      - .env
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
+    env_file: .env
     volumes:
       - /opt/bazarr/config:/config
       - ${MEDIA}:/media

@@ -1,6 +1,7 @@
 .DS-Store
 .idea
-**/.env.example
+**/.env
+**/.env.prod
 
 **/config/
 **/data/

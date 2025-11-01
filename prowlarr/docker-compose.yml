@@ -6,8 +6,7 @@ services:
     mem_limit: 512M
     networks:
       proxy:
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - /opt/prowlarr/config:/config
       - ${MEDIA}:/media

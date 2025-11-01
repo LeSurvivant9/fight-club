@@ -5,8 +5,7 @@ services:
     image: libretranslate/libretranslate:latest
     networks:
       proxy:
-    env_file:
-      - .env
+    env_file: .env
     environment:
       - LT_API_KEYS=true
       - LT_UPDATE_MODELS=true

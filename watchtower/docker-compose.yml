@@ -1,35 +1,49 @@
 ---
 services:
-  watchtower:
+  # --- L'OUVRIER ---
+  # Met à jour toutes les heures, silencieusement
+  watchtower-updater:
     image: containrrr/watchtower:latest
-    container_name: watchtower
-    env_file:
-      - .env
+    container_name: watchtower-updater
+    env_file: .env
     environment:
       WATCHTOWER_CLEANUP: "true"
-      WATCHTOWER_DISABLE_CONTAINERS: "traefik pihole wg-easy gluetun qbittorrent nicotine jellyfin meilisearch"
+      WATCHTOWER_DISABLE_CONTAINERS: "traefik pihole wg-easy gluetun meilisearch"
       WATCHTOWER_ROLLING_RESTART: "true"
       WATCHTOWER_REVIVE_STOPPED: "true"
       WATCHTOWER_REMOVE_VOLUMES: "true"
       WATCHTOWER_LIFECYCLE_HOOKS: "true"
       WATCHTOWER_SCHEDULE: "0 0 * * * *"
+      WATCHTOWER_NOTIFICATION_REPORT: "false"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+  # --- LE RAPPORTEUR ---
+  # Scanne 1x/jour, ne met pas à jour, et envoie le rapport
+  watchtower-reporter:
+    image: containrrr/watchtower:latest
+    container_name: watchtower-reporter
+    env_file: .env
+    environment:
+      WATCHTOWER_MONITOR_ONLY: "true"
+      WATCHTOWER_SCHEDULE: "0 0 0 * * *"
       WATCHTOWER_NOTIFICATION_REPORT: "true"
       WATCHTOWER_NOTIFICATION_URL: ${WATCHTOWER_NOTIFICATION_URL}
       WATCHTOWER_NOTIFICATION_TEMPLATE: |
         {{- if .Report -}}
           {{- with .Report -}}
             {{- if ( or .Updated .Failed ) -}}
-        {{len .Updated}} Updated, {{len .Failed}} Failed
+        Rapport Quotidien: {{len .Updated}} Mis à jour, {{len .Failed}} Échoué
               {{- range .Updated}}
-        - {{.Name}} ({{.ImageName}}): {{.CurrentImageID.ShortID}} updated to {{.LatestImageID.ShortID}}
+        - {{.Name}} ({{.ImageName}}): {{.CurrentImageID.ShortID}} -> {{.LatestImageID.ShortID}}
               {{- end -}}
               {{- range .Failed}}
         - {{.Name}} ({{.ImageName}}): {{.State}}: {{.Error}}
               {{- end -}}
+            {{- else -}}
+        Rapport Quotidien: Aucun changement.
             {{- end -}}
           {{- end -}}
-        {{- else -}}
-          {{range .Entries -}}{{.Message}}{{"\n"}}{{- end -}}
         {{- end -}}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

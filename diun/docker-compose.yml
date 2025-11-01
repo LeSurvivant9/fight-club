@@ -8,8 +8,7 @@ services:
       - /opt/diun/diun.yml:/diun.yml:ro
       - /opt/diun/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-      - .env
+    env_file: .env
     environment:
-      - LOG_JSON=false
+      LOG_JSON: false
     restart: always
