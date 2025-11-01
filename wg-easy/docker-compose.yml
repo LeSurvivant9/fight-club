@@ -8,8 +8,6 @@ services:
       vpn:
         ipv4_address: 172.32.0.8
     env_file: .env
-    environment:
-      - DISABLE_IPV6=true
     volumes:
       - /opt/wg-easy/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro

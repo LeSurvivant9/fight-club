@@ -7,9 +7,6 @@ services:
     memswap_limit: 4096M
     network_mode: container:gluetun
     env_file: .env
-    environment:
-      - WEBUI_PORT=8081
-      - TORRENTING_PORT=6881
     volumes:
       - /opt/qbittorrent/config:/config
       - ${MEDIA}:/media

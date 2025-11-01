@@ -10,8 +10,6 @@ services:
     volumes:
       - /opt/meilisearch:/meili_data
     env_file: .env
-    environment:
-      MEILI_NO_ANALYTICS: true
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

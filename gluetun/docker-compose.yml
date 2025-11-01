@@ -28,14 +28,6 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=1
     env_file: .env
-    environment:
-      - VPN_SERVICE_PROVIDER=nordvpn
-      - VPN_TYPE=wireguard
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_KEY}
-      - SERVER_REGIONS=${VPN_REGIONS}
-      - UPDATER_PERIOD=24h
-      - DNS_ADDRESS=${DNS_IP}
-      - DOT=off
     healthcheck:
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s

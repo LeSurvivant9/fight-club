@@ -5,13 +5,10 @@ services:
     container_name: flaresolverr
     networks:
       proxy:
-    mem_limit: 512M
+    mem_limit: 256M
     ports:
       - "${PORT:-8191}:8191"
     env_file: .env
-    environment:
-      - LOG_HTML=${LOG_HTML:-false}
-      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8191/"]
       interval: 60s
