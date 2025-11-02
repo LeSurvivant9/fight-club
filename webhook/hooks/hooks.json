@@ -3,10 +3,5 @@
     "id": "gluetun-post-update",
     "execute-command": "/opt/scripts/gluetun-post-update.sh",
     "command-working-directory": "/opt/scripts/"
-  },
-  {
-    "id": "gluetun-restarted",
-    "execute-command": "/opt/scripts/recreate-vpn-clients.sh",
-    "command-working-directory": "/opt/scripts/"
   }
 ]
