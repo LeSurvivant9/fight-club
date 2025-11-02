@@ -8,7 +8,7 @@ services:
     env_file: .env
     environment:
       WATCHTOWER_CLEANUP: "true"
-      WATCHTOWER_DISABLE_CONTAINERS: "traefik pihole wg-easy gluetun meilisearch jellyfin webhook tidal-dl-ng"
+      WATCHTOWER_DISABLE_CONTAINERS: "gluetun jellyfin meilisearch nicotine pihole tidal-dl-ng traefik webhook wg-easy"
       WATCHTOWER_ROLLING_RESTART: "true"
       WATCHTOWER_REVIVE_STOPPED: "true"
       WATCHTOWER_REMOVE_VOLUMES: "true"
