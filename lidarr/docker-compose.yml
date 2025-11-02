@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.lidarr-secure.tls=true"
       - "traefik.http.routers.lidarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.lidarr-secure.service=lidarr"
-      - "traefik.http.routers.lidarr.middlewares=compress@file"
+      - "traefik.http.routers.lidarr-secure.middlewares=compress@file"
       - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
 networks:
   proxy:

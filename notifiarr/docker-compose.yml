@@ -27,7 +27,7 @@ services:
       - "traefik.http.routers.notifiarr-secure.tls=true"
       - "traefik.http.routers.notifiarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.notifiarr-secure.service=notifiarr"
-      - "traefik.http.routers.notifiarr.middlewares=compress@file"
+      - "traefik.http.routers.notifiarr-secure.middlewares=compress@file"
       - "traefik.http.services.notifiarr.loadbalancer.server.port=5454"
 networks:
   proxy:

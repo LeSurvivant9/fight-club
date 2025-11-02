@@ -25,7 +25,7 @@ services:
       - "traefik.http.routers.prowlarr-secure.tls=true"
       - "traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.prowlarr-secure.service=prowlarr"
-      - "traefik.http.routers.prowlarr.middlewares=compress@file"
+      - "traefik.http.routers.prowlarr-secure.middlewares=compress@file"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
 networks:
   proxy:

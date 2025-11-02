@@ -26,7 +26,7 @@ http:
     compress:
       compress:
         encodings: ["zstd", "br", "gzip"]
-        defaultEncoding: zstd
+        defaultEncoding: gzip
         minResponseBodyBytes: 2048
         excludedContentTypes:
           - image/*

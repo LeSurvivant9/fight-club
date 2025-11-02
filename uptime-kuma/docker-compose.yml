@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.uptime-kuma-secure.tls=true"
       - "traefik.http.routers.uptime-kuma-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.uptime-kuma-secure.service=uptime-kuma"
-      - "traefik.http.routers.uptime-kuma.middlewares=compress@file"
+      - "traefik.http.routers.uptime-kuma-secure.middlewares=compress@file"
       - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
 networks:
   proxy:

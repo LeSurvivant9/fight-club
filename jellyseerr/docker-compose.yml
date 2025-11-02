@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.jellyseerr-secure.tls=true"
       - "traefik.http.routers.jellyseerr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.jellyseerr-secure.service=jellyseerr"
-      - "traefik.http.routers.jellyseerr.middlewares=compress@file"
+      - "traefik.http.routers.jellyseerr-secure.middlewares=compress@file"
       - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
 networks:
   proxy:

@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.picard-secure.tls=true"
       - "traefik.http.routers.picard-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.picard-secure.service=picard"
-      - "traefik.http.routers.picard.middlewares=compress@file"
+      - "traefik.http.routers.picard-secure.middlewares=compress@file"
       - "traefik.http.services.picard.loadbalancer.server.port=5800"
 networks:
   proxy:

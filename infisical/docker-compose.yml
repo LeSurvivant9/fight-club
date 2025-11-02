@@ -26,7 +26,7 @@ services:
       - "traefik.http.routers.infisical-secure.tls=true"
       - "traefik.http.routers.infisical-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.infisical-secure.service=infisical"
-      - "traefik.http.routers.infisical.middlewares=compress@file"
+      - "traefik.http.routers.infisical-secure.middlewares=compress@file"
       - "traefik.http.services.infisical.loadbalancer.server.port=8080"
   redis:
     image: redis
