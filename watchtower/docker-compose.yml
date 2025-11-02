@@ -5,8 +5,6 @@ services:
   watchtower-updater:
     image: containrrr/watchtower:latest
     container_name: watchtower-updater
-    networks:
-      watchtower_default:
     env_file: .env
     environment:
       WATCHTOWER_CLEANUP: "true"
@@ -29,8 +27,6 @@ services:
   watchtower-reporter:
     image: containrrr/watchtower:latest
     container_name: watchtower-reporter
-    networks:
-      watchtower_default:
     env_file: .env
     environment:
       WATCHTOWER_MONITOR_ONLY: "true"
@@ -62,8 +58,6 @@ services:
   watchtower-gluetun:
     image: containrrr/watchtower:latest
     container_name: watchtower-gluetun
-    networks:
-      watchtower_default:
     environment:
       WATCHTOWER_LABEL_ENABLE: "true"
       WATCHTOWER_CLEANUP: "true"
@@ -79,6 +73,3 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
-networks:
-  watchtower_default:
-    external: false
