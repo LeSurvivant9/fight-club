@@ -9,4 +9,4 @@ services:
       - ${MEDIA}/downloads/tidal:/downloads
       - ./scripts/download-loop.sh:/app/download-loop.sh:ro
     restart: unless-stopped
-    command: /app/download-loop.sh
+    command: sh /app/download-loop.sh
