@@ -5,8 +5,9 @@ services:
     container_name: diun
     command: serve
     volumes:
-      - /opt/diun/diun.yml:/diun.yml:ro
+      - ./diun.yml:/diun.yml:ro
       - /opt/diun/data:/data
+      - ./images.yml:/data/images.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock
     env_file: .env
     restart: always

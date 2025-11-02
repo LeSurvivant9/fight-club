@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/google/yamlfmt
-    rev: v0.19.0
+    rev: v0.20.0
     hooks:
       - id: yamlfmt
         files: \.(yaml|yml)$
@@ -10,3 +10,10 @@ repos:
           - yamlfmt.yml
           - -gitignore_excludes
           - -v
+  - repo: local
+    hooks:
+      - id: sops-auto-encrypt
+        name: SOPS Auto-Encrypt
+        entry: bash ./encrypt-sops.sh
+        language: system
+        files: '(\.secrets\.ya?ml$)'

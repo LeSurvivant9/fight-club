@@ -11,6 +11,4 @@ services:
       - /opt/nicotine/shared:/shared
       - /opt/nicotine/config:/config
       - /opt/nicotine/config/data:/data
-    labels:
-      - diun.enable=true
     restart: unless-stopped

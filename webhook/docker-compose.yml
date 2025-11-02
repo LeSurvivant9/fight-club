@@ -1,0 +1,14 @@
+---
+services:
+  webhook:
+    image: lwlook/webhook
+    container_name: webhook
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./hooks:/etc/webhook
+      - ./scripts:/opt/scripts
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../jellyfin:/opt/jellyfin
+    command: -verbose -hooks=/etc/webhook/hooks.json -hotreload
+    restart: unless-stopped

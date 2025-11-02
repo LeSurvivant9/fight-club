@@ -1,0 +1,7 @@
+---
+creation_rules:
+  - path_regex: '(\.secrets\.ya?ml$)'
+    encrypted_regex: "^(webhookURL|email)$"
+    age:
+      - age10tes8xka8mh6u72vvunf7umwfqv2qquswzwmr6wrcy3yffvut9rqdtthsm
+      - age1kgzzjlugy0smkex77kvymuwjlhfryh0ljnmqqaw8zx9hh3st0vysha3g97

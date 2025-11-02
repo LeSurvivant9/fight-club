@@ -1,5 +1,0 @@
----
-creation_rules:
-  # Règle pour tous les fichiers YAML
-  - path_regex: .*.yml$
-    encrypted_regex: '^(apiKey|apiToken|email|password|secret|key|token)$'
