@@ -1,7 +1,10 @@
 ---
 services:
   webhook:
-    image: lwlook/webhook
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: local/webhook:2.8.1
     container_name: webhook
     ports:
       - "9000:9000"

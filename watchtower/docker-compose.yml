@@ -56,8 +56,7 @@ services:
       WATCHTOWER_LABEL_ENABLE: "true"
       WATCHTOWER_CLEANUP: "true"
       WATCHTOWER_NOTIFICATION_REPORT: "false"
-      WATCHTOWER_NOTIFICATIONS: "shoutrrr"
-      WATCHTOWER_NOTIFICATION_URL: "url:http://host.docker.internal:9000/hooks/gluetun-post-update?method=POST"
+      WATCHTOWER_NOTIFICATION_URL: "generic+http://host.docker.internal:9000/hooks/gluetun-post-update"
       WATCHTOWER_SCHEDULE: "0 0 * * * *"
       WATCHTOWER_LIFECYCLE_HOOKS: "false"
     volumes:
