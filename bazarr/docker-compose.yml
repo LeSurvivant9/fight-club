@@ -25,6 +25,7 @@ services:
       - "traefik.http.routers.bazarr-secure.tls=true"
       - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.bazarr-secure.service=bazarr"
+      - "traefik.http.routers.bazarr.middlewares=compress@file"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
 networks:
   proxy:

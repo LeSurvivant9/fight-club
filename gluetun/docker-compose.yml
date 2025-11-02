@@ -43,12 +43,14 @@ services:
       - "traefik.http.routers.qbittorrent-secure.tls=true"
       - "traefik.http.routers.qbittorrent-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
+      - "traefik.http.routers.qbittorrent.middlewares=compress@file"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
       - "traefik.http.routers.nicotine-secure.entrypoints=https"
       - "traefik.http.routers.nicotine-secure.rule=Host(`nicotine.${DOMAIN}`)"
       - "traefik.http.routers.nicotine-secure.tls=true"
       - "traefik.http.routers.nicotine-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.nicotine-secure.service=nicotine"
+      - "traefik.http.routers.nicotine.middlewares=compress@file"
       - "traefik.http.services.nicotine.loadbalancer.server.port=6565"
       - com.centurylinklabs.watchtower.enable=true
 networks:

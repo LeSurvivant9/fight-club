@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.homarr-secure.tls=true"
       - "traefik.http.routers.homarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.homarr-secure.service=homarr"
+      - "traefik.http.routers.homarr.middlewares=compress@file"
       - "traefik.http.services.homarr.loadbalancer.server.port=7575"
 networks:
   proxy:

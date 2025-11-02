@@ -32,6 +32,7 @@ services:
       - "traefik.http.routers.jellystat-secure.tls=true"
       - "traefik.http.routers.jellystat-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.jellystat-secure.service=jellystat"
+      - "traefik.http.routers.jellystat.middlewares=compress@file"
       - "traefik.http.services.jellystat.loadbalancer.server.port=3000"
 networks:
   proxy:

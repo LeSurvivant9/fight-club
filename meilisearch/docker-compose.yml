@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.meilisearch-secure.tls=true"
       - "traefik.http.routers.meilisearch-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.meilisearch-secure.service=meilisearch"
+      - "traefik.http.routers.meilisearch.middlewares=compress@file"
       - "traefik.http.services.meilisearch.loadbalancer.server.port=7700"
       - diun.enable=true
 networks:

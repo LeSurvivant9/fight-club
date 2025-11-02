@@ -24,7 +24,15 @@ http:
     # Compression des réponses
 
     compress:
-      compress: {}
+      compress:
+        encodings: ["zstd", "br", "gzip"]
+        defaultEncoding: zstd
+        minResponseBodyBytes: 2048
+        excludedContentTypes:
+          - image/*
+          - video/*
+          - application/pdf
+          - application/zip
 # Configuration TLS
 
 tls:

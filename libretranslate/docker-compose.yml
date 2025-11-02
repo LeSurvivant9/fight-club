@@ -17,6 +17,7 @@ services:
       - "traefik.http.routers.libretranslate-secure.tls=true"
       - "traefik.http.routers.libretranslate-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.libretranslate-secure.service=libretranslate"
+      - "traefik.http.routers.libretranslate.middlewares=compress@file"
       - "traefik.http.services.libretranslate.loadbalancer.server.port=5000"
     healthcheck:
       test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']

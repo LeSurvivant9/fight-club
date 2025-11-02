@@ -25,6 +25,7 @@ services:
       - "traefik.http.routers.sonarr-secure.tls=true"
       - "traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.sonarr-secure.service=sonarr"
+      - "traefik.http.routers.sonarr.middlewares=compress@file"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
 networks:
   proxy:

@@ -25,6 +25,7 @@ services:
       - "traefik.http.routers.tvheadend-secure.tls=true"
       - "traefik.http.routers.tvheadend-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.tvheadend-secure.service=tvheadend"
+      - "traefik.http.routers.tvheadend.middlewares=compress@file"
       - "traefik.http.services.tvheadend.loadbalancer.server.port=9981"
 networks:
   proxy:

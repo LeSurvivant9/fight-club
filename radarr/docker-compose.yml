@@ -25,6 +25,7 @@ services:
       - "traefik.http.routers.radarr-secure.tls=true"
       - "traefik.http.routers.radarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.radarr-secure.service=radarr"
+      - "traefik.http.routers.radarr.middlewares=compress@file"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
 networks:
   proxy:
