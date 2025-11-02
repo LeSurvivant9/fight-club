@@ -4,6 +4,7 @@ services:
     image: crazymax/diun:latest
     container_name: diun
     command: serve
+    network_mode: none
     volumes:
       - ./diun.yml:/diun.yml:ro
       - /opt/diun/data:/data

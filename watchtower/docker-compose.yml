@@ -66,6 +66,8 @@ services:
       WATCHTOWER_SCHEDULE: "0 0 * * * *"
       WATCHTOWER_LIFECYCLE_HOOKS: "false"
       WATCHTOWER_SCOPE: "gluetun"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     labels:
       - "com.centurylinklabs.watchtower.scope=gluetun"
     volumes:

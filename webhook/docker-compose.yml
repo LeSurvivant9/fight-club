@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     image: local/webhook:2.8.1
     container_name: webhook
+    network_mode: none
     ports:
       - "9000:9000"
     volumes:
