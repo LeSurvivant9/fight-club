@@ -3,6 +3,7 @@ services:
   tidal-dl-ng:
     build: .
     container_name: tidal-dl-ng
+    user: "1000:1000"
     volumes:
       - /opt/tidal-dl-ng/config:/config
       - ${MEDIA}/musics/not_imported:/downloads
