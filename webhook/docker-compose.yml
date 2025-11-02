@@ -11,6 +11,7 @@ services:
     volumes:
       - ./hooks:/etc/webhook
       - ./scripts:/opt/scripts
+      - /etc/komodo/repos/fight-club:/etc/komodo/repos/fight-club:ro
       - /var/run/docker.sock:/var/run/docker.sock
     command: -verbose -hooks=/etc/webhook/hooks.json -hotreload
     restart: unless-stopped
