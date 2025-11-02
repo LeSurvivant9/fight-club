@@ -53,6 +53,7 @@ services:
       - "traefik.http.routers.nicotine-secure.middlewares=compress@file"
       - "traefik.http.services.nicotine.loadbalancer.server.port=6565"
       - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.scope=gluetun
 networks:
   proxy:
     external: true

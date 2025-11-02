@@ -15,6 +15,9 @@ services:
       WATCHTOWER_LIFECYCLE_HOOKS: "true"
       WATCHTOWER_SCHEDULE: "0 0 * * * *"
       WATCHTOWER_NOTIFICATION_REPORT: "false"
+      WATCHTOWER_SCOPE: "none"
+    labels:
+      - "com.centurylinklabs.watchtower.scope=none"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
@@ -46,6 +49,9 @@ services:
             {{- end -}}
           {{- end -}}
         {{- end -}}
+      WATCHTOWER_SCOPE: "reporter"
+    labels:
+      - "com.centurylinklabs.watchtower.scope=reporter"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
@@ -59,6 +65,9 @@ services:
       WATCHTOWER_NOTIFICATION_URL: "generic+http://host.docker.internal:9000/hooks/gluetun-post-update"
       WATCHTOWER_SCHEDULE: "0 0 * * * *"
       WATCHTOWER_LIFECYCLE_HOOKS: "false"
+      WATCHTOWER_SCOPE: "gluetun"
+    labels:
+      - "com.centurylinklabs.watchtower.scope=gluetun"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
