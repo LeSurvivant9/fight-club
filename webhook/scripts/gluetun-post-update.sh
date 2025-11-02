@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 echo "--- Webhook reçu : Gluetun mis à jour  ---"
