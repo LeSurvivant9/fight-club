@@ -5,6 +5,7 @@ services:
   watchtower-updater:
     image: containrrr/watchtower:latest
     container_name: watchtower-updater
+    network_mode: none
     env_file: .env
     environment:
       WATCHTOWER_CLEANUP: "true"
@@ -27,6 +28,7 @@ services:
   watchtower-reporter:
     image: containrrr/watchtower:latest
     container_name: watchtower-reporter
+    network_mode: none
     env_file: .env
     environment:
       WATCHTOWER_MONITOR_ONLY: "true"
@@ -58,6 +60,7 @@ services:
   watchtower-gluetun:
     image: containrrr/watchtower:latest
     container_name: watchtower-gluetun
+    network_mode: none
     environment:
       WATCHTOWER_LABEL_ENABLE: "true"
       WATCHTOWER_CLEANUP: "true"
