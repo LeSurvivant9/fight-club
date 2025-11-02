@@ -3,24 +3,5 @@
     "id": "gluetun-post-update",
     "execute-command": "/opt/scripts/gluetun-post-update.sh",
     "command-working-directory": "/opt/scripts/"
-  },
-  {
-    "id": "jellyfin-base-updated",
-    "execute-command": "/opt/scripts/jellyfin-rebuild-redeploy.sh",
-    "command-working-directory": "/opt/scripts/",
-    "trigger-rule": {
-      "and": [
-        {
-          "match": {
-            "type": "value",
-            "value": "diun",
-            "parameter": {
-              "source": "header",
-              "name": "X-Source"
-            }
-          }
-        }
-      ]
-    }
   }
 ]
