@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: local/webhook:2.8.1
+    image: local/webhook
     container_name: webhook
     ports:
       - "9000:9000"
