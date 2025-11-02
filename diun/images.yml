@@ -4,9 +4,3 @@
     os: linux
     arch: arm64
     variant: v8
-  notif:
-    webhook:
-      endpoint: "http://host.docker.internal:9000/hooks/jellyfin-base-updated"
-      method: "POST"
-      headers:
-        X-Source: "diun"
