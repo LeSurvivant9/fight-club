@@ -7,4 +7,6 @@ services:
     volumes:
       - /opt/tidal-dl-ng/config:/config
       - ${MEDIA}/downloads/tidal:/downloads
+      - ./scripts/download-loop.sh:/app/download-loop.sh:ro
     restart: unless-stopped
+    command: /app/download-loop.sh
