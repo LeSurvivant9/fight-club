@@ -4,8 +4,6 @@ services:
     image: crazymax/diun:latest
     container_name: diun
     command: serve
-    networks:
-      proxy:
     volumes:
       - ./diun.yml:/diun.yml:ro
       - /opt/diun/data:/data
@@ -13,6 +11,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     env_file: .env
     restart: always
-networks:
-  proxy:
-    external: true
