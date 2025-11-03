@@ -1,7 +1,13 @@
 [
   {
     "id": "gluetun-post-update",
-    "execute-command": "sh /opt/scripts/gluetun-post-update.sh",
-    "command-working-directory": "/opt/scripts/"
+    "execute-command": "/bin/sh",
+    "command-working-directory": "/opt/scripts/",
+    "pass-arguments-to-command": [
+      {
+        "source": "string",
+        "name": "gluetun-post-update.sh"
+      }
+    ]
   }
 ]
