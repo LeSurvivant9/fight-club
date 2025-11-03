@@ -15,6 +15,7 @@ services:
       WATCHTOWER_LIFECYCLE_HOOKS: "true"
       WATCHTOWER_SCHEDULE: "0 0 * * * *"
       WATCHTOWER_NOTIFICATION_REPORT: "false"
+      WATCHTOWER_NOTIFICATION_URL: ""
       WATCHTOWER_SCOPE: "none"
     labels:
       - "com.centurylinklabs.watchtower.scope=none"
