@@ -1,0 +1,26 @@
+---
+services:
+  beets:
+    image: lscr.io/linuxserver/beets:arm64v8-latest
+    networks:
+      proxy:
+    container_name: beets
+    env_file: .env
+    volumes:
+      - /opt/beets/config:/config
+      - ${MEDIA}/musics:/music
+      - ${MEDIA}/downloads/not_imported:/downloads
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.beets-secure.entrypoints=https"
+      - "traefik.http.routers.beets-secure.rule=Host(`beets.${DOMAIN}`)"
+      - "traefik.http.routers.beets-secure.tls=true"
+      - "traefik.http.routers.beets-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.beets-secure.service=beets"
+      - "traefik.http.routers.beets-secure.middlewares=compress@file"
+      - "traefik.http.services.beets.loadbalancer.server.port=8337"
+networks:
+  proxy:
+    external: true
