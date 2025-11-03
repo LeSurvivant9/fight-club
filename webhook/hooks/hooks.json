@@ -1,7 +1,7 @@
 [
   {
     "id": "gluetun-post-update",
-    "execute-command": "/opt/scripts/gluetun-post-update.sh",
+    "execute-command": "sh /opt/scripts/gluetun-post-update.sh",
     "command-working-directory": "/opt/scripts/"
   }
 ]
