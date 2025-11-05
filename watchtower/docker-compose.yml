@@ -1,10 +1,8 @@
 ---
 services:
-  # --- L'OUVRIER ---
-  # Met à jour toutes les heures, silencieusement
-  watchtower-updater:
+  watchtower:
     image: containrrr/watchtower:latest
-    container_name: watchtower-updater
+    container_name: watchtower
     env_file: .env
     environment:
       WATCHTOWER_CLEANUP: "true"
@@ -15,62 +13,6 @@ services:
       WATCHTOWER_LIFECYCLE_HOOKS: "true"
       WATCHTOWER_SCHEDULE: "0 0 * * * *"
       WATCHTOWER_NOTIFICATION_REPORT: "false"
-      WATCHTOWER_NOTIFICATION_URL: ""
-      WATCHTOWER_SCOPE: "none"
-    labels:
-      - "com.centurylinklabs.watchtower.scope=none"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-  # --- LE RAPPORTEUR ---
-
-  # Scanne 1x/jour, ne met pas à jour, et envoie le rapport
-  watchtower-reporter:
-    image: containrrr/watchtower:latest
-    container_name: watchtower-reporter
-    env_file: .env
-    environment:
-      WATCHTOWER_MONITOR_ONLY: "true"
-      WATCHTOWER_SCHEDULE: "0 0 0 * * *"
-      WATCHTOWER_NOTIFICATION_REPORT: "true"
-      WATCHTOWER_NOTIFICATION_URL: ${WATCHTOWER_NOTIFICATION_URL}
-      WATCHTOWER_NOTIFICATION_TEMPLATE: |
-        {{- if .Report -}}
-          {{- with .Report -}}
-            {{- if ( or .Updated .Failed ) -}}
-        Rapport Quotidien: {{len .Updated}} Mis à jour, {{len .Failed}} Échoué
-              {{- range .Updated}}
-        - {{.Name}} ({{.ImageName}}): {{.CurrentImageID.ShortID}} -> {{.LatestImageID.ShortID}}
-              {{- end -}}
-              {{- range .Failed}}
-        - {{.Name}} ({{.ImageName}}): {{.State}}: {{.Error}}
-              {{- end -}}
-            {{- else -}}
-        Rapport Quotidien: Aucun changement.
-            {{- end -}}
-          {{- end -}}
-        {{- end -}}
-      WATCHTOWER_SCOPE: "reporter"
-    labels:
-      - "com.centurylinklabs.watchtower.scope=reporter"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-  watchtower-gluetun:
-    image: containrrr/watchtower:latest
-    container_name: watchtower-gluetun
-    environment:
-      WATCHTOWER_LABEL_ENABLE: "true"
-      WATCHTOWER_CLEANUP: "true"
-      WATCHTOWER_NOTIFICATION_REPORT: "false"
-      WATCHTOWER_NOTIFICATION_URL: "generic+http://host.docker.internal:9000/hooks/gluetun-post-update"
-      WATCHTOWER_SCHEDULE: "0 0 * * * *"
-      WATCHTOWER_LIFECYCLE_HOOKS: "false"
-      WATCHTOWER_SCOPE: "gluetun"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    labels:
-      - "com.centurylinklabs.watchtower.scope=gluetun"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
