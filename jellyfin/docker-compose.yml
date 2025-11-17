@@ -23,6 +23,9 @@ services:
       - /opt/jellyfin/config:/config
       - /opt/jellyfin/cache:/cache
       - ${MEDIA}:/media
+    devices:
+      - /dev/video19:/dev/video19
+      - /dev/dma_heap:/dev/dma_heap
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8096/"]
