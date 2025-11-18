@@ -4,10 +4,6 @@ services:
     image: ghcr.io/wg-easy/wg-easy:15
     network_mode: host
     container_name: wg-easy
-    networks:
-      proxy:
-      vpn:
-        ipv4_address: 172.32.0.8
     env_file: .env
     volumes:
       - /opt/wg-easy/etc_wireguard:/etc/wireguard
@@ -35,8 +31,3 @@ services:
       - "traefik.http.routers.wg-easy-secure.middlewares=compress@file"
       - "traefik.http.services.wg-easy.loadbalancer.server.port=51821"
       - diun.enable=true
-networks:
-  proxy:
-    external: true
-  vpn:
-    external: true
