@@ -6,7 +6,7 @@ services:
     container_name: wg-easy
     env_file: .env
     ports:
-      - "51821:51821/udp"
+      - "51820:51820/udp"
     volumes:
       - /opt/wg-easy/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
