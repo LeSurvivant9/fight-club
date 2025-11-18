@@ -22,11 +22,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.wg-easy-secure.entrypoints=https"
-      - "traefik.http.routers.wg-easy-secure.rule=Host(`wg-easy.${DOMAIN}`)"
-      - "traefik.http.routers.wg-easy-secure.tls=true"
-      - "traefik.http.routers.wg-easy-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.wg-easy-secure.service=wg-easy"
-      - "traefik.http.routers.wg-easy-secure.middlewares=compress@file"
-      - "traefik.http.services.wg-easy.loadbalancer.server.port=51821"
+      - "traefik.http.routers.wg-secure.entrypoints=https"
+      - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
+      - "traefik.http.routers.wg-secure.tls=true"
+      - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.wg-secure.service=wg"
+      - "traefik.http.routers.wg-secure.middlewares=compress@file"
+      - "traefik.http.services.wg.loadbalancer.server.port=51821"
       - diun.enable=true
