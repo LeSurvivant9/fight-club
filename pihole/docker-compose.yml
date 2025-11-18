@@ -17,6 +17,7 @@ services:
     env_file: .env
     environment:
       - PIHOLE_INTERFACE=eth0
+      - FTLCONF_dns_listeningMode=all
     volumes:
       - /opt/pihole/etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
