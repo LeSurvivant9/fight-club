@@ -2,6 +2,7 @@
 services:
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy:15
+    network_mode: host
     container_name: wg-easy
     networks:
       proxy:
@@ -11,9 +12,6 @@ services:
     volumes:
       - /opt/wg-easy/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
-    ports:
-      - "51820:51820/udp"
-      - "51821:51821/tcp"
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
@@ -29,13 +27,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.wireguard-secure.entrypoints=https"
-      - "traefik.http.routers.wireguard-secure.rule=Host(`wireguard.${DOMAIN}`)"
-      - "traefik.http.routers.wireguard-secure.tls=true"
-      - "traefik.http.routers.wireguard-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.wireguard-secure.service=wireguard"
-      - "traefik.http.routers.wireguard-secure.middlewares=compress@file"
-      - "traefik.http.services.wireguard.loadbalancer.server.port=51821"
+      - "traefik.http.routers.wg-easy-secure.entrypoints=https"
+      - "traefik.http.routers.wg-easy-secure.rule=Host(`wg-easy.${DOMAIN}`)"
+      - "traefik.http.routers.wg-easy-secure.tls=true"
+      - "traefik.http.routers.wg-easy-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.wg-easy-secure.service=wg-easy"
+      - "traefik.http.routers.wg-easy-secure.middlewares=compress@file"
+      - "traefik.http.services.wg-easy.loadbalancer.server.port=51821"
       - diun.enable=true
 networks:
   proxy:
