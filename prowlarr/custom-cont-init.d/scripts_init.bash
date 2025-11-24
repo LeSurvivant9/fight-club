@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/with-contenv bash
 GIST_ID="8bfded23ef23ec78f6678896f42a2b60"
 DEFINITIONS_DIR="/config/Definitions/Custom"
 PUID=${PUID:-1000}
