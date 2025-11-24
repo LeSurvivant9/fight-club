@@ -9,8 +9,7 @@ services:
     env_file: .env
     volumes:
       - /opt/prowlarr/config:/config
-      - /opt/prowlarr/custom-definitions:/config/Definitions/Custom
-      #- ./custom-cont-init.d:/custom-cont-init.d
+      - ./custom-cont-init.d:/custom-cont-init.d
       - ${MEDIA}:/media
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9696/"]

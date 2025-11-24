@@ -1,8 +1,8 @@
 #!/bin/bash
 GIST_ID="8bfded23ef23ec78f6678896f42a2b60"
-DEFINITIONS_DIR="/volume1/docker/prowlarr/Definitions/Custom"
-PUID=1000
-PGID=65000
+DEFINITIONS_DIR="/config/Definitions/Custom"
+PUID=${PUID:-1000}
+PGID=${PGID:-1000}
 
 echo "=== Vérification YGG-API ==="
 
