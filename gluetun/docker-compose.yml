@@ -7,8 +7,6 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       proxy:
-      vpn:
-        ipv4_address: 172.32.0.4
     configs:
       - source: post-rules.txt
         target: /iptables/post-rules.txt
@@ -56,8 +54,6 @@ services:
       - com.centurylinklabs.watchtower.scope=gluetun
 networks:
   proxy:
-    external: true
-  vpn:
     external: true
 configs:
   post-rules.txt:

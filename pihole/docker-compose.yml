@@ -5,8 +5,6 @@ services:
     image: pihole/pihole:latest
     networks:
       proxy:
-      vpn:
-        ipv4_address: 172.32.0.16
     cap_add:
       - NET_ADMIN
     sysctls:
@@ -32,6 +30,4 @@ services:
       - diun.enable=true
 networks:
   proxy:
-    external: true
-  vpn:
     external: true
