@@ -5,6 +5,7 @@ services:
     image: pihole/pihole:latest
     networks:
       proxy:
+        - ipv4_address: 172.19.0.123
     cap_add:
       - NET_ADMIN
     sysctls:
