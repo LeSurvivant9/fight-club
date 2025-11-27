@@ -4,15 +4,6 @@ services:
     image: containrrr/watchtower:latest
     container_name: watchtower
     env_file: .env
-    environment:
-      WATCHTOWER_CLEANUP: "true"
-      WATCHTOWER_DISABLE_CONTAINERS: "gluetun jellyfin meilisearch nicotine pihole qbittorrent tidal-dl-ng traefik webhook wg-easy"
-      WATCHTOWER_ROLLING_RESTART: "true"
-      WATCHTOWER_REVIVE_STOPPED: "true"
-      WATCHTOWER_REMOVE_VOLUMES: "true"
-      WATCHTOWER_LIFECYCLE_HOOKS: "true"
-      WATCHTOWER_SCHEDULE: "0 0 * * * *"
-      WATCHTOWER_NOTIFICATION_REPORT: "false"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
