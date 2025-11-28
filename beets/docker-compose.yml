@@ -1,10 +1,10 @@
 ---
 services:
   beets:
-    image: lscr.io/linuxserver/beets:arm64v8-latest
+    build: .
+    container_name: beets
     networks:
       proxy:
-    container_name: beets
     env_file: .env
     volumes:
       - /opt/beets/config:/config
