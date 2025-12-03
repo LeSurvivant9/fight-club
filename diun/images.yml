@@ -1,4 +1,5 @@
 ---
+- name: lscr.io/linuxserver/beets:arm64v8-latest
 - name: lscr.io/linuxserver/jellyfin:arm64v8-latest
   platform:
     os: linux
