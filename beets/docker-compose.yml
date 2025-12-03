@@ -9,7 +9,7 @@ services:
     volumes:
       - /opt/beets/config:/config
       - ${MEDIA}/musics:/music
-      - ${MEDIA}/downloads/tidal/Albums:/downloads
+      - ${MEDIA}/downloads/deemix:/downloads
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
