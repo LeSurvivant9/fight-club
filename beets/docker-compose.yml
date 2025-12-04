@@ -10,6 +10,7 @@ services:
       - /opt/beets/config:/config
       - ${MEDIA}/musics:/music
       - ${MEDIA}/downloads/deemix:/downloads
+      - /usr/local/bin/beets-discord-notify.sh:/scripts/beets-discord-notify.sh:ro
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
