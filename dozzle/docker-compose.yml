@@ -10,7 +10,7 @@ services:
     ports:
       - "83:8080"
     healthcheck:
-      test: ["CMD", "wget", "-qSO", "/dev/null", "http://localhost:8080/health"]
+      test: ["CMD", "/dozzle", "healthcheck"]
       interval: 30s
       timeout: 10s
       retries: 2
