@@ -1,0 +1,19 @@
+---
+services:
+  cross-seed:
+    image: ghcr.io/cross-seed/cross-seed:6
+    container_name: cross-seed
+    user: 1000:1000
+    env_file:
+      - .env
+    volumes:
+      - /opt/cross-seed/config:/config
+      - /opt/qbittorrent/config/qBittorrent/BT_backup:/torrents:ro
+      - ${MEDIA}:/media
+    networks:
+      - proxy
+    command: daemon
+    restart: unless-stopped
+networks:
+  proxy:
+    external: true
