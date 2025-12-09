@@ -8,7 +8,6 @@ services:
       - .env
     volumes:
       - /opt/cross-seed/config:/config
-      - /opt/qbittorrent/config/qBittorrent/BT_backup:/torrents:ro
       - ${MEDIA}:/media
     networks:
       - proxy
