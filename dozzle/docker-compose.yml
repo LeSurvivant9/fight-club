@@ -2,9 +2,22 @@
 services:
   dozzle:
     container_name: dozzle
+    networks:
+      proxy:
     image: amir20/dozzle:latest
+    env_file:
+      - .env
+    ports:
+      - "83:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qSO", "/dev/null", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 2
+      start_period: 40s
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
