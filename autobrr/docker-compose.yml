@@ -1,0 +1,31 @@
+---
+services:
+  autobrr:
+    image: ghcr.io/autobrr/autobrr:latest
+    container_name: autobrr
+    networks:
+      proxy:
+    env_file:
+      - .env
+    volumes:
+      - /opt/autobrr/config:/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7474"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.autobrr-secure.entrypoints=https"
+      - "traefik.http.routers.autobrr-secure.rule=Host(`autobrr.${DOMAIN}`)"
+      - "traefik.http.routers.autobrr-secure.tls=true"
+      - "traefik.http.routers.autobrr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.autobrr-secure.service=autobrr"
+      - "traefik.http.routers.autobrr-secure.middlewares=compress@file"
+      - "traefik.http.services.autobrr.loadbalancer.server.port=7474"
+networks:
+  proxy:
+    external: true
