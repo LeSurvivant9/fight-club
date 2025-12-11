@@ -7,7 +7,7 @@ services:
       proxy:
     mem_limit: 512M
     env_file:
-      - /secrets/bazarr.env
+      - .env
     volumes:
       - /opt/bazarr/config:/config
       - ${MEDIA}:/media

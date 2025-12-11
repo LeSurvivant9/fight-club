@@ -4,7 +4,7 @@ services:
     image: getmeili/meilisearch:latest
     container_name: meilisearch
     env_file:
-      - /secrets/meilisearch.env
+      - .env
     networks:
       proxy:
     ports:

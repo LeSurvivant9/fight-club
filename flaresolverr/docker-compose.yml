@@ -8,7 +8,7 @@ services:
     ports:
       - "${PORT:-8191}:8191"
     env_file:
-      - /secrets/flaresolverr.env
+      - .env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8191/"]
       interval: 60s

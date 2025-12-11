@@ -4,7 +4,7 @@ services:
     image: lscr.io/linuxserver/lidarr:nightly
     container_name: lidarr
     env_file:
-      - /secrets/lidarr.env
+      - .env
     networks:
       proxy:
     volumes:

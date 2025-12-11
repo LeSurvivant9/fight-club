@@ -4,7 +4,7 @@ services:
     container_name: notifiarr
     image: golift/notifiarr:latest
     env_file:
-      - /secrets/notifiarr.env
+      - .env
     mem_limit: 512M
     networks:
       proxy:

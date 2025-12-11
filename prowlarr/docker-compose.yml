@@ -4,7 +4,7 @@ services:
     image: lscr.io/linuxserver/prowlarr:nightly
     container_name: prowlarr
     env_file:
-      - /secrets/prowlarr.env
+      - .env
     mem_limit: 512M
     networks:
       proxy:

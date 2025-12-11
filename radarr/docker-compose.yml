@@ -4,7 +4,7 @@ services:
     image: lscr.io/linuxserver/radarr:nightly
     container_name: radarr
     env_file:
-      - /secrets/radarr.env
+      - .env
     networks:
       proxy:
     mem_limit: 1024M

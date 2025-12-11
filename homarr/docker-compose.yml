@@ -4,7 +4,7 @@ services:
     container_name: homarr
     image: ghcr.io/homarr-labs/homarr:latest
     env_file:
-      - /secrets/homarr.env
+      - .env
     mem_limit: 512M
     restart: unless-stopped
     networks:

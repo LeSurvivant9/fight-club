@@ -4,7 +4,7 @@ services:
     image: ghcr.io/wg-easy/wg-easy:latest
     container_name: wg-easy
     env_file:
-      - /secrets/wg-easy.env
+      - .env
     networks:
       proxy:
     ports:

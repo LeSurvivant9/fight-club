@@ -4,7 +4,7 @@ services:
     container_name: pihole
     image: pihole/pihole:latest
     env_file:
-      - /secrets/pihole.env
+      - .env
     networks:
       proxy:
         ipv4_address: 172.19.0.123

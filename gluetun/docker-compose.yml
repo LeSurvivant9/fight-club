@@ -4,7 +4,7 @@ services:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
     env_file:
-      - /secrets/gluetun.env
+      - .env
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:

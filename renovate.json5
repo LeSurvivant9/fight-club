@@ -1,52 +1,78 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // Hérite des règles de base de Renovate
   "extends": [
     "config:recommended",
     // épingler les digests pour sécurité/reproductibilité
-    "docker:pinDigests",
+    ":pinOnlyDevDependencies",
     // regrouper les mises à jour mineures/patch et auto-merge possible
     "group:allNonMajor"
   ],
-
   // Limiter la détection aux compose files sous le dossier docker/
-  "enabledManagers": ["docker-compose", "dockerfile"],
+  "enabledManagers": [
+    "docker-compose",
+    "dockerfile"
+  ],
   "fileMatch": [
     "(^|/)docker/.+docker-compose\\.ya?ml$",
     "(^|/)docker/.+Dockerfile$"
   ],
-
   // Planification (ex: la nuit)
-  "schedule": ["after 22:00 and before 06:00 on every weekday"],
-
+  "schedule": [
+    "after 22:00 and before 06:00 on every weekday"
+  ],
   // Politique d’auto-merge (facultatif, à adapter)
   "automerge": true,
   "automergeType": "branch",
-  "major": { "automerge": false },
-
+  "major": {
+    "automerge": false
+  },
   // Stratégie des versions docker
   "docker": {
     "versioning": "loose"
   },
-
   // Règles par paquet/image
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
-      "labels": ["deps", "docker"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "labels": [
+        "deps",
+        "docker"
+      ],
       "prHourlyLimit": 4,
       "commitMessagePrefix": "chore(deps)"
     },
     {
       // Regrouper vos services docker-compose dans une seule PR si souhaité
-      "matchManagers": ["docker-compose"],
+      "matchManagers": [
+        "docker-compose"
+      ],
       "groupName": "docker-compose updates"
     },
     {
       // Éviter les tags flottants comme :latest et préférer des versions
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "matchCurrentVersion": "latest",
       "enabled": true,
       "separateMinorPatch": true
     },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "versioning": "docker",
+      "pinDigests": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchCurrentValue": "/nightly|dev|develop|master/i",
+      "enabled": false
+    }
   ],
 }

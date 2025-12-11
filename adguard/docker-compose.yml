@@ -4,7 +4,7 @@ services:
     image: adguard/adguardhome:lastest
     container_name: adguardhome
     env_file:
-      - /secrest/adguardhome.env
+      - .env
     networks:
       proxy:
         ipv4_address: 172.19.0.123

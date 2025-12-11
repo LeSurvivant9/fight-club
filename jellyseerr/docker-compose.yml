@@ -4,7 +4,7 @@ services:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     env_file:
-      - /secrets/jellyseerr.env
+      - .env
     mem_limit: 1024M
     networks:
       proxy:

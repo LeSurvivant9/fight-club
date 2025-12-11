@@ -5,7 +5,7 @@ services:
     shm_size: 1gb
     container_name: jellystat-db
     env_file:
-      - /secrets/jellystat.env
+      - .env
     networks:
       proxy:
     restart: unless-stopped
@@ -15,7 +15,7 @@ services:
     image: cyfershepard/jellystat:latest
     container_name: jellystat
     env_file:
-      - /secrets/jellystat.env
+      - .env
     networks:
       proxy:
     restart: unless-stopped

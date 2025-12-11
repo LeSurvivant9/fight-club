@@ -5,9 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     image: local_jellyfin
-    container_name: jellyfin
     env_file:
-      - /secrets/jellyfin.env
+      - .env
     mem_limit: 8192M
     memswap_limit: 12288M
     deploy:

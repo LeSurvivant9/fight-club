@@ -7,7 +7,7 @@ services:
     image: local/webhook
     container_name: webhook
     env_file:
-      - /secrets/webhook.env
+      - .env
     ports:
       - "9000:9000"
     volumes:

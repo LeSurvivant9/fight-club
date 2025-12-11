@@ -4,7 +4,7 @@ services:
     image: lingarr/lingarr:latest-arm64
     container_name: lingarr
     env_file:
-      - /secrets/lingarr.env
+      - .env
     networks:
       proxy:
     restart: unless-stopped
