@@ -9,10 +9,18 @@
     'docker-compose',
     'dockerfile',
   ],
-  managerFilePatterns: [
-    '/(^|/)docker/.+docker-compose\\.ya?ml$/',
-    '/(^|/)docker/.+Dockerfile$/',
-  ],
+  dockerfile: {
+    fileMatch: [
+      '(^|/)Dockerfile$',
+      '(^|/).+\\.Dockerfile$'
+    ],
+  },
+  'docker-compose': {
+    fileMatch: [
+      '(^|/)docker-compose\\.ya?ml$',
+      '(^|/).+\\.compose\\.ya?ml$'
+    ],
+  },
   schedule: [
     'after 22:00 every weekday',
     'before 06:00 every weekday',
