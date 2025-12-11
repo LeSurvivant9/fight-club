@@ -1,7 +1,7 @@
 ---
 services:
   meilisearch:
-    image: getmeili/meilisearch:v1.22
+    image: getmeili/meilisearch:latest
     container_name: meilisearch
     env_file:
       - /secrets/meilisearch.env

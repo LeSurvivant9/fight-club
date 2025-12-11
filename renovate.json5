@@ -48,22 +48,5 @@
       "enabled": true,
       "separateMinorPatch": true
     },
-    {
-      // Exemple: règles spécifiques GHCR (ghcr.io)
-      "matchDatasources": ["docker"],
-      "matchSourceUrls": ["https://ghcr.io"],
-      "minimumReleaseAge": "3 days"
-    }
   ],
-
-  // Auth/registries privées (GHCR, etc.)
-  "hostRules": [
-    {
-      "hostType": "docker",
-      "matchHost": "ghcr.io",
-      // Voir la section "Authentification" pour le remplissage
-      "username": "${GHCR_USERNAME}",
-      "password": "${GHCR_TOKEN}"
-    }
-  ]
 }

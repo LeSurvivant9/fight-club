@@ -1,7 +1,7 @@
 ---
 services:
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:nightly
     container_name: sonarr
     env_file:
       - /secrets/sonarr.env

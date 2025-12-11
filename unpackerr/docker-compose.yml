@@ -1,7 +1,7 @@
 ---
 services:
   unpackerr:
-    image: golift/unpackerr
+    image: golift/unpackerr:latest
     container_name: unpackerr
     env_file:
       - /secrets/unpackerr.env

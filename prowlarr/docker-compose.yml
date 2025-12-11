@@ -1,7 +1,7 @@
 ---
 services:
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:nightly
     container_name: prowlarr
     env_file:
       - /secrets/prowlarr.env

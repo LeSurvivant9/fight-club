@@ -1,7 +1,7 @@
 ---
 services:
   gluetun:
-    image: qmcgaw/gluetun
+    image: qmcgaw/gluetun:latest
     container_name: gluetun
     env_file:
       - /secrets/gluetun.env
