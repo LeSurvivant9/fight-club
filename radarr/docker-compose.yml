@@ -3,10 +3,11 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
+    env_file:
+      - /secrets/radarr.env
     networks:
       proxy:
     mem_limit: 1024M
-    env_file: .env
     volumes:
       - /opt/radarr/config:/config
       - /opt/radarr/custom-services.d:/custom-services.d

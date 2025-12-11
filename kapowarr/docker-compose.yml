@@ -3,9 +3,10 @@ services:
   kapowarr:
     container_name: kapowarr
     image: mrcas/kapowarr:latest
+    env_file:
+      - /secrets/kapowarr.env
     networks:
       proxy:
-    env_file: .env
     volumes:
       - /opt/kapowarr/config:/config
       - ${MEDIA}:/media

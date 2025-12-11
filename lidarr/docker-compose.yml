@@ -3,9 +3,10 @@ services:
   lidarr:
     image: lscr.io/linuxserver/lidarr:nightly
     container_name: lidarr
+    env_file:
+      - /secrets/lidarr.env
     networks:
       proxy:
-    env_file: .env
     volumes:
       - /opt/lidarr/config:/config
       - /opt/lidarr/custom-services.d:/custom-services.d

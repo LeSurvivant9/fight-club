@@ -3,7 +3,8 @@ services:
   autoheal:
     image: willfarrell/autoheal:latest
     container_name: autoheal
-    env_file: .env
+    env_file:
+      - /secrets/autoheal.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro

@@ -3,6 +3,8 @@ services:
   homarr:
     container_name: homarr
     image: ghcr.io/homarr-labs/homarr:latest
+    env_file:
+      - /secrets/homarr.env
     mem_limit: 512M
     restart: unless-stopped
     networks:
@@ -10,7 +12,6 @@ services:
     volumes:
       - /opt/homarr/appdata:/appdata
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    env_file: .env
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"

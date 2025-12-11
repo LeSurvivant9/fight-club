@@ -3,10 +3,11 @@ services:
   lingarr:
     image: lingarr/lingarr:latest-arm64
     container_name: lingarr
+    env_file:
+      - /secrets/lingarr.env
     networks:
       proxy:
     restart: unless-stopped
-    env_file: .env
     volumes:
       - /opt/lingarr/config:/config
       - ${MEDIA}:/media

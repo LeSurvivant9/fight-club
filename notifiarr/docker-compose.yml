@@ -3,10 +3,11 @@ services:
   notifiarr:
     container_name: notifiarr
     image: golift/notifiarr:latest
+    env_file:
+      - /secrets/notifiarr.env
     mem_limit: 512M
     networks:
       proxy:
-    env_file: .env
     environment:
       - DN_API_KEY=${DN_API_KEY}
       - DN_UI_PASSWORD=${DN_UI_PASSWORD}

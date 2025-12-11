@@ -3,9 +3,10 @@ services:
   libretranslate:
     container_name: libretranslate
     image: libretranslate/libretranslate:latest
+    env_file:
+      - /secrets/libretranslate.env
     networks:
       proxy:
-    env_file: .env
     volumes:
       - libretranslate_api_keys:/app/db
       - libretranslate_models:/home/libretranslate/.local:rw

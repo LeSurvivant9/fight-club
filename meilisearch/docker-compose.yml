@@ -3,13 +3,14 @@ services:
   meilisearch:
     image: getmeili/meilisearch:v1.22
     container_name: meilisearch
+    env_file:
+      - /secrets/meilisearch.env
     networks:
       proxy:
     ports:
       - "7700:7700"
     volumes:
       - /opt/meilisearch:/meili_data
-    env_file: .env
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

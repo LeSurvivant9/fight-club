@@ -3,10 +3,11 @@ services:
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
+    env_file:
+      - /secrets/jellyseerr.env
     mem_limit: 1024M
     networks:
       proxy:
-    env_file: .env
     volumes:
       - /opt/jellyseerr/appdata/config:/app/config
     restart: unless-stopped

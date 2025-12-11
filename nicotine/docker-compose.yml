@@ -1,10 +1,11 @@
 ---
 services:
   nicotineplus-proper:
-    image: 'sirjmann92/nicotineplus-proper:latest'
+    image: sirjmann92/nicotineplus-proper:latest
     container_name: nicotine
+    env_file:
+      - /secrets/nicotine.env
     network_mode: container:gluetun
-    env_file: .env
     volumes:
       - ${MEDIA}/musics/not_imported:/downloads
       - ${MEDIA}/musics:/musics

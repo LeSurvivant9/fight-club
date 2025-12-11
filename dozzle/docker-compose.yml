@@ -6,7 +6,7 @@ services:
       proxy:
     image: amir20/dozzle:latest
     env_file:
-      - .env
+      - /secrets/dozzle.env
     ports:
       - "83:8080"
     healthcheck:

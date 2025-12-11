@@ -3,6 +3,8 @@ services:
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
+    env_file:
+      - /secrets/gluetun.env
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
@@ -25,7 +27,6 @@ services:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=1
-    env_file: .env
     healthcheck:
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s

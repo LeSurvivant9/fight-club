@@ -3,6 +3,8 @@ services:
   traefik:
     image: traefik:latest
     container_name: traefik
+    env_file:
+      - /secrets/traefik.env
     security_opt:
       - no-new-privileges:true
     networks:
@@ -12,7 +14,6 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"
-    env_file: .env
     volumes:
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./config/config.yml:/etc/traefik/config.yml:ro

@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     image: local/webhook
     container_name: webhook
+    env_file:
+      - /secrets/webhook.env
     ports:
       - "9000:9000"
     volumes:

@@ -6,7 +6,7 @@ services:
     networks:
       proxy:
     env_file:
-      - .env
+      - /secrets/autobrr.env
     volumes:
       - /opt/autobrr/config:/config
     healthcheck:

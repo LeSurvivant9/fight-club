@@ -4,19 +4,21 @@ services:
     image: postgres:15.2
     shm_size: 1gb
     container_name: jellystat-db
+    env_file:
+      - /secrets/jellystat.env
     networks:
       proxy:
     restart: unless-stopped
-    env_file: .env
     volumes:
       - /opt/postgres:/var/lib/postgresql/data
   jellystat:
     image: cyfershepard/jellystat:latest
     container_name: jellystat
+    env_file:
+      - /secrets/jellystat.env
     networks:
       proxy:
     restart: unless-stopped
-    env_file: .env
     environment:
       POSTGRES_IP: jellystat-db
       POSTGRES_PORT: 5432

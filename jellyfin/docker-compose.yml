@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     image: local_jellyfin
     container_name: jellyfin
+    env_file:
+      - /secrets/jellyfin.env
     mem_limit: 8192M
     memswap_limit: 12288M
     deploy:
@@ -18,7 +20,6 @@ services:
       proxy:
     ports:
       - "8096:8096"
-    env_file: .env
     volumes:
       - /opt/jellyfin/config:/config
       - /opt/jellyfin/cache:/cache

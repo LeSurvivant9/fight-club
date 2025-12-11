@@ -3,6 +3,8 @@ services:
   unpackerr:
     image: golift/unpackerr
     container_name: unpackerr
+    env_file:
+      - /secrets/unpackerr.env
     networks:
       proxy:
     mem_limit: 512M
@@ -10,7 +12,6 @@ services:
       - ${MEDIA}:/media
     restart: unless-stopped
     user: 1000:100
-    env_file: .env
     environment:
       - UN_QUIET=false
       - UN_DEBUG=false

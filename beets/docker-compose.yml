@@ -5,7 +5,8 @@ services:
     container_name: beets
     networks:
       proxy:
-    env_file: .env
+    env_file:
+      - /secrets/beets.env
     volumes:
       - /opt/beets/config:/config
       - ${MEDIA}/musics:/music

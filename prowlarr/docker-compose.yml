@@ -3,10 +3,11 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
+    env_file:
+      - /secrets/prowlarr.env
     mem_limit: 512M
     networks:
       proxy:
-    env_file: .env
     volumes:
       - /opt/prowlarr/config:/config
       - ./custom-cont-init.d:/custom-cont-init.d
