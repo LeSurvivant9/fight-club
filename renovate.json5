@@ -1,7 +1,8 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
     'config:recommended',
-    'docker:pinDigests',
+    ':pinOnlyDevDependencies',
     'group:allNonMajor',
   ],
   enabledManagers: [
@@ -53,5 +54,19 @@
       enabled: true,
       separateMinorPatch: true,
     },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "versioning": "docker",
+      "pinDigests": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchCurrentValue": "/nightly|dev|develop|master/i",
+      "enabled": false
+    }
   ],
 }
