@@ -1,52 +1,57 @@
 {
-  // Hérite des règles de base de Renovate
-  "extends": [
-    "config:recommended",
-    // épingler les digests pour sécurité/reproductibilité
-    "docker:pinDigests",
-    // regrouper les mises à jour mineures/patch et auto-merge possible
-    "group:allNonMajor"
+  extends: [
+    'config:recommended',
+    'docker:pinDigests',
+    'group:allNonMajor',
   ],
-
-  // Limiter la détection aux compose files sous le dossier docker/
-  "enabledManagers": ["docker-compose", "dockerfile"],
-  "fileMatch": [
-    "(^|/)docker/.+docker-compose\\.ya?ml$",
-    "(^|/)docker/.+Dockerfile$"
+  enabledManagers: [
+    'docker-compose',
+    'dockerfile',
   ],
-
-  // Planification (ex: la nuit)
-  "schedule": ["after 22:00 and before 06:00 on every weekday"],
-
-  // Politique d’auto-merge (facultatif, à adapter)
-  "automerge": true,
-  "automergeType": "branch",
-  "major": { "automerge": false },
-
-  // Stratégie des versions docker
-  "docker": {
-    "versioning": "loose"
+  managerFilePatterns: [
+    '/(^|/)docker/.+docker-compose\\.ya?ml$/',
+    '/(^|/)docker/.+Dockerfile$/',
+  ],
+  schedule: [
+    'after 22:00 every weekday',
+    'before 06:00 every weekday',
+  ],
+  automerge: true,
+  automergeType: 'branch',
+  major: {
+    automerge: false,
   },
-
-  // Règles par paquet/image
-  "packageRules": [
+  packageRules: [
     {
-      "matchDatasources": ["docker"],
-      "labels": ["deps", "docker"],
-      "prHourlyLimit": 4,
-      "commitMessagePrefix": "chore(deps)"
+      matchCategories: [
+        'docker',
+      ],
+      versioning: 'loose',
     },
     {
-      // Regrouper vos services docker-compose dans une seule PR si souhaité
-      "matchManagers": ["docker-compose"],
-      "groupName": "docker-compose updates"
+      matchDatasources: [
+        'docker',
+      ],
+      labels: [
+        'deps',
+        'docker',
+      ],
+      prHourlyLimit: 4,
+      commitMessagePrefix: 'chore(deps)',
     },
     {
-      // Éviter les tags flottants comme :latest et préférer des versions
-      "matchDatasources": ["docker"],
-      "matchCurrentVersion": "latest",
-      "enabled": true,
-      "separateMinorPatch": true
+      matchManagers: [
+        'docker-compose',
+      ],
+      groupName: 'docker-compose updates',
+    },
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      matchCurrentVersion: 'latest',
+      enabled: true,
+      separateMinorPatch: true,
     },
   ],
 }
