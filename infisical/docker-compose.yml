@@ -43,7 +43,7 @@ services:
       - redis_data:/data
   db:
     container_name: infisical-db
-    image: postgres:14-alpine
+    image: postgres:18-alpine
     restart: always
     env_file: .env.prod
     volumes:
