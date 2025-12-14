@@ -21,7 +21,7 @@ services:
       - "traefik.http.routers.qdirstat-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qdirstat-secure.service=qdirstat"
       - "traefik.http.routers.qdirstat-secure.middlewares=compress@file"
-      - "traefik.http.services.qdirstat.loadbalancer.server.port=3001"
+      - "traefik.http.services.qdirstat.loadbalancer.server.port=3000"
 networks:
   proxy:
     external: true
