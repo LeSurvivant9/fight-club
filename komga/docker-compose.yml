@@ -5,6 +5,8 @@ services:
     container_name: komga
     env_file:
       - .env
+    networks:
+      proxy:
     volumes:
       - /opt/komga/config:/config
       - ${MEDIA}/books:/data
