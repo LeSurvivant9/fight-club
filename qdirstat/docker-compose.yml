@@ -1,0 +1,27 @@
+---
+services:
+  qdirstat:
+    image: lscr.io/linuxserver/qdirstat:latest
+    container_name: qdirstat
+    env_file:
+      - .env
+    networks:
+      proxy:
+    volumes:
+      - /opt/qdirstat/config:/config
+      - /:/data:ro
+    shm_size: "1gb"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.qdirstat-secure.entrypoints=https"
+      - "traefik.http.routers.qdirstat-secure.rule=Host(`qdirstat.${DOMAIN}`)"
+      - "traefik.http.routers.qdirstat-secure.tls=true"
+      - "traefik.http.routers.qdirstat-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.qdirstat-secure.service=qdirstat"
+      - "traefik.http.routers.qdirstat-secure.middlewares=compress@file"
+      - "traefik.http.services.qdirstat.loadbalancer.server.port=3001"
+networks:
+  proxy:
+    external: true
