@@ -1,0 +1,14 @@
+---
+services:
+  komf:
+    image: sndbg/komf:latest
+    container_name: komf
+    user: "1000:1000"
+    networks:
+      proxy:
+    volumes:
+      - ./komf/config:/config
+    restart: unless-stopped
+networks:
+  proxy:
+    external: true
