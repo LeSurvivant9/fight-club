@@ -48,8 +48,4 @@ docker compose -f /etc/komodo/repos/fight-club/qbittorrent/docker-compose.yml up
 echo "Re-création de la stack nicotine..."
 docker compose -f /etc/komodo/repos/fight-club/nicotine/docker-compose.yml up -d --force-recreate
 
-# 3. Re-créer Suwayomi
-echo "Re-création de la stack suwayomi..."
-docker compose -f /etc/komodo/repos/fight-club/suwayomi/docker-compose.yml up -d --force-recreate
-
 echo "--- Clients dépendants du VPN relancés après vérification de Gluetun ---"
