@@ -3,7 +3,8 @@ services:
   suwayomi:
     image: ghcr.io/suwayomi/suwayomi-server
     container_name: suwayomi
-    network_mode: container:gluetun
+    networks:
+      proxy:
     env_file:
       - .env
     volumes:
@@ -11,5 +12,15 @@ services:
       - ${MEDIA}/books:/home/suwayomi/.local/share/Tachidesk/downloads
     restart: unless-stopped
     labels:
-      diun.enable: true
-      autoheal: true
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.suwayomi-secure.entrypoints=https"
+      - "traefik.http.routers.suwayomi-secure.rule=Host(`suwayomi.${DOMAIN}`)"
+      - "traefik.http.routers.suwayomi-secure.tls=true"
+      - "traefik.http.routers.suwayomi-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.suwayomi-secure.service=suwayomi"
+      - "traefik.http.routers.suwayomi-secure.middlewares=compress@file"
+      - "traefik.http.services.suwayomi.loadbalancer.server.port=4567"
+networks:
+  proxy:
+    external: true
