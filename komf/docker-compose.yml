@@ -7,7 +7,7 @@ services:
     networks:
       proxy:
     volumes:
-      - ./komf/config:/config
+      - /opt/komf/config:/config
     restart: unless-stopped
 networks:
   proxy:
