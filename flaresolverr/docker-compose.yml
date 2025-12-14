@@ -5,6 +5,7 @@ services:
     container_name: flaresolverr
     networks:
       proxy:
+        ipv4_address: 172.19.0.50
     ports:
       - "${PORT:-8191}:8191"
     env_file:
