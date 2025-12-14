@@ -1,14 +1,26 @@
 ---
 services:
   komf:
-    image: sndbg/komf:latest
+    image: sndxr/komf:latest
     container_name: komf
+    env_file:
+      - .env
     user: "1000:1000"
     networks:
       proxy:
     volumes:
       - /opt/komf/config:/config
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.komf-secure.entrypoints=https"
+      - "traefik.http.routers.komf-secure.rule=Host(`komf.${DOMAIN}`)"
+      - "traefik.http.routers.komf-secure.tls=true"
+      - "traefik.http.routers.komf-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.komf-secure.service=komf"
+      - "traefik.http.routers.komf-secure.middlewares=compress@file"
+      - "traefik.http.services.komf.loadbalancer.server.port=8085"
 networks:
   proxy:
     external: true
