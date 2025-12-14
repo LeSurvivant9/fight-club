@@ -1,7 +1,7 @@
 ---
 services:
   suwayomi:
-    image: ghcr.io/suwayomi/tachidesk-server:latest
+    image: ghcr.io/suwayomi/suwayomi-server
     container_name: suwayomi
     networks:
       proxy:
