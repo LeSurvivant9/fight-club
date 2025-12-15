@@ -42,79 +42,10 @@ EXPOSE 9002/tcp
 HEALTHCHECK --interval=60s --timeout=10s --start-period=30s --retries=3 \
   CMD sh -c 'nc -z 127.0.0.1 9002 && wget -q --spider --timeout=5 https://google.com || exit 1'
 
-# Bootstrap: add a tiny starter that configures relay + IRC (idempotent) before launching WeeChat
-COPY --chown=weechat:weechat <<'EOS' /usr/local/bin/weechat-start
-#!/bin/sh
-set -eu
-
-# Verbose bootstrap trace for container logs
-echo "[weechat-start] $(date -Iseconds) starting bootstrap"
-
-CONFIG_DIR="/home/weechat/.config/weechat"
-mkdir -p "$CONFIG_DIR"
-chown -R weechat:weechat "$CONFIG_DIR"
-
-# Stream WeeChat core log to container stdout so `docker logs`/Dozzle can see it
-touch "$CONFIG_DIR/weechat.log" 2>/dev/null || true
-tail -n +1 -F "$CONFIG_DIR/weechat.log" >/dev/stdout 2>/dev/null &
-
-# Defaults if env not provided (kept empty if not set)
-RELAY_PASSWORD="${RELAY_PASSWORD-}"
-IRC_NICK="${IRC_NICK-}"
-IRC_INVITE_TOKEN="${IRC_INVITE_TOKEN-}"
-
-echo "[weechat-start] RELAY_PASSWORD set: ${RELAY_PASSWORD:+yes}${RELAY_PASSWORD:-no} | IRC_NICK: ${IRC_NICK:-<unset>} | IRC_INVITE_TOKEN set: ${IRC_INVITE_TOKEN:+yes}${IRC_INVITE_TOKEN:-no}"
-
-# Run one-shot configuration only if not already present for the relay name
-NEED_INIT=0
-if [ ! -f "$CONFIG_DIR/relay.conf" ]; then
-  NEED_INIT=1
-elif ! grep -q "tls.weechat" "$CONFIG_DIR/relay.conf" 2>/dev/null; then
-  NEED_INIT=1
-fi
-
-if [ "$NEED_INIT" = "1" ]; then
-  CMDS=""
-  # Relay TLS on 9002 with optional password
-  if [ -n "$RELAY_PASSWORD" ]; then
-    CMDS="$CMDS/set relay.network.password \"$RELAY_PASSWORD\";"
-  fi
-  CMDS="$CMDS/relay del tls.weechat;"
-  CMDS="$CMDS/relay add tls.weechat 9002;"
-
-  # IRC server digitalcore (TLS 7000), nickname and autojoin
-  CMDS="$CMDS/server del digitalcore;"
-  CMDS="$CMDS/server add digitalcore irc.digitalcore.club/7000 -tls;"
-  if [ -n "$IRC_NICK" ]; then
-    CMDS="$CMDS/set irc.server.digitalcore.nicks \"$IRC_NICK\";"
-  fi
-  CMDS="$CMDS/set irc.server.digitalcore.autoconnect on;"
-  CMDS="$CMDS/set irc.server.digitalcore.autojoin \"#digitalcore\";"
-  # Increase logger verbosity so we get more details into weechat.log
-  CMDS="$CMDS/set logger.level 9;"
-  CMDS="$CMDS/set logger.mask \"*\";"
-  CMDS="$CMDS/connect digitalcore;"
-
-  # Optionally auto-request invite to channels via ENDOR on first boot
-  if [ -n "$IRC_NICK" ] && [ -n "$IRC_INVITE_TOKEN" ]; then
-    CMDS="$CMDS/wait 5;"
-    CMDS="$CMDS/msg ENDOR !invite $IRC_NICK $IRC_INVITE_TOKEN;"
-  fi
-
-  # Persist changes and quit one-shot
-  CMDS="$CMDS/save;"
-
-  # Run headless to apply config, then quit
-  echo "[weechat-start] applying initial configuration via weechat -r ..."
-  su-exec weechat:weechat weechat -r "$CMDS/quit"
-fi
-
-# Finally exec WeeChat (interactive/headless depending on container TTY)
-echo "[weechat-start] launching WeeChat main process"
-exec su-exec weechat:weechat weechat
-EOS
-RUN chmod +x /usr/local/bin/weechat-start
+# Copier le script d'entrée externe (plus simple à maintenir/visualiser)
+COPY weechat/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Use tini as PID1, then run the starter (stdin/tty are enabled in Compose)
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["weechat-start"]
+CMD ["/usr/local/bin/entrypoint.sh"]
