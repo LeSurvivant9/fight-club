@@ -61,6 +61,9 @@ services:
       - "traefik.tcp.routers.znc-irc-tcp.entrypoints=websecure_tcp"
       - "traefik.tcp.routers.znc-irc-tcp.rule=HostSNI(`znc-irc.${DOMAIN}`)"
       - "traefik.tcp.routers.znc-irc-tcp.tls=true"
+      - "traefik.tcp.routers.znc-irc-tcp.tls.certresolver=cloudflare"
+      - "traefik.tcp.routers.znc-irc-tcp.tls.domains[0].main=${DOMAIN}"
+      - "traefik.tcp.routers.znc-irc-tcp.tls.domains[0].sans=*.${DOMAIN}"
       - "traefik.tcp.routers.znc-irc-tcp.service=znc-irc-tcp"
       - "traefik.tcp.services.znc-irc-tcp.loadbalancer.server.port=6697"
 networks:
