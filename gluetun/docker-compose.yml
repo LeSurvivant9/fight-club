@@ -20,8 +20,6 @@ services:
       - "8388:8388/tcp" # Shadowsocks
       - "8388:8388/udp" # Shadowsocks
       - "2234:2234" # Nicotine+
-      - "8080:8080/tcp" # ZNC web UI
-      - "6697:6697/tcp" # ZNC IRC (TLS)
     volumes:
       - /opt/gluetun/appdata:/gluetun
       - /lib/modules:/lib/modules:ro
