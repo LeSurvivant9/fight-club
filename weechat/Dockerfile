@@ -42,6 +42,58 @@ EXPOSE 9002/tcp
 HEALTHCHECK --interval=60s --timeout=10s --start-period=30s --retries=3 \
   CMD sh -c 'nc -z 127.0.0.1 9002 && wget -q --spider --timeout=5 https://google.com || exit 1'
 
-# Use tini as PID1, then run weechat in TTY mode (stdin/tty are enabled in Compose)
+# Bootstrap: add a tiny starter that configures relay + IRC (idempotent) before launching WeeChat
+COPY --chown=weechat:weechat <<'EOS' /usr/local/bin/weechat-start
+#!/bin/sh
+set -eu
+
+CONFIG_DIR="/home/weechat/.weechat"
+mkdir -p "$CONFIG_DIR"
+chown -R weechat:weechat "$CONFIG_DIR"
+
+# Defaults if env not provided (kept empty if not set)
+RELAY_PASSWORD="${RELAY_PASSWORD-}"
+IRC_NICK="${IRC_NICK-}"
+
+# Run one-shot configuration only if not already present for the relay name
+NEED_INIT=0
+if [ ! -f "$CONFIG_DIR/relay.conf" ]; then
+  NEED_INIT=1
+elif ! grep -q "tls.weechat" "$CONFIG_DIR/relay.conf" 2>/dev/null; then
+  NEED_INIT=1
+fi
+
+if [ "$NEED_INIT" = "1" ]; then
+  CMDS=""
+  # Relay TLS on 9002 with optional password
+  if [ -n "$RELAY_PASSWORD" ]; then
+    CMDS="$CMDS/set relay.network.password \"$RELAY_PASSWORD\";"
+  fi
+  CMDS="$CMDS/relay del tls.weechat;"
+  CMDS="$CMDS/relay add tls.weechat 9002;"
+
+  # IRC server digitalcore (TLS 6697), nickname and autojoin
+  CMDS="$CMDS/server del digitalcore;"
+  CMDS="$CMDS/server add digitalcore irc.digitalcore.club/6697 -tls;"
+  if [ -n "$IRC_NICK" ]; then
+    CMDS="$CMDS/set irc.server.digitalcore.nicks \"$IRC_NICK\";"
+  fi
+  CMDS="$CMDS/set irc.server.digitalcore.autoconnect on;"
+  CMDS="$CMDS/set irc.server.digitalcore.autojoin \"#digitalcore\";"
+  CMDS="$CMDS/connect digitalcore;"
+
+  # Persist changes and quit one-shot
+  CMDS="$CMDS/save;"
+
+  # Run headless to apply config, then quit
+  su-exec weechat:weechat weechat -r "$CMDS/quit"
+fi
+
+# Finally exec WeeChat (interactive/headless depending on container TTY)
+exec su-exec weechat:weechat weechat
+EOS
+RUN chmod +x /usr/local/bin/weechat-start
+
+# Use tini as PID1, then run the starter (stdin/tty are enabled in Compose)
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["weechat"]
+CMD ["weechat-start"]
