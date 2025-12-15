@@ -54,6 +54,7 @@ chown -R weechat:weechat "$CONFIG_DIR"
 # Defaults if env not provided (kept empty if not set)
 RELAY_PASSWORD="${RELAY_PASSWORD-}"
 IRC_NICK="${IRC_NICK-}"
+IRC_INVITE_TOKEN="${IRC_INVITE_TOKEN-}"
 
 # Run one-shot configuration only if not already present for the relay name
 NEED_INIT=0
@@ -72,15 +73,21 @@ if [ "$NEED_INIT" = "1" ]; then
   CMDS="$CMDS/relay del tls.weechat;"
   CMDS="$CMDS/relay add tls.weechat 9002;"
 
-  # IRC server digitalcore (TLS 6697), nickname and autojoin
+  # IRC server digitalcore (TLS 7000), nickname and autojoin
   CMDS="$CMDS/server del digitalcore;"
-  CMDS="$CMDS/server add digitalcore irc.digitalcore.club/6697 -tls;"
+  CMDS="$CMDS/server add digitalcore irc.digitalcore.club/7000 -tls;"
   if [ -n "$IRC_NICK" ]; then
     CMDS="$CMDS/set irc.server.digitalcore.nicks \"$IRC_NICK\";"
   fi
   CMDS="$CMDS/set irc.server.digitalcore.autoconnect on;"
   CMDS="$CMDS/set irc.server.digitalcore.autojoin \"#digitalcore\";"
   CMDS="$CMDS/connect digitalcore;"
+
+  # Optionally auto-request invite to channels via ENDOR on first boot
+  if [ -n "$IRC_NICK" ] && [ -n "$IRC_INVITE_TOKEN" ]; then
+    CMDS="$CMDS/wait 5;"
+    CMDS="$CMDS/msg ENDOR !invite $IRC_NICK $IRC_INVITE_TOKEN;"
+  fi
 
   # Persist changes and quit one-shot
   CMDS="$CMDS/save;"
