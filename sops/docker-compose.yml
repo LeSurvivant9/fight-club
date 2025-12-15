@@ -1,7 +1,7 @@
 ---
 services:
   sops:
-    image: ghcr.io/getsops/sops:latest
+    image: ghcr.io/getsops/sops:v3.11.0
     container_name: sops
     volumes:
       - ~/.config/sops/age:/root/.config/sops:ro
