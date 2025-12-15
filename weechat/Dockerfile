@@ -47,14 +47,23 @@ COPY --chown=weechat:weechat <<'EOS' /usr/local/bin/weechat-start
 #!/bin/sh
 set -eu
 
+# Verbose bootstrap trace for container logs
+echo "[weechat-start] $(date -Iseconds) starting bootstrap"
+
 CONFIG_DIR="/home/weechat/.config/weechat"
 mkdir -p "$CONFIG_DIR"
 chown -R weechat:weechat "$CONFIG_DIR"
+
+# Stream WeeChat core log to container stdout so `docker logs`/Dozzle can see it
+touch "$CONFIG_DIR/weechat.log" 2>/dev/null || true
+tail -n +1 -F "$CONFIG_DIR/weechat.log" >/dev/stdout 2>/dev/null &
 
 # Defaults if env not provided (kept empty if not set)
 RELAY_PASSWORD="${RELAY_PASSWORD-}"
 IRC_NICK="${IRC_NICK-}"
 IRC_INVITE_TOKEN="${IRC_INVITE_TOKEN-}"
+
+echo "[weechat-start] RELAY_PASSWORD set: ${RELAY_PASSWORD:+yes}${RELAY_PASSWORD:-no} | IRC_NICK: ${IRC_NICK:-<unset>} | IRC_INVITE_TOKEN set: ${IRC_INVITE_TOKEN:+yes}${IRC_INVITE_TOKEN:-no}"
 
 # Run one-shot configuration only if not already present for the relay name
 NEED_INIT=0
@@ -81,6 +90,9 @@ if [ "$NEED_INIT" = "1" ]; then
   fi
   CMDS="$CMDS/set irc.server.digitalcore.autoconnect on;"
   CMDS="$CMDS/set irc.server.digitalcore.autojoin \"#digitalcore\";"
+  # Increase logger verbosity so we get more details into weechat.log
+  CMDS="$CMDS/set logger.level 9;"
+  CMDS="$CMDS/set logger.mask \"*\";"
   CMDS="$CMDS/connect digitalcore;"
 
   # Optionally auto-request invite to channels via ENDOR on first boot
@@ -93,10 +105,12 @@ if [ "$NEED_INIT" = "1" ]; then
   CMDS="$CMDS/save;"
 
   # Run headless to apply config, then quit
+  echo "[weechat-start] applying initial configuration via weechat -r ..."
   su-exec weechat:weechat weechat -r "$CMDS/quit"
 fi
 
 # Finally exec WeeChat (interactive/headless depending on container TTY)
+echo "[weechat-start] launching WeeChat main process"
 exec su-exec weechat:weechat weechat
 EOS
 RUN chmod +x /usr/local/bin/weechat-start
