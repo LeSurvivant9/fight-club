@@ -31,7 +31,7 @@ COPY --from=builder /rootfs/ /
 # Create home directory (mapped from host) — permissions can be overridden by Compose `user:`
 RUN addgroup -S weechat -g 1000 && \
     adduser -S -D -G weechat -u 1000 weechat && \
-    mkdir -p /home/weechat/.weechat && \
+    mkdir -p /home/weechat/.config/weechat && \
     chown -R weechat:weechat /home/weechat
 
 # Expose relay TLS port (actual enablement is done in WeeChat config)
@@ -47,7 +47,7 @@ COPY --chown=weechat:weechat <<'EOS' /usr/local/bin/weechat-start
 #!/bin/sh
 set -eu
 
-CONFIG_DIR="/home/weechat/.weechat"
+CONFIG_DIR="/home/weechat/.config/weechat"
 mkdir -p "$CONFIG_DIR"
 chown -R weechat:weechat "$CONFIG_DIR"
 
