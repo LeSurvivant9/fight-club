@@ -1,7 +1,7 @@
 ---
 services:
   weechat:
-    image: weechat/weechat:latest-alpine
+    image: weechat/weechat
     platform: linux/arm64
     container_name: weechat
     env_file:
