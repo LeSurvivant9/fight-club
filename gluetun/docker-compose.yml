@@ -58,10 +58,9 @@ services:
       - "traefik.http.routers.znc-secure.service=znc"
       - "traefik.http.routers.znc-secure.middlewares=compress@file"
       - "traefik.http.services.znc.loadbalancer.server.port=8080"
-      - "traefik.tcp.routers.znc-irc-tcp.entrypoints=https"
+      - "traefik.tcp.routers.znc-irc-tcp.entrypoints=websecure_tcp"
       - "traefik.tcp.routers.znc-irc-tcp.rule=HostSNI(`znc-irc.${DOMAIN}`)"
       - "traefik.tcp.routers.znc-irc-tcp.tls=true"
-      - "traefik.tcp.routers.znc-irc-tcp.tls.passthrough=true"
       - "traefik.tcp.routers.znc-irc-tcp.service=znc-irc-tcp"
       - "traefik.tcp.services.znc-irc-tcp.loadbalancer.server.port=6697"
 networks:
