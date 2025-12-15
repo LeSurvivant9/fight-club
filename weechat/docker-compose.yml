@@ -1,7 +1,9 @@
 ---
 services:
   weechat:
-    image: weechat/weechat:stable-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
     platform: linux/arm64
     container_name: weechat
     env_file:
@@ -9,8 +11,15 @@ services:
     network_mode: container:gluetun
     volumes:
       - /opt/weechat:/home/weechat/.weechat
+    user: "${PUID}:${PGID}"
     tty: true
     stdin_open: true
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 9002 && wget -q --spider --timeout=5 https://google.com"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     restart: unless-stopped
     labels:
       diun.enable: true
