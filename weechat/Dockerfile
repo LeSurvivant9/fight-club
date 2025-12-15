@@ -11,12 +11,11 @@ RUN apk add --no-cache ca-certificates apk-tools && \
     mkdir -p /rootfs/etc/apk && cp -r /etc/apk/* /rootfs/etc/apk/
 
 # Install WeeChat and small runtime tools into the rootfs
-# - weechat: core client (includes relay plugin)
-# - weechat-plugins: common plugins (optional but useful)
+# - weechat: core client (includes relay plugin). No extra plugins required.
 # - tini: proper PID1 for signal handling
 # - su-exec: lightweight setuid if needed
 RUN apk --no-cache --root /rootfs --initdb add \
-      weechat weechat-plugins \
+      weechat \
       tini su-exec ca-certificates && \
     rm -rf /rootfs/var/cache/apk
 
