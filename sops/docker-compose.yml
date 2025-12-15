@@ -1,0 +1,9 @@
+---
+services:
+  sops:
+    image: ghcr.io/getsops/sops:latest
+    container_name: sops
+    volumes:
+      - ~/.config/sops/age:/root/.config/sops:ro
+    entrypoint: ["sleep", "infinity"]
+    restart: unless-stopped
