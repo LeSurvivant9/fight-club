@@ -20,6 +20,7 @@ services:
       - "8388:8388/tcp" # Shadowsocks
       - "8388:8388/udp" # Shadowsocks
       - "2234:2234" # Nicotine+
+      - "9002:9002/tcp" # WeeChat relay (TLS)
     volumes:
       - /opt/gluetun/appdata:/gluetun
       - /lib/modules:/lib/modules:ro
@@ -51,6 +52,12 @@ services:
       - "traefik.http.routers.nicotine-secure.service=nicotine"
       - "traefik.http.routers.nicotine-secure.middlewares=compress@file"
       - "traefik.http.services.nicotine.loadbalancer.server.port=6565"
+      - "traefik.tcp.routers.weechat-tcp.entrypoints=https"
+      - "traefik.tcp.routers.weechat-tcp.rule=HostSNI(`weechat.${DOMAIN}`)"
+      - "traefik.tcp.routers.weechat-tcp.tls=true"
+      - "traefik.tcp.routers.weechat-tcp.tls.passthrough=true"
+      - "traefik.tcp.routers.weechat-tcp.service=weechat-tcp"
+      - "traefik.tcp.services.weechat-tcp.loadbalancer.server.port=9002"
 networks:
   proxy:
     external: true
