@@ -1,7 +1,10 @@
 #!/bin/sh
 # Entrypoint WeeChat: bootstrap + logs
-# Toujours verbeux pour debug
-set -eux
+# Mode normal (moins verbeux). Activer DEBUG=1 pour set -x.
+set -eu
+if [ "${DEBUG-}" = "1" ]; then
+  set -x
+fi
 
 echo "[entrypoint] $(date -Iseconds) start — script externe chargé"
 
@@ -21,7 +24,8 @@ RELAY_PASSWORD="${RELAY_PASSWORD-}"
 IRC_NICK="${IRC_NICK-}"
 IRC_INVITE_TOKEN="${IRC_INVITE_TOKEN-}"
 
-echo "[entrypoint] env: RELAY_PASSWORD set=${RELAY_PASSWORD:+yes}${RELAY_PASSWORD:-no} | IRC_NICK='${IRC_NICK:-<unset>}' | IRC_INVITE_TOKEN set=${IRC_INVITE_TOKEN:+yes}${IRC_INVITE_TOKEN:-no}"
+# Récap concis des variables sensibles (sans valeurs)
+echo "[entrypoint] env: RELAY_PASSWORD set=$( [ -n "$RELAY_PASSWORD" ] && echo yes || echo no ) | IRC_NICK='${IRC_NICK:-<unset>}' | IRC_INVITE_TOKEN set=$( [ -n "$IRC_INVITE_TOKEN" ] && echo yes || echo no )"
 
 # Déterminer si une initialisation est nécessaire
 NEED_INIT=0
@@ -67,7 +71,7 @@ if [ "$NEED_INIT" = "1" ]; then
   # Sauvegarde puis quitter le run one-shot
   CMDS="$CMDS/save;"
 
-  echo "[entrypoint] weechat -r (one-shot) pour appliquer la config"
+  echo "[entrypoint] configuration appliquée via weechat -r"
   if [ "$(id -u)" -eq 0 ]; then
     su-exec weechat:weechat weechat -r "$CMDS/quit"
   else

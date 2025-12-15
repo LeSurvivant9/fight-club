@@ -20,7 +20,8 @@ services:
       - "8388:8388/tcp" # Shadowsocks
       - "8388:8388/udp" # Shadowsocks
       - "2234:2234" # Nicotine+
-      - "9002:9002/tcp" # WeeChat relay (TLS)
+      - "8080:8080/tcp" # ZNC web UI
+      - "6697:6697/tcp" # ZNC IRC (TLS)
     volumes:
       - /opt/gluetun/appdata:/gluetun
       - /lib/modules:/lib/modules:ro
@@ -52,12 +53,19 @@ services:
       - "traefik.http.routers.nicotine-secure.service=nicotine"
       - "traefik.http.routers.nicotine-secure.middlewares=compress@file"
       - "traefik.http.services.nicotine.loadbalancer.server.port=6565"
-      - "traefik.tcp.routers.weechat-tcp.entrypoints=https"
-      - "traefik.tcp.routers.weechat-tcp.rule=HostSNI(`weechat.${DOMAIN}`)"
-      - "traefik.tcp.routers.weechat-tcp.tls=true"
-      - "traefik.tcp.routers.weechat-tcp.tls.passthrough=true"
-      - "traefik.tcp.routers.weechat-tcp.service=weechat-tcp"
-      - "traefik.tcp.services.weechat-tcp.loadbalancer.server.port=9002"
+      - "traefik.http.routers.znc-secure.entrypoints=https"
+      - "traefik.http.routers.znc-secure.rule=Host(`znc.${DOMAIN}`)"
+      - "traefik.http.routers.znc-secure.tls=true"
+      - "traefik.http.routers.znc-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.znc-secure.service=znc"
+      - "traefik.http.routers.znc-secure.middlewares=compress@file"
+      - "traefik.http.services.znc.loadbalancer.server.port=8080"
+      - "traefik.tcp.routers.znc-irc-tcp.entrypoints=https"
+      - "traefik.tcp.routers.znc-irc-tcp.rule=HostSNI(`znc-irc.${DOMAIN}`)"
+      - "traefik.tcp.routers.znc-irc-tcp.tls=true"
+      - "traefik.tcp.routers.znc-irc-tcp.tls.passthrough=true"
+      - "traefik.tcp.routers.znc-irc-tcp.service=znc-irc-tcp"
+      - "traefik.tcp.services.znc-irc-tcp.loadbalancer.server.port=6697"
 networks:
   proxy:
     external: true
