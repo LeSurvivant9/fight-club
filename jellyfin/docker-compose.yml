@@ -1,10 +1,8 @@
 ---
 services:
   jellyfin:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: local_jellyfin
+    image: lscr.io/linuxserver/jellyfin:arm64v8-latest
+    container_name: jellyfin
     env_file:
       - .env
     mem_limit: 8192M
