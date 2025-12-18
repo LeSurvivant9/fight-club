@@ -11,6 +11,7 @@ fetchart:
   auto: yes
 embedart:
   auto: yes
+  ifempty: yes
 scrub:
   auto: yes
 replaygain:
