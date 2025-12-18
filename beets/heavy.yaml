@@ -2,7 +2,6 @@
 plugins:
   - fetchart
   - embedart
-  - scrub
   - replaygain
   - lastgenre
   - lyrics
@@ -12,8 +11,6 @@ fetchart:
 embedart:
   auto: yes
   ifempty: yes
-scrub:
-  auto: yes
 replaygain:
   auto: no
   backend: ffmpeg

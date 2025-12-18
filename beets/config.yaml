@@ -7,6 +7,7 @@ plugins:
   - missing
   - musicbrainz
   - web
+  - scrub
   - inline
 directory: /music
 library: /config/musiclibrary.blb
@@ -31,6 +32,8 @@ import:
   quiet_fallback: skip
   timid: no
   log: /config/beet.log
+scrub:
+  auto: yes
 match:
   strong_rec_thresh: 0.15
   preferred:
