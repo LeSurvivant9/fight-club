@@ -36,6 +36,8 @@ match:
     media: ['Digital Media']
   ignored_media:
     - 'None'
+    - 'Other'
+    - ''
     - 'CD'
     - 'Vinyl'
     - '12" Vinyl'
