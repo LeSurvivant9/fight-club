@@ -1,0 +1,27 @@
+---
+plugins:
+  - fetchart
+  - embedart
+  - scrub
+  - replaygain
+  - lastgenre
+  - lyrics
+art_filename: albumart
+fetchart:
+  auto: yes
+embedart:
+  auto: yes
+scrub:
+  auto: yes
+replaygain:
+  auto: no
+  backend: ffmpeg
+  targetlevel: 89
+lastgenre:
+  auto: yes
+  source: album
+lyrics:
+  auto: no
+  force: no
+  sources: [lrclib, genius, tekstowo]
+  synced: no

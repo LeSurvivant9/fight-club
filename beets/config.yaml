@@ -1,0 +1,43 @@
+---
+plugins:
+  - info
+  - duplicates
+  - permissions
+  - mbsync
+  - missing
+  - web
+  - inline
+directory: /music
+library: /config/musiclibrary.blb
+threaded: yes
+original_date: no
+per_disc_numbering: no
+paths:
+  'disctotal:1': '${albumartist}/${album}/${albumartist}_${album}_${track}_$safe_title'
+  default: '${albumartist}/${album}/${albumartist}_${album}_${disc}-${track}_$safe_title'
+item_fields:
+  safe_title: |
+    import re
+    return title.replace('/', '∕')
+asciify_paths: no
+import:
+  write: yes
+  copy: no
+  move: yes
+  resume: ask
+  incremental: yes
+  quiet_fallback: skip
+  timid: no
+  log: /config/beet.log
+match:
+  strong_rec_thresh: 0.15
+web:
+  host: 0.0.0.0
+  port: 8337
+permissions:
+  file: 644
+  dir: 755
+duplicates:
+  full: yes
+  format: '$albumartist - $title : $path'
+  checksum: ffmpeg -i {file} -f crc -
