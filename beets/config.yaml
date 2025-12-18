@@ -10,6 +10,7 @@ plugins:
   - inline
 directory: /music
 library: /config/musiclibrary.blb
+timeout: 60.0
 threaded: yes
 original_date: no
 per_disc_numbering: no
