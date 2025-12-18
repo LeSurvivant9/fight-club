@@ -5,6 +5,7 @@ plugins:
   - permissions
   - mbsync
   - missing
+  - musicbrainz
   - web
   - inline
 directory: /music
