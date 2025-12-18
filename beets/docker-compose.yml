@@ -9,8 +9,8 @@ services:
       - .env
     volumes:
       - /opt/beets/config:/config
-      - /opt/beets/config/config.yaml:/config/config.yaml:ro
-      - /opt/beets/config/heavy.yaml:/config/heavy.yaml:ro
+      - /opt/beets/config/config.yaml:/config/config.yaml
+      - /opt/beets/config/heavy.yaml:/config/heavy.yaml
       - ${MEDIA}/musics:/music
       - ${MEDIA}/downloads/deemix:/downloads
       - /usr/local/bin/beets-discord-notify.sh:/scripts/beets-discord-notify.sh:ro
