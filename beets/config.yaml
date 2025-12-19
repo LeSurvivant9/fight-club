@@ -71,5 +71,5 @@ duplicates:
 hook:
   hooks:
     - event: album_imported
-      format: "Hook lancé pour: {album.path}"
-      command: /config/beets-process-queue.sh "{album.path}"
+      format: "Hook lancé pour: {album.id}"
+      command: /config/beets-process-queue.sh "{album.id}"
