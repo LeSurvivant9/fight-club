@@ -29,7 +29,7 @@ lastgenre:
 lyrics:
   auto: no
   force: no
+  synced: yes
   sources:
     - lrclib
     - genius
-  synced: no
