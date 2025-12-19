@@ -17,3 +17,11 @@ repos:
         entry: bash ./encrypt-sops.sh
         language: system
         files: '(\.secrets\.ya?ml$)'
+  - repo: local
+    hooks:
+      - id: whitelist-sort-unique
+        name: Whitelist Sort and Unique
+        entry: bash -c 'sort -u -o beets/whitelist.txt beets/whitelist.txt'
+        language: system
+        files: beets/whitelist\.txt
+        pass_filenames: false
