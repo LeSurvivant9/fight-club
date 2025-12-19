@@ -72,4 +72,4 @@ hook:
   hooks:
     - event: album_imported
       format: "Hook lancé pour: {album.id}"
-      command: /config/beets-process-queue.sh "{album.id}"
+      command: bash -c "/config/beets-process-queue.sh {album.id} >> /config/background_process.log 2>&1 &"
