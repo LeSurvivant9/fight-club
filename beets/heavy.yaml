@@ -22,8 +22,8 @@ lastgenre:
   source: album
   force: yes
   keep_existing: no
-  whitelist: yes
-  canonical: yes
+  whitelist: /config/whitelist.txt
+  canonical: no
   count: 3
   min_weight: 10.0
 lyrics:
