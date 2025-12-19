@@ -20,8 +20,8 @@ replaygain:
 lastgenre:
   auto: no
   source: album
-  force: yes
-  keep_existing: no
+  force: no
+  keep_existing: yes
   whitelist: /config/whitelist.txt
   canonical: no
   count: 3

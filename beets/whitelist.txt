@@ -5,7 +5,6 @@ Drill
 French Hip Hop
 French Rap
 Hip-Hop
-Jazz Hop
 K-Drill
 K-Pop
 Pop
@@ -22,7 +21,6 @@ Soundtrack
 Street Rap
 Trap
 Trap FR
-Underground Hip-Hop
 Urban
 Variété Française
 Video Game Music
