@@ -72,4 +72,4 @@ hook:
   hooks:
     - event: album_imported
       format: "{path}"
-      command: /usr/local/bin/beet-post-process.sh "{path}"
+      command: /usr/local/bin/beet-process-queue.sh "{path}"
