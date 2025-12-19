@@ -2,13 +2,19 @@ Alternative
 Ambient
 Cloud Rap
 Drill
+French Hip Hop
 French Rap
 Hip-Hop
+Jazz Hop
 K-Drill
 K-Pop
 Pop
+Pop Punk
+Pop Urbaine
+Punk
 R&B
 Rap
+Rap FR
 Reggaeton
 RnB
 Rock
@@ -16,6 +22,7 @@ Soundtrack
 Street Rap
 Trap
 Trap FR
+Underground Hip-Hop
 Urban
 Variété Française
 Video Game Music
