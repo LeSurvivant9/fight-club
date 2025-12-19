@@ -9,6 +9,7 @@ plugins:
   - web
   - scrub
   - inline
+  - hook
 directory: /music
 library: /config/musiclibrary.blb
 timeout: 60.0
@@ -67,3 +68,8 @@ duplicates:
   full: yes
   format: '$albumartist - $title : $path'
   checksum: ffmpeg -i {file} -f crc -
+hook:
+  hooks:
+    - event: album_imported
+      format: "{path}"
+      command: /usr/local/bin/beet-post-process.sh "{path}"
