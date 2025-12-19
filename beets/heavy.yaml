@@ -5,21 +5,31 @@ plugins:
   - replaygain
   - lastgenre
   - lyrics
-art_filename: albumart
 fetchart:
-  auto: yes
+  auto: no
+  filename: cover
+  cover_names: cover front albumart
+  sources: filesystem itunes coverart *
 embedart:
-  auto: yes
+  auto: no
   ifempty: yes
 replaygain:
   auto: no
   backend: ffmpeg
   targetlevel: 89
 lastgenre:
-  auto: yes
+  auto: no
   source: album
+  force: yes
+  keep_existing: no
+  whitelist: yes
+  canonical: yes
+  count: 3
+  min_weight: 10.0
 lyrics:
   auto: no
   force: no
-  sources: [lrclib, genius]
+  sources:
+    - lrclib
+    - genius
   synced: no

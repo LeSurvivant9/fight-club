@@ -5,14 +5,6 @@ services:
     container_name: jellyfin
     env_file:
       - .env
-    mem_limit: 8192M
-    memswap_limit: 12288M
-    deploy:
-      resources:
-        limits:
-          memory: 8G
-        reservations:
-          memory: 4G
     networks:
       proxy:
     ports:
