@@ -7,7 +7,7 @@ services:
       - .env
     networks:
       proxy:
-        ipv4_address: 172.19.0.124
+        ipv4_address: 172.19.0.123
     ports:
       - "53:53/tcp"
       - "53:53/udp"
