@@ -1,7 +1,7 @@
 ---
 services:
   adguardhome:
-    image: adguard/adguardhome:lastest
+    image: adguard/adguardhome
     container_name: adguardhome
     env_file:
       - .env
