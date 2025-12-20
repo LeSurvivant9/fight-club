@@ -16,6 +16,12 @@ services:
       - ${MEDIA}/downloads/deemix:/downloads
       - /usr/local/bin/beets-discord-notify.sh:/scripts/beets-discord-notify.sh:ro
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "beet version && wget --no-verbose --tries=1 --spider http://localhost:8337/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"

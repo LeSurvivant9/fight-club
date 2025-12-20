@@ -21,4 +21,3 @@ services:
     restart: unless-stopped
     labels:
       diun.enable: true
-      autoheal: true

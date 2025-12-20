@@ -3,7 +3,7 @@ services:
   cross-seed:
     image: ghcr.io/cross-seed/cross-seed:latest
     container_name: cross-seed
-    user: 1000:1000
+    user: ${PUID}:${PGID}
     env_file:
       - .env
     volumes:
@@ -13,6 +13,12 @@ services:
       - proxy
     command: daemon
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:2468/api/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 networks:
   proxy:
     external: true

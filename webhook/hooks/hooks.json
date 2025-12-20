@@ -1,12 +1,12 @@
 [
   {
-    "id": "gluetun-post-update",
+    "id": "autoheal",
     "execute-command": "/bin/sh",
     "command-working-directory": "/opt/scripts/",
     "pass-arguments-to-command": [
       {
         "source": "string",
-        "name": "gluetun-post-update.sh"
+        "name": "autoheal.sh"
       }
     ]
   }
