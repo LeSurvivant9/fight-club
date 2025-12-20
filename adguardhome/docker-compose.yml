@@ -25,7 +25,7 @@ services:
       - "traefik.http.routers.adguardhome-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.adguardhome-secure.service=adguardhome"
       - "traefik.http.routers.adguardhome-secure.middlewares=compress@file"
-      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
+      - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
       - diun.enable=true
     restart: unless-stopped
 networks:
