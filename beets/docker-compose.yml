@@ -10,7 +10,6 @@ services:
     volumes:
       - /opt/beets/config:/config
       - ./config.yaml:/config/config.yaml
-      - ./heavy.yaml:/config/heavy.yaml
       - ./whitelist.txt:/config/whitelist.txt
       - ${MEDIA}/musics:/music
       - ${MEDIA}/downloads/deemix:/downloads

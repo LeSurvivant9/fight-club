@@ -10,6 +10,11 @@ plugins:
   - scrub
   - inline
   - hook
+  - fetchart
+  - embedart
+  - replaygain
+  - lastgenre
+  - lyrics
 directory: /music
 library: /config/musiclibrary.blb
 timeout: 60.0
@@ -68,6 +73,34 @@ duplicates:
   full: yes
   format: '$albumartist - $title : $path'
   checksum: ffmpeg -i {file} -f crc -
+fetchart:
+  auto: no
+  filename: cover
+  cover_names: cover front albumart
+  sources: filesystem itunes coverart *
+embedart:
+  auto: no
+  ifempty: yes
+replaygain:
+  auto: no
+  backend: ffmpeg
+  targetlevel: 89
+lastgenre:
+  auto: no
+  source: album
+  force: no
+  keep_existing: yes
+  whitelist: /config/whitelist.txt
+  canonical: no
+  count: 3
+  min_weight: 10.0
+lyrics:
+  auto: no
+  force: no
+  synced: yes
+  sources:
+    - lrclib
+    - genius
 hook:
   hooks:
     - event: album_imported
