@@ -1,20 +1,21 @@
 ---
 plugins:
-  - info
   - duplicates
-  - permissions
+  - embedart
+  - fetchart
+  - hook
+  - info
+  - inline
+  - lastgenre
+  - lyrics
   - mbsync
   - missing
   - musicbrainz
-  - web
-  - scrub
-  - inline
-  - hook
-  - fetchart
-  - embedart
+  - permissions
   - replaygain
-  - lastgenre
-  - lyrics
+  - scrub
+  - unimported
+  - web
 directory: /music
 library: /config/musiclibrary.blb
 timeout: 60.0
@@ -40,6 +41,9 @@ import:
   log: /config/beet.log
 scrub:
   auto: yes
+unimported:
+  ignore_extensions: jpg jpeg png nfo log m3u m3u8 cue txt lrc
+  ignore_subdirectories: .DS_Store @eaDir
 match:
   strong_rec_thresh: 0.15
   preferred:
