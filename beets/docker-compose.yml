@@ -3,7 +3,6 @@ services:
   beets:
     build: .
     container_name: beets
-    command: beet web
     networks:
       proxy:
     env_file:
