@@ -8,6 +8,7 @@ BASE_DIR="/etc/komodo/repos/fight-club"
 GLUETUN_CONTAINER="gluetun"
 CLIENT_ID="$INF_CLIENT_ID"
 CLIENT_SECRET="$INF_CLIENT_SECRET"
+DOMAIN="$INF_DOMAIN"
 PROJECT_ID="$INF_PROJECT_ID"
 
 # Fonction pour obtenir le statut d'un conteneur
