@@ -75,20 +75,23 @@ process_service() {
       cd "$SERVICE_DIR"
       echo "Génération du fichier .env via Infisical pour $SERVICE_NAME..."
 
-      TOKEN=$(docker run --rm infisical/cli login \
+      TOKEN=$(docker exec infisical-backend \
+        infisical login \
         --method=universal-auth \
         --client-id="$CLIENT_ID" \
         --client-secret="$CLIENT_SECRET" \
+        --domain="$DOMAIN" \
         --silent --plain)
 
-      docker run --rm \
-        infisical/cli export \
+      docker exec infisical-backend \
+        infisical export \
         --format=dotenv \
+        --domain="$DOMAIN" \
         --token="$TOKEN" \
         --projectId="$PROJECT_ID" \
         --env="prod" \
         --path="/$SERVICE_NAME" \
-        > .env
+        > /etc/komodo/repos/fight-club/"$SERVICE_NAME"/.env
 
       echo "Re-création de la stack $SERVICE_NAME..."
       docker compose up -d --force-recreate
