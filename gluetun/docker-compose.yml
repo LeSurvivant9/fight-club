@@ -37,13 +37,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.qui-secure.entrypoints=https"
-      - "traefik.http.routers.qui-secure.rule=Host(`qui.${DOMAIN}`)"
-      - "traefik.http.routers.qui-secure.tls=true"
-      - "traefik.http.routers.qui-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.qui-secure.service=qui"
-      - "traefik.http.routers.qui-secure.middlewares=compress@file"
-      - "traefik.http.services.qui.loadbalancer.server.port=7476"
       - "traefik.http.routers.qbittorrent-secure.entrypoints=https"
       - "traefik.http.routers.qbittorrent-secure.rule=Host(`qbittorrent.${DOMAIN}`)"
       - "traefik.http.routers.qbittorrent-secure.tls=true"

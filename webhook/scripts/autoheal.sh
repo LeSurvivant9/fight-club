@@ -105,7 +105,6 @@ echo "--- Début du traitement Autoheal ---"
 
 # On traite les services spécifiés par l'utilisateur
 process_service "qbittorrent"
-process_service "qui"
 process_service "nicotine"
 process_service "znc"
 
