@@ -10,8 +10,6 @@ services:
     mem_limit: 1024M
     volumes:
       - /opt/radarr/config:/config
-      - /opt/radarr/custom-services.d:/custom-services.d
-      - ./custom-cont-init.d:/custom-cont-init.d
       - ${MEDIA}:/media
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7878/"]

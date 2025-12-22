@@ -10,7 +10,6 @@ services:
       proxy:
     volumes:
       - /opt/prowlarr/config:/config
-      - ./custom-cont-init.d:/custom-cont-init.d
       - ${MEDIA}:/media
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9696/"]
