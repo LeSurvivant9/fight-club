@@ -83,13 +83,13 @@ services:
       - "traefik.http.routers.autobrr-secure.service=autobrr"
       - "traefik.http.routers.autobrr-secure.middlewares=compress@file"
       - "traefik.http.services.autobrr.loadbalancer.server.port=7474"
-      - "traefik.http.routers.wg-secure.tls=true"
-      - "traefik.http.routers.wg-secure.entrypoints=https"
-      - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
-      - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.wg-secure.service=wg"
-      - "traefik.http.routers.wg-secure.middlewares=compress@file"
-      - "traefik.http.services.wg.loadbalancer.server.port=51821"
+      #      - "traefik.http.routers.wg-secure.tls=true"
+      #      - "traefik.http.routers.wg-secure.entrypoints=https"
+      #      - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
+      #      - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
+      #      - "traefik.http.routers.wg-secure.service=wg"
+      #      - "traefik.http.routers.wg-secure.middlewares=compress@file"
+      #      - "traefik.http.services.wg.loadbalancer.server.port=51821"
       - "traefik.http.routers.deemix-secure.entrypoints=https"
       - "traefik.http.routers.deemix-secure.rule=Host(`deemix.${DOMAIN}`)"
       - "traefik.http.routers.deemix-secure.tls=true"
@@ -212,34 +212,34 @@ services:
       retries: 3
       start_period: 10s
     restart: unless-stopped
-  wg-easy:
-    image: ghcr.io/wg-easy/wg-easy:latest
-    container_name: wg-easy
-    env_file:
-      - .env
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
-    volumes:
-      - /opt/wg-easy/etc_wireguard:/etc/wireguard
-      - /lib/modules:/lib/modules:ro
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    healthcheck:
-      test: ["CMD-SHELL", "timeout 5s wg show | grep -q interface >/dev/null"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-    sysctls:
-      - net.ipv4.ip_forward=1
-      - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv4.conf.all.rp_filter=0
-      - net.ipv4.conf.default.rp_filter=0
-    labels:
-      diun.enable: true
+    #  wg-easy:
+    #    image: ghcr.io/wg-easy/wg-easy:latest
+    #    container_name: wg-easy
+    #    env_file:
+    #      - .env
+    #    network_mode: service:gluetun
+    #    depends_on:
+    #      - gluetun
+    #    volumes:
+    #      - /opt/wg-easy/etc_wireguard:/etc/wireguard
+    #      - /lib/modules:/lib/modules:ro
+    #    restart: unless-stopped
+    #    cap_add:
+    #      - NET_ADMIN
+    #      - SYS_MODULE
+    #    healthcheck:
+    #      test: ["CMD-SHELL", "timeout 5s wg show | grep -q interface >/dev/null"]
+    #      interval: 30s
+    #      timeout: 10s
+    #      retries: 3
+    #      start_period: 10s
+    #    sysctls:
+    #      - net.ipv4.ip_forward=1
+    #      - net.ipv4.conf.all.src_valid_mark=1
+    #      - net.ipv4.conf.all.rp_filter=0
+    #      - net.ipv4.conf.default.rp_filter=0
+    #    labels:
+    #      diun.enable: true
   deemix:
     image: ghcr.io/bambanah/deemix:latest
     container_name: deemix
