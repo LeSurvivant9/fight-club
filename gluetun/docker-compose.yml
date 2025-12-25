@@ -6,6 +6,8 @@ services:
     environment:
       - DNS_ADDRESS=${DNS_ADDRESS}
       - DOT=${DOT}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
       - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
       - SERVER_COUNTRIES=${SERVER_COUNTRIES}
@@ -111,6 +113,8 @@ services:
     container_name: qbittorrent
     environment:
       - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TORRENTING_PORT=${TORRENTING_PORT}
       - WEBUI_PORT=${WEBUI_PORT}
     mem_limit: 2048M
@@ -136,6 +140,8 @@ services:
     shm_size: "1gb"
     environment:
       - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - LOGIN=${LOGIN}
       - PASSW=${PASSW}
       - WEB_UI_PORT=${WEB_UI_PORT}
@@ -162,6 +168,8 @@ services:
     container_name: znc
     environment:
       - TZ=${TZ}
+      - PUID=${ZNC_PUID}
+      - PGID=${ZNC_PGID}
       - IRC_INVITE_TOKEN=${IRC_INVITE_TOKEN}
       - IRC_NICK=${IRC_NICK}
       - RELAY_PASSWORD=${RELAY_PASSWORD}
@@ -184,6 +192,8 @@ services:
     container_name: prowlarr
     environment:
       - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
     mem_limit: 512M
     network_mode: service:gluetun
     depends_on:
@@ -203,6 +213,8 @@ services:
     container_name: flaresolverr
     environment:
       - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER}
       - LOG_HTML=${LOG_HTML}
       - LOG_LEVEL=${LOG_LEVEL}
@@ -221,6 +233,8 @@ services:
     container_name: autobrr
     environment:
       - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -266,6 +280,8 @@ services:
     container_name: deemix
     environment:
       - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - DEEMIX_SINGLE_USER=${DEEMIX_SINGLE_USER}
     network_mode: service:gluetun
     depends_on:
