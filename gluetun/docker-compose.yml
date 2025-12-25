@@ -3,7 +3,6 @@ services:
   gluetun:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
-    user: ${PUID}:${PGID}
     environment:
       - TZ=${TZ}
       - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
@@ -108,7 +107,6 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
-    user: ${PUID}:${PGID}
     environment:
       - TZ=${TZ}
       - TORRENTING_PORT=${TORRENTING_PORT}
@@ -132,7 +130,6 @@ services:
       diun.enable: true
   nicotineplus-proper:
     image: sirjmann92/nicotineplus-proper:latest
-    user: ${PUID}:${PGID}
     container_name: nicotine
     shm_size: "1gb"
     environment:
@@ -161,7 +158,6 @@ services:
   znc:
     image: lscr.io/linuxserver/znc:latest
     container_name: znc
-    user: ${PUID}:${PGID}
     environment:
       - TZ=${TZ}
       - IRC_INVITE_TOKEN=${IRC_INVITE_TOKEN}
@@ -184,7 +180,6 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
-    user: ${PUID}:${PGID}
     environment:
       - TZ=${TZ}
     mem_limit: 512M
@@ -204,7 +199,6 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
-    user: ${PUID}:${PGID}
     environment:
       - TZ=${TZ}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER}
@@ -223,7 +217,6 @@ services:
   autobrr:
     image: ghcr.io/autobrr/autobrr:latest
     container_name: autobrr
-    user: ${PUID}:${PGID}
     environment:
       - TZ=${TZ}
     network_mode: service:gluetun
@@ -269,7 +262,6 @@ services:
   deemix:
     image: ghcr.io/bambanah/deemix:latest
     container_name: deemix
-    user: ${PUID}:${PGID}
     environment:
       - TZ=${TZ}
       - DEEMIX_SINGLE_USER=${DEEMIX_SINGLE_USER}
