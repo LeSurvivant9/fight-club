@@ -20,6 +20,7 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       proxy:
+    privileged: true
     configs:
       - source: post-rules.txt
         target: /iptables/post-rules.txt
