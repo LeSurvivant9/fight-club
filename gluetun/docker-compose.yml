@@ -4,6 +4,8 @@ services:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
     environment:
+      - DNS_ADDRESS=${DNS_ADDRESS}
+      - DOT=${DOT}
       - TZ=${TZ}
       - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
       - SERVER_COUNTRIES=${SERVER_COUNTRIES}
