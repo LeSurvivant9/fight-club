@@ -122,7 +122,8 @@ services:
     memswap_limit: 4096M
     network_mode: service:gluetun
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     volumes:
       - /opt/qbittorrent/config:/config
       - ${MEDIA}:/media
@@ -148,7 +149,8 @@ services:
       - WEB_UI_PORT=${WEB_UI_PORT}
     network_mode: service:gluetun
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     volumes:
       - ${MEDIA}/downloads/deemix:/downloads
       - ${MEDIA}/musics:/musics
@@ -176,7 +178,8 @@ services:
       - RELAY_PASSWORD=${RELAY_PASSWORD}
     network_mode: service:gluetun
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     volumes:
       - /opt/znc:/config
     healthcheck:
@@ -198,7 +201,8 @@ services:
     mem_limit: 512M
     network_mode: service:gluetun
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     volumes:
       - /opt/prowlarr/config:/config
       - ${MEDIA}:/media
@@ -221,7 +225,8 @@ services:
       - LOG_LEVEL=${LOG_LEVEL}
     network_mode: service:gluetun
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:8191/ >/dev/null"]
       interval: 30s
@@ -238,7 +243,8 @@ services:
       - PGID=${PGID}
     network_mode: service:gluetun
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     volumes:
       - /opt/autobrr/config:/config
     healthcheck:
@@ -286,7 +292,8 @@ services:
       - DEEMIX_SINGLE_USER=${DEEMIX_SINGLE_USER}
     network_mode: service:gluetun
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     volumes:
       - /opt/deemix/config:/config
       - ${MEDIA}/downloads/deemix:/downloads
