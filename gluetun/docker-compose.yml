@@ -3,8 +3,16 @@ services:
   gluetun:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
-    env_file:
-      - .env
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+      - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
@@ -19,10 +27,10 @@ services:
       - "8888:8888/tcp" # HTTP proxy
       - "8388:8388/tcp" # Shadowsocks
       - "8388:8388/udp" # Shadowsocks
-      - "2234:2234" # Nicotine+
+      - "5274:5274/tcp" # Nicotine+
       - "8191:8191" # Flaresolverr
-      - "51820:51820/udp" # WG-Easy
-      - "51821:51821/tcp" # WG-Easy UI
+      - "65144:65144/tcp"
+      - "65144:65144/udp"
     volumes:
       - /opt/gluetun/appdata:/gluetun
       - /lib/modules:/lib/modules:ro
@@ -100,8 +108,11 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
-    env_file:
-      - .env
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+      - TORRENTING_PORT=${TORRENTING_PORT}
+      - WEBUI_PORT=${WEBUI_PORT}
     mem_limit: 2048M
     memswap_limit: 4096M
     network_mode: service:gluetun
@@ -121,9 +132,14 @@ services:
       diun.enable: true
   nicotineplus-proper:
     image: sirjmann92/nicotineplus-proper:latest
+    user: ${PUID}:${PGID}
     container_name: nicotine
-    env_file:
-      - .env
+    shm_size: "1gb"
+    environment:
+      - TZ=${TZ}
+      - LOGIN=${LOGIN}
+      - PASSW=${PASSW}
+      - WEB_UI_PORT=${WEB_UI_PORT}
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -145,8 +161,12 @@ services:
   znc:
     image: lscr.io/linuxserver/znc:latest
     container_name: znc
-    env_file:
-      - .env
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+      - IRC_INVITE_TOKEN=${IRC_INVITE_TOKEN}
+      - IRC_NICK=${IRC_NICK}
+      - RELAY_PASSWORD=${RELAY_PASSWORD}
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -164,8 +184,9 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
-    env_file:
-      - .env
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
     mem_limit: 512M
     network_mode: service:gluetun
     depends_on:
@@ -183,8 +204,12 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
-    env_file:
-      - .env
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER}
+      - LOG_HTML=${LOG_HTML}
+      - LOG_LEVEL=${LOG_LEVEL}
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -198,8 +223,9 @@ services:
   autobrr:
     image: ghcr.io/autobrr/autobrr:latest
     container_name: autobrr
-    env_file:
-      - .env
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -243,8 +269,10 @@ services:
   deemix:
     image: ghcr.io/bambanah/deemix:latest
     container_name: deemix
-    env_file:
-      - .env
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+      - DEEMIX_SINGLE_USER=${DEEMIX_SINGLE_USER}
     network_mode: service:gluetun
     depends_on:
       - gluetun
