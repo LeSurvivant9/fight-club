@@ -4,9 +4,7 @@ services:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
     environment:
-      - DNS_ADDRESS=${DNS_ADDRESS}
       - DNS_KEEP_NAMESERVER=${DNS_KEEP_NAMESERVER}
-      - DOT=${DOT}
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
