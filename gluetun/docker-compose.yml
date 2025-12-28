@@ -240,7 +240,8 @@ services:
       service: common-config
     image: ghcr.io/wg-easy/wg-easy:latest
     container_name: wg-easy
-    #    environment:
+    environment:
+      - WG_HOST=${WG_HOST}
     #      - DISABLE_IPV6=${DISABLE_IPV6}
     #      - INIT_DNS=${INIT_DNS}
     #      - INIT_ENABLED=${INIT_ENABLED}
