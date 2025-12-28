@@ -1,12 +1,13 @@
 ---
 services:
   beets:
+    extends:
+      file: ../common.yml
+      service: common-config
     build: .
     container_name: beets
     networks:
-      proxy:
-    env_file:
-      - .env
+      - proxy
     volumes:
       - /opt/beets/config:/config
       - ./config.yaml:/config/config.yaml
@@ -14,7 +15,6 @@ services:
       - ${MEDIA}/musics:/music
       - ${MEDIA}/downloads/deemix:/downloads
       - /usr/local/bin/beets-discord-notify.sh:/scripts/beets-discord-notify.sh:ro
-    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "beet version && wget --no-verbose --tries=1 --spider http://127.0.0.1:8337/"]
       interval: 30s
@@ -29,7 +29,6 @@ services:
       - "traefik.http.routers.beets-secure.tls=true"
       - "traefik.http.routers.beets-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.beets-secure.service=beets"
-      - "traefik.http.routers.beets-secure.middlewares=compress@file"
       - "traefik.http.services.beets.loadbalancer.server.port=8337"
 networks:
   proxy:

@@ -1,13 +1,18 @@
 ---
 services:
   autoheal:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: willfarrell/autoheal:latest
     container_name: autoheal
-    env_file:
-      - .env
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=${AUTOHEAL_CONTAINER_LABEL}
+      - AUTOHEAL_ONLY_MONITOR_RUNNING=${AUTOHEAL_ONLY_MONITOR_RUNNING}
+      - AUTOHEAL_START_PERIOD=${AUTOHEAL_START_PERIOD}
+      - WEBHOOK_URL=${WEBHOOK_URL}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    restart: unless-stopped

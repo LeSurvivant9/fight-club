@@ -1,13 +1,13 @@
 ---
 services:
   gluetun:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: qmcgaw/gluetun:latest
     container_name: gluetun
     environment:
       - DNS_KEEP_NAMESERVER=${DNS_KEEP_NAMESERVER}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
       - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
       - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
       - SERVER_COUNTRIES=${SERVER_COUNTRIES}
@@ -19,7 +19,8 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
-      proxy:
+      - proxy
+      - media_int
     privileged: true
     configs:
       - source: post-rules.txt
@@ -33,6 +34,7 @@ services:
       - "8388:8388/udp" # Shadowsocks
       - "5274:5274/tcp" # Nicotine+
       - "8191:8191" # Flaresolverr
+      - "51821:51821/tcp" # Wireguard WebUI
       - "65144:65144/tcp"
       - "65144:65144/udp"
     volumes:
@@ -48,7 +50,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -57,21 +58,18 @@ services:
       - "traefik.http.routers.qbittorrent-secure.tls=true"
       - "traefik.http.routers.qbittorrent-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
-      - "traefik.http.routers.qbittorrent-secure.middlewares=compress@file"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
       - "traefik.http.routers.nicotine-secure.entrypoints=https"
       - "traefik.http.routers.nicotine-secure.rule=Host(`nicotine.${DOMAIN}`)"
       - "traefik.http.routers.nicotine-secure.tls=true"
       - "traefik.http.routers.nicotine-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.nicotine-secure.service=nicotine"
-      - "traefik.http.routers.nicotine-secure.middlewares=compress@file"
       - "traefik.http.services.nicotine.loadbalancer.server.port=6565"
       - "traefik.http.routers.znc-secure.entrypoints=https"
       - "traefik.http.routers.znc-secure.rule=Host(`znc.${DOMAIN}`)"
       - "traefik.http.routers.znc-secure.tls=true"
       - "traefik.http.routers.znc-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.znc-secure.service=znc"
-      - "traefik.http.routers.znc-secure.middlewares=compress@file"
       - "traefik.http.services.znc.loadbalancer.server.port=8080"
       - "traefik.tcp.routers.znc-irc-tcp.entrypoints=websecure_tcp"
       - "traefik.tcp.routers.znc-irc-tcp.rule=HostSNI(`znc-irc.${DOMAIN}`)"
@@ -86,36 +84,32 @@ services:
       - "traefik.http.routers.prowlarr-secure.tls=true"
       - "traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.prowlarr-secure.service=prowlarr"
-      - "traefik.http.routers.prowlarr-secure.middlewares=compress@file"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
       - "traefik.http.routers.autobrr-secure.entrypoints=https"
       - "traefik.http.routers.autobrr-secure.rule=Host(`autobrr.${DOMAIN}`)"
       - "traefik.http.routers.autobrr-secure.tls=true"
       - "traefik.http.routers.autobrr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.autobrr-secure.service=autobrr"
-      - "traefik.http.routers.autobrr-secure.middlewares=compress@file"
       - "traefik.http.services.autobrr.loadbalancer.server.port=7474"
-      #      - "traefik.http.routers.wg-secure.tls=true"
-      #      - "traefik.http.routers.wg-secure.entrypoints=https"
-      #      - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
-      #      - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
-      #      - "traefik.http.routers.wg-secure.service=wg"
-      #      - "traefik.http.routers.wg-secure.middlewares=compress@file"
-      #      - "traefik.http.services.wg.loadbalancer.server.port=51821"
+      - "traefik.http.routers.wg-secure.tls=true"
+      - "traefik.http.routers.wg-secure.entrypoints=https"
+      - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
+      - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.wg-secure.service=wg"
+      - "traefik.http.services.wg.loadbalancer.server.port=51821"
       - "traefik.http.routers.deemix-secure.entrypoints=https"
       - "traefik.http.routers.deemix-secure.rule=Host(`deemix.${DOMAIN}`)"
       - "traefik.http.routers.deemix-secure.tls=true"
       - "traefik.http.routers.deemix-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.deemix-secure.service=deemix"
-      - "traefik.http.routers.deemix-secure.middlewares=compress@file"
       - "traefik.http.services.deemix.loadbalancer.server.port=6595"
   qbittorrent:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
       - TORRENTING_PORT=${TORRENTING_PORT}
       - WEBUI_PORT=${WEBUI_PORT}
     mem_limit: 2048M
@@ -133,17 +127,14 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
-    labels:
-      diun.enable: true
   nicotineplus-proper:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: sirjmann92/nicotineplus-proper:latest
     container_name: nicotine
     shm_size: "1gb"
     environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
       - LOGIN=${LOGIN}
       - PASSW=${PASSW}
       - WEB_UI_PORT=${WEB_UI_PORT}
@@ -163,16 +154,13 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
-    labels:
-      diun.enable: true
   znc:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: lscr.io/linuxserver/znc:latest
     container_name: znc
     environment:
-      - TZ=${TZ}
-      - PUID=${ZNC_PUID}
-      - PGID=${ZNC_PGID}
       - IRC_INVITE_TOKEN=${IRC_INVITE_TOKEN}
       - IRC_NICK=${IRC_NICK}
       - RELAY_PASSWORD=${RELAY_PASSWORD}
@@ -188,16 +176,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
-    labels:
-      diun.enable: true
   prowlarr:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
-    environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
     mem_limit: 512M
     network_mode: service:gluetun
     depends_on:
@@ -212,14 +196,13 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
   flaresolverr:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER}
       - LOG_HTML=${LOG_HTML}
       - LOG_LEVEL=${LOG_LEVEL}
@@ -233,14 +216,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
   autobrr:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: ghcr.io/autobrr/autobrr:latest
     container_name: autobrr
-    environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
     network_mode: service:gluetun
     depends_on:
       gluetun:
@@ -253,42 +234,52 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
-    #  wg-easy:
-    #    image: ghcr.io/wg-easy/wg-easy:latest
-    #    container_name: wg-easy
-    #    env_file:
-    #      - .env
-    #    network_mode: service:gluetun
-    #    depends_on:
-    #      - gluetun
-    #    volumes:
-    #      - /opt/wg-easy/etc_wireguard:/etc/wireguard
-    #      - /lib/modules:/lib/modules:ro
-    #    restart: unless-stopped
-    #    cap_add:
-    #      - NET_ADMIN
-    #      - SYS_MODULE
-    #    healthcheck:
-    #      test: ["CMD-SHELL", "timeout 5s wg show | grep -q interface >/dev/null"]
-    #      interval: 30s
-    #      timeout: 10s
-    #      retries: 3
-    #      start_period: 10s
-    #    sysctls:
-    #      - net.ipv4.ip_forward=1
-    #      - net.ipv4.conf.all.src_valid_mark=1
-    #      - net.ipv4.conf.all.rp_filter=0
-    #      - net.ipv4.conf.default.rp_filter=0
-    #    labels:
-    #      diun.enable: true
+  wg-easy:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/wg-easy/wg-easy:latest
+    container_name: wg-easy
+    environment:
+      - DISABLE_IPV6=${DISABLE_IPV6}
+      - INIT_DNS=${INIT_DNS}
+      - INIT_ENABLED=${INIT_ENABLED}
+      - INIT_HOST=${INIT_HOST}
+      - INIT_IPV4_CIDR=${INIT_IPV4_CIDR}
+      - INIT_IPV6_CIDR=${INIT_IPV6_CIDR}
+      - INIT_PASSWORD=${INIT_PASSWORD}
+      - INIT_USERNAME=${INIT_USERNAME}
+      - INSECURE=${INSECURE}
+      - WG_HOST=${WG_HOST}
+      - WG_PORT=${WG_PORT}
+    network_mode: service:gluetun
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    volumes:
+      - /opt/wg-easy/etc_wireguard:/etc/wireguard
+      - /lib/modules:/lib/modules:ro
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5s wg show | grep -q interface >/dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.conf.all.rp_filter=0
+      - net.ipv4.conf.default.rp_filter=0
   deemix:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: ghcr.io/bambanah/deemix:latest
     container_name: deemix
     environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
       - DEEMIX_SINGLE_USER=${DEEMIX_SINGLE_USER}
     network_mode: service:gluetun
     depends_on:
@@ -297,7 +288,6 @@ services:
     volumes:
       - /opt/deemix/config:/config
       - ${MEDIA}/downloads/deemix:/downloads
-    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:6595/ >/dev/null"]
       interval: 30s
@@ -306,6 +296,8 @@ services:
       start_period: 10s
 networks:
   proxy:
+    external: true
+  media_int:
     external: true
 configs:
   post-rules.txt:

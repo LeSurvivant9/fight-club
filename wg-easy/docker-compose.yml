@@ -1,6 +1,9 @@
 ---
 services:
   wg-easy:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: ghcr.io/wg-easy/wg-easy:latest
     container_name: wg-easy
     env_file:
@@ -13,7 +16,6 @@ services:
     volumes:
       - /opt/wg-easy/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
-    restart: unless-stopped
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -35,9 +37,7 @@ services:
       - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
       - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.wg-secure.service=wg"
-      - "traefik.http.routers.wg-secure.middlewares=compress@file"
       - "traefik.http.services.wg.loadbalancer.server.port=51821"
-      - diun.enable=true
 networks:
   proxy:
     external: true

@@ -1,16 +1,16 @@
 ---
 services:
   uptime-kuma:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: louislam/uptime-kuma:latest
     container_name: uptime-kuma
-    env_file:
-      - .env
     networks:
-      proxy:
+      - proxy
     volumes:
       - /opt/uptime-kuma/config:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -19,7 +19,6 @@ services:
       - "traefik.http.routers.uptime-kuma-secure.tls=true"
       - "traefik.http.routers.uptime-kuma-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.uptime-kuma-secure.service=uptime-kuma"
-      - "traefik.http.routers.uptime-kuma-secure.middlewares=compress@file"
       - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
 networks:
   proxy:

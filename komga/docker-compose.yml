@@ -1,17 +1,18 @@
 ---
 services:
   komga:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: gotson/komga
     container_name: komga
     env_file:
       - .env
     networks:
-      proxy:
+      - proxy
     volumes:
       - /opt/komga/config:/config
       - ${MEDIA}/books:/data
-    user: "1000:1000"
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -20,7 +21,6 @@ services:
       - "traefik.http.routers.komga-secure.tls=true"
       - "traefik.http.routers.komga-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.komga-secure.service=komga"
-      - "traefik.http.routers.komga-secure.middlewares=compress@file"
       - "traefik.http.services.komga.loadbalancer.server.port=25600"
 networks:
   proxy:

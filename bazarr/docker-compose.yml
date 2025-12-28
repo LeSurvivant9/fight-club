@@ -1,13 +1,15 @@
 ---
 services:
   bazarr:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     networks:
-      proxy:
+      - proxy
+      - media_int
     mem_limit: 512M
-    env_file:
-      - .env
     volumes:
       - /opt/bazarr/config:/config
       - ${MEDIA}:/media
@@ -17,7 +19,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -26,8 +27,9 @@ services:
       - "traefik.http.routers.bazarr-secure.tls=true"
       - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.bazarr-secure.service=bazarr"
-      - "traefik.http.routers.bazarr-secure.middlewares=compress@file"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
 networks:
   proxy:
+    external: true
+  media_int:
     external: true

@@ -1,16 +1,17 @@
 ---
 services:
   suwayomi:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: ghcr.io/suwayomi/suwayomi-server
     container_name: suwayomi
     networks:
-      proxy:
+      - proxy
     env_file:
       - .env
     volumes:
       - /opt/suwayomi/data:/home/suwayomi/.local/share/Tachidesk
-      - ${MEDIA}/books:/home/suwayomi/.local/share/Tachidesk/downloads
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -19,7 +20,6 @@ services:
       - "traefik.http.routers.suwayomi-secure.tls=true"
       - "traefik.http.routers.suwayomi-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.suwayomi-secure.service=suwayomi"
-      - "traefik.http.routers.suwayomi-secure.middlewares=compress@file"
       - "traefik.http.services.suwayomi.loadbalancer.server.port=4567"
 networks:
   proxy:

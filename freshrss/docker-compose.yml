@@ -1,15 +1,18 @@
 ---
 services:
   freshrss:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: freshrss/freshrss:latest
     container_name: freshrss
-    env_file:
-      - .env
     hostname: freshrss
+    environment:
+      - CRON_MIN=${CRON_MIN}
+      - TRUSTED_PROXY=${TRUSTED_PROXY}
     networks:
-      proxy:
+      - proxy
     mem_limit: 256M
-    restart: unless-stopped
     logging:
       options:
         max-size: 10m
@@ -31,7 +34,6 @@ services:
       - "traefik.http.routers.freshrss-secure.tls=true"
       - "traefik.http.routers.freshrss-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.freshrss-secure.service=freshrss"
-      - "traefik.http.routers.freshrss-secure.middlewares=compress@file"
       - "traefik.http.services.freshrss.loadbalancer.server.port=80"
 networks:
   proxy:

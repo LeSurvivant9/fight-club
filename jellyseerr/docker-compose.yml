@@ -1,16 +1,18 @@
 ---
 services:
   jellyseerr:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     env_file:
       - .env
     mem_limit: 1024M
     networks:
-      proxy:
+      - proxy
     volumes:
       - /opt/jellyseerr/appdata/config:/app/config
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -19,7 +21,6 @@ services:
       - "traefik.http.routers.jellyseerr-secure.tls=true"
       - "traefik.http.routers.jellyseerr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.jellyseerr-secure.service=jellyseerr"
-      - "traefik.http.routers.jellyseerr-secure.middlewares=compress@file"
       - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
 networks:
   proxy:

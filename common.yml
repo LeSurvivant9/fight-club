@@ -1,0 +1,10 @@
+---
+services:
+  common-config:
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true

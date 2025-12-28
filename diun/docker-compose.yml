@@ -1,11 +1,16 @@
 ---
 services:
   diun:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: crazymax/diun:latest
     container_name: diun
-    env_file:
-      - .env
     command: serve
+    environment:
+      - DIUN_NOTIF_DISCORD_WEBHOOKURL=${DIUN_NOTIF_DISCORD_WEBHOOKURL}
+      - LOG_JSON=${LOG_JSON}
+      - LOG_LEVEL=${LOG_LEVEL}
     volumes:
       - ./diun.yml:/diun.yml:ro
       - /opt/diun/data:/data
@@ -17,4 +22,3 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped

@@ -1,12 +1,15 @@
 ---
 services:
   jellyfin:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: lscr.io/linuxserver/jellyfin:arm64v8-latest
     container_name: jellyfin
     env_file:
       - .env
     networks:
-      proxy:
+      - proxy
     ports:
       - "8096:8096"
     volumes:
@@ -16,7 +19,6 @@ services:
     devices:
       - /dev/video19:/dev/video19
       - /dev/dma_heap:/dev/dma_heap
-    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8096/"]
       interval: 60s

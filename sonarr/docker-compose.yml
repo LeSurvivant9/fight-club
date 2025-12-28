@@ -1,12 +1,16 @@
 ---
 services:
   sonarr:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     env_file:
       - .env
     networks:
-      proxy:
+      - proxy
+      - media_int
     mem_limit: 1024M
     volumes:
       - /opt/sonarr/config:/config
@@ -17,7 +21,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -26,8 +29,9 @@ services:
       - "traefik.http.routers.sonarr-secure.tls=true"
       - "traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.sonarr-secure.service=sonarr"
-      - "traefik.http.routers.sonarr-secure.middlewares=compress@file"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
 networks:
   proxy:
+    external: true
+  media_int:
     external: true

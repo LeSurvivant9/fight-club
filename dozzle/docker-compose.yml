@@ -1,12 +1,13 @@
 ---
 services:
   dozzle:
+    extends:
+      file: ../common.yml
+      service: common-config
     container_name: dozzle
     networks:
-      proxy:
+      - proxy
     image: amir20/dozzle:latest
-    env_file:
-      - .env
     ports:
       - "83:8080"
     healthcheck:
@@ -17,7 +18,6 @@ services:
       start_period: 40s
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -26,7 +26,6 @@ services:
       - "traefik.http.routers.dozzle-secure.tls=true"
       - "traefik.http.routers.dozzle-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.dozzle-secure.service=dozzle"
-      - "traefik.http.routers.dozzle-secure.middlewares=compress@file"
       - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
 networks:
   proxy:

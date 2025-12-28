@@ -1,21 +1,18 @@
 ---
 services:
   traefik:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: traefik:latest
     container_name: traefik
     environment:
       - CF_API_EMAIL=${CF_API_EMAIL}
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
       - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
-      - PGID=${PGID}
-      - PUID=${PUID}
-      - TZ=${TZ}
       - DOMAIN=${DOMAIN}
-    security_opt:
-      - no-new-privileges:true
     networks:
-      proxy:
-    restart: unless-stopped
+      - proxy
     ports:
       - "80:80"
       - "443:443"
@@ -38,13 +35,11 @@ services:
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
       - "traefik.http.routers.traefik-secure.entrypoints=https"
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik.${DOMAIN}`)"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth,compress@file,sslheader"
       - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=${DOMAIN}"
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.${DOMAIN}"
       - "traefik.http.routers.traefik-secure.service=api@internal"
-      - diun.enable=true
 networks:
   proxy:
     external: true

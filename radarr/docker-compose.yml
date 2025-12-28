@@ -1,12 +1,16 @@
 ---
 services:
   radarr:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: lscr.io/linuxserver/radarr:nightly
     container_name: radarr
     env_file:
       - .env
     networks:
-      proxy:
+      - proxy
+      - media_int
     mem_limit: 1024M
     volumes:
       - /opt/radarr/config:/config
@@ -17,7 +21,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -26,8 +29,9 @@ services:
       - "traefik.http.routers.radarr-secure.tls=true"
       - "traefik.http.routers.radarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.radarr-secure.service=radarr"
-      - "traefik.http.routers.radarr-secure.middlewares=compress@file"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
 networks:
   proxy:
+    external: true
+  media_int:
     external: true

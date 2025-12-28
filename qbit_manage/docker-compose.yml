@@ -1,16 +1,18 @@
 ---
 services:
   qbit_manage:
+    extends:
+      file: ../common.yml
+      service: common-config
     container_name: qbit_manage
     image: ghcr.io/stuffanthings/qbit_manage:latest
     env_file:
       - .env
     networks:
-      proxy:
+      - proxy
     volumes:
       - /opt/qbit_manage/config:/config:rw
       - ${MEDIA}/downloads:/data/torrents:rw
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -19,7 +21,6 @@ services:
       - "traefik.http.routers.qbit_manage-secure.tls=true"
       - "traefik.http.routers.qbit_manage-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qbit_manage-secure.service=qbit_manage"
-      - "traefik.http.routers.qbit_manage-secure.middlewares=compress@file"
       - "traefik.http.services.qbit_manage.loadbalancer.server.port=8080"
 networks:
   proxy:

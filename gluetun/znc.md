@@ -8,26 +8,26 @@ Pour se connecter à votre instance ZNC depuis WeeChat :
 
 ### 1. Créer le réseau
 ```weechat
-/server add t3f-znc znc-irc.${DOMAIN}/444
+/server add znc znc-irc.${DOMAIN}/444
 ```
 
 ### 2. Configurer les identifiants
 ```weechat
-/set irc.server.t3f-znc.password <username>:<pasword>
+/set irc.server.znc.password <username>:<pasword>
 ```
 
 ### 3. Activer l'autoconnect
 ```weechat
-/set irc.server.t3f-znc.autoconnect on
+/set irc.server.znc.autoconnect on
 ```
 
 ### 4. Désactiver la vérification TLS
 ```weechat
-/set irc.server.t3f-znc.tls_verify off
+/set irc.server.znc.tls_verify off
 /save
 ```
 
 ### 5. Se connecter
 ```weechat
-/connect t3f-znc
+/connect znc
 ```

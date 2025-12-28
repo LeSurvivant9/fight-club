@@ -1,10 +1,13 @@
 ---
 services:
   qui:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: ghcr.io/autobrr/qui:latest
     container_name: qui
     networks:
-      proxy:
+      - proxy
     env_file:
       - .env
     volumes:
@@ -18,9 +21,7 @@ services:
       - "traefik.http.routers.qui-secure.tls=true"
       - "traefik.http.routers.qui-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qui-secure.service=qui"
-      - "traefik.http.routers.qui-secure.middlewares=compress@file"
       - "traefik.http.services.qui.loadbalancer.server.port=7476"
-    restart: unless-stopped
 networks:
   proxy:
     external: true
