@@ -29,6 +29,12 @@ services:
       - "traefik.http.routers.infisical-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.infisical-secure.service=infisical"
       - "traefik.http.services.infisical.loadbalancer.server.port=8080"
+    healthcheck:
+      test: "curl -fsS http://localhost:8080/health || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
   redis:
     extends:
       file: ../common.yml
