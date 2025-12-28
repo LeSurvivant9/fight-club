@@ -244,7 +244,6 @@ services:
       - WG_HOST=${WG_HOST}
       - WG_PORT=65223
       - PORT=51821
-      - PASSWORD_HASH='$$2a$$12$$X3qLNXKUq3a6x7sHbVJ5Uet1gfygHgzx7nAIvoEnCQQTa6XRapmYy'
       #      - DISABLE_IPV6=${DISABLE_IPV6}
       #      - INIT_DNS=${INIT_DNS}
       #      - INIT_ENABLED=${INIT_ENABLED}
