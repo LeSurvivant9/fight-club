@@ -242,6 +242,9 @@ services:
     container_name: wg-easy
     environment:
       - WG_HOST=${WG_HOST}
+      - WG_PORT=65223
+      - PORT=51821
+      - PASSWORD=tonsupermotdepasse
     #      - DISABLE_IPV6=${DISABLE_IPV6}
     #      - INIT_DNS=${INIT_DNS}
     #      - INIT_ENABLED=${INIT_ENABLED}
