@@ -240,16 +240,16 @@ services:
       service: common-config
     image: ghcr.io/wg-easy/wg-easy:latest
     container_name: wg-easy
-    environment:
-      - DISABLE_IPV6=${DISABLE_IPV6}
-      - INIT_DNS=${INIT_DNS}
-      - INIT_ENABLED=${INIT_ENABLED}
-      - INIT_HOST=${INIT_HOST}
-      - INIT_IPV4_CIDR=${INIT_IPV4_CIDR}
-      - INIT_IPV6_CIDR=${INIT_IPV6_CIDR}
-      - INIT_PASSWORD=${INIT_PASSWORD}
-      - INIT_USERNAME=${INIT_USERNAME}
-      - INSECURE=${INSECURE}
+    #    environment:
+    #      - DISABLE_IPV6=${DISABLE_IPV6}
+    #      - INIT_DNS=${INIT_DNS}
+    #      - INIT_ENABLED=${INIT_ENABLED}
+    #      - INIT_HOST=${INIT_HOST}
+    #      - INIT_IPV4_CIDR=${INIT_IPV4_CIDR}
+    #      - INIT_IPV6_CIDR=${INIT_IPV6_CIDR}
+    #      - INIT_PASSWORD=${INIT_PASSWORD}
+    #      - INIT_USERNAME=${INIT_USERNAME}
+    #      - INSECURE=${INSECURE}
     network_mode: service:gluetun
     depends_on:
       gluetun:
