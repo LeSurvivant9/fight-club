@@ -250,8 +250,6 @@ services:
       - INIT_PASSWORD=${INIT_PASSWORD}
       - INIT_USERNAME=${INIT_USERNAME}
       - INSECURE=${INSECURE}
-      - WG_HOST=${WG_HOST}
-      - WG_PORT=${WG_PORT}
     network_mode: service:gluetun
     depends_on:
       gluetun:
