@@ -253,7 +253,7 @@ services:
       #      - INIT_IPV6_CIDR=${INIT_IPV6_CIDR}
       #      - INIT_PASSWORD=${INIT_PASSWORD}
       #      - INIT_USERNAME=${INIT_USERNAME}
-      - INSECURE=${INSECURE}
+      #      - INSECURE=${INSECURE}
     network_mode: service:gluetun
     depends_on:
       gluetun:
