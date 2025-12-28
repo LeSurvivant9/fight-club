@@ -35,6 +35,7 @@ services:
       - "5274:5274/tcp" # Nicotine+
       - "8191:8191" # Flaresolverr
       - "51821:51821/tcp" # Wireguard WebUI
+      - "65223:65223/udp"
       - "65144:65144/tcp"
       - "65144:65144/udp"
     volumes:
