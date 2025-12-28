@@ -16,13 +16,11 @@ http:
         customRequestHeaders:
           X-Forwarded-Proto: https
     # Redirection HTTP vers HTTPS
-
     https-redirectscheme:
       redirectScheme:
         scheme: https
         permanent: true
     # Compression des réponses
-
     compress:
       compress:
         encodings: ["zstd", "br", "gzip"]
@@ -34,7 +32,6 @@ http:
           - application/pdf
           - application/zip
 # Configuration TLS
-
 tls:
   options:
     default:
