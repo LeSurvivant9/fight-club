@@ -1,0 +1,13 @@
+---
+http:
+  routers:
+    omv:
+      rule: 'Host(`omv.{{ env "DOMAIN" }}`)'
+      service: "omv-service"
+      tls:
+        certResolver: "cloudflare"
+  services:
+    omv-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.24:8087"

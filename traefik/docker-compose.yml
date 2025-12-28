@@ -18,6 +18,7 @@ services:
     volumes:
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./config/config.yml:/etc/traefik/config.yml:ro
+      - ./config/dynamic:/etc/traefik/dynamic:ro
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /opt/traefik/config/acme.json:/etc/traefik/acme.json
