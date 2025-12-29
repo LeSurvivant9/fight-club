@@ -13,8 +13,9 @@ services:
       - SERVER_COUNTRIES=${SERVER_COUNTRIES}
       - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
       - VPN_TYPE=${VPN_TYPE}
-      - WIREGUARD_INTERFACE=${WIREGUARD_INTERFACE}
       - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - WIREGUARD_INTERFACE=${WIREGUARD_INTERFACE}
+      - WIREGUARD_MTU=${WIREGUARD_MTU}
       - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
     devices:
@@ -305,7 +306,7 @@ networks:
 configs:
   post-rules.txt:
     content: |-
-      iptables -t nat -A POSTROUTING -o wgc -s 10.8.0.0/24 -j MASQUERADE
+      iptables -I FORWARD 1 -d 10.8.0.0/24 -j ACCEPT
       iptables -I FORWARD 1 -i wg0 -o wgc -j ACCEPT
       iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-      iptables -I FORWARD 1 -d 10.8.0.0/24 -j ACCEPT
+      iptables -t nat -A POSTROUTING -o wgc -s 10.8.0.0/24 -j MASQUERADE
