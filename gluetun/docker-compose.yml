@@ -307,4 +307,5 @@ configs:
     content: |-
       iptables -t nat -A POSTROUTING -o wgc -s 10.8.0.0/24 -j MASQUERADE
       iptables -I FORWARD 1 -i wg0 -o wgc -j ACCEPT
+      iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
       iptables -I FORWARD 1 -d 10.8.0.0/24 -j ACCEPT
