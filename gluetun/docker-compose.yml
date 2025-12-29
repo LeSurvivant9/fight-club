@@ -21,10 +21,10 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
-      proxy:
-      media_int:
       vpn_net:
         ipv4_address: 172.31.0.10
+      media_int:
+      proxy:
     privileged: true
     configs:
       - source: post-rules.txt
@@ -320,6 +320,14 @@ networks:
 configs:
   post-rules.txt:
     content: |-
+      # Autoriser le forwarding local entre wg-easy (eth0) et le réseau proxy (eth2)
+      iptables -I FORWARD -i eth0 -o eth2 -j ACCEPT
+      iptables -I FORWARD -i eth2 -o eth0 -j ACCEPT
+
+      # Bypass le tracking pour le port Jellyfin (gain CPU/Latence)
+      iptables -t raw -I PREROUTING -p tcp --sport 8096 -j NOTRACK
+      iptables -t raw -I PREROUTING -p tcp --dport 8096 -j NOTRACK
+
       iptables -t nat -A PREROUTING -i tun0 -p udp --dport 65223 -j DNAT --to-destination 172.31.0.20:65223
       iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
       iptables -t nat -A POSTROUTING -s 172.31.0.20 -p udp --dport 65223 -j MASQUERADE

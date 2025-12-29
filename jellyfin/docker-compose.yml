@@ -6,10 +6,9 @@ services:
       service: common-config
     image: lscr.io/linuxserver/jellyfin:arm64v8-latest
     container_name: jellyfin
-    env_file:
-      - .env
     networks:
-      - proxy
+      proxy:
+        - ipv4_address: 172.19.0.96
     ports:
       - "8096:8096"
     volumes:
