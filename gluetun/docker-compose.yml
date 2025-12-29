@@ -307,6 +307,6 @@ configs:
   post-rules.txt:
     content: |-
       iptables -t nat -A POSTROUTING -o wgc -s 10.8.0.0/24 -j MASQUERADE
-      iptables -I FORWARD 1 -d 10.8.0.0/24 -j ACCEPT
-      iptables -I FORWARD 1 -i wg0 -o wgc -j ACCEPT
-      iptables -t mangle -I FORWARD 1 -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1180
+      iptables -A FORWARD -i wg0 -o wgc -j ACCEPT
+      iptables -A FORWARD -i wgc -o wg0 -j ACCEPT
+      iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1120
