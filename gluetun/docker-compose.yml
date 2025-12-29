@@ -316,10 +316,7 @@ networks:
   media_int:
     external: true
   vpn_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.31.0.0/16
+    external: true
 configs:
   post-rules.txt:
     content: |-
