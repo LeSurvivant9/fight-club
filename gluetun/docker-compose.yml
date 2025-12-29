@@ -44,6 +44,8 @@ services:
       - /lib/modules:/lib/modules:ro
     sysctls:
       - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.rp_filter=0
+      - net.ipv4.conf.default.rp_filter=0
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=1
     healthcheck:
@@ -303,6 +305,6 @@ networks:
 configs:
   post-rules.txt:
     content: |-
-      iptables -A FORWARD -i wgc -o wg0 -j ACCEPT
-      iptables -A FORWARD -i wg0 -o wgc -j ACCEPT
       iptables -t nat -A POSTROUTING -o wgc -s 10.8.0.0/24 -j MASQUERADE
+      iptables -I FORWARD 1 -i wg0 -o wgc -j ACCEPT
+      iptables -I FORWARD 1 -d 10.8.0.0/24 -j ACCEPT
