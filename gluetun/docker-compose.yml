@@ -252,6 +252,7 @@ services:
       - INIT_IPV4_CIDR=${INIT_IPV4_CIDR}
       - INIT_IPV6_CIDR=${INIT_IPV6_CIDR}
       - DISABLE_IPV6=${DISABLE_IPV6}
+      - WG_MTU=${WG_MTU}
     network_mode: service:gluetun
     depends_on:
       gluetun:
