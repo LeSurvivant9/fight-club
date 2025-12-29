@@ -254,8 +254,8 @@ services:
       - WG_HOST=${WG_HOST}
       - WG_PORT=${WG_PORT}
       - WG_DEFAULT_DNS=${WG_DEFAULT_DNS}
-      - WG_POST_UP=sh -c "VPN_IF=\$$(ip -4 addr show | grep 'inet ${VPN_SUBNET_PREFIX}' | awk '{print \$$NF}'); ip rule add from ${WG_LOCAL_SUBNET} table 200; ip route add default via ${VPN_IP_GATEWAY} dev \$$VPN_IF table 200; iptables -t nat -A POSTROUTING -o \$$VPN_IF -j MASQUERADE"
-      - WG_POST_DOWN=sh -c "VPN_IF=\$$(ip -4 addr show | grep 'inet ${VPN_SUBNET_PREFIX}' | awk '{print \$$NF}'); ip rule del from ${WG_LOCAL_SUBNET} table 200; ip route del default via ${VPN_IP_GATEWAY} dev \$$VPN_IF table 200; iptables -t nat -D POSTROUTING -o \$$VPN_IF -j MASQUERADE"
+      - WG_POST_UP=VPN=$$(ifconfig | grep -B1 ${WG_EASY_BRIDGE_IP} | grep -o "^\w*"); iptables -t nat -A POSTROUTING -s {{ipv4Cidr}} -o $$VPN -j MASQUERADE; ip rule add from {{ipv4Cidr}} table 200; ip route add default via ${GLUETUN_IP} dev $$VPN table 200; ip route add 172.31.0.0/16 via 172.31.0.1 dev $$VPN table 200; ip route add {{ipv4Cidr}} dev wg0 table 200
+      - WG_POST_DOWN=VPN=$$(ifconfig | grep -B1 ${WG_EASY_BRIDGE_IP} | grep -o "^\w*"); iptables -t nat -D POSTROUTING -s {{ipv4Cidr}} -o $$VPN -j MASQUERADE; ip rule del from {{ipv4Cidr}} table 200; ip route del default via ${GLUETUN_IP} dev $$VPN table 200; ip route del 172.31.0.0/16 via 172.31.0.1 dev $$VPN table 200; ip route del {{ipv4Cidr}} dev wg0 table 200
     depends_on:
       gluetun:
         condition: service_healthy
