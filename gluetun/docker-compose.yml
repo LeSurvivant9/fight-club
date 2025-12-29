@@ -239,7 +239,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: ghcr.io/wg-easy/wg-easy:latest
+    image: ghcr.io/wg-easy/wg-easy:v15.1
     container_name: wg-easy
     environment:
       - WG_HOST=${WG_HOST}
