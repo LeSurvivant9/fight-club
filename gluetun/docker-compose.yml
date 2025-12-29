@@ -323,8 +323,7 @@ configs:
       iptables -t nat -A PREROUTING -i tun0 -p udp --dport 65223 -j DNAT --to-destination 172.31.0.20:65223
       iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
       iptables -t nat -A POSTROUTING -s 172.31.0.20 -p udp --dport 65223 -j MASQUERADE
-      iptables -A FORWARD -i tun0 -o eth0 -d 172.31.0.20 -p udp --dport 65223 -j ACCEPT
-      iptables -A FORWARD -i eth0 -o tun0 -j ACCEPT
-      iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
-      iptables -A FORWARD -i eth0 -s 172.31.0.20 -d 172.31.0.123 -p udp --dport 53 -j ACCEPT
-      iptables -A FORWARD -i eth0 -s 172.31.0.20 -d 172.31.0.123 -p tcp --dport 53 -j ACCEPT
+      iptables -A FORWARD -o tun0 -j ACCEPT
+      iptables -A FORWARD -i tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+      iptables -A FORWARD -d 172.31.0.123 -p udp --dport 53 -j ACCEPT
+      iptables -A FORWARD -d 172.31.0.123 -p tcp --dport 53 -j ACCEPT
