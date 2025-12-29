@@ -254,8 +254,8 @@ services:
       - WG_HOST=${WG_HOST}
       - WG_PORT=${WG_PORT}
       - WG_DEFAULT_DNS=${WG_DEFAULT_DNS}
-      - WG_POST_UP=${WG_POST_UP}
-      - WG_POST_DOWN=${WG_POST_DOWN}
+      - WG_POST_UP=VPN_IF=$$(ip -4 addr show | grep 'inet 172.31.0.' | awk '{print $$NF}'); ip rule add from 10.8.0.0/24 table 200; ip route add default via 172.31.0.10 dev $$VPN_IF table 200; iptables -t nat -A POSTROUTING -o $$VPN_IF -j MASQUERADE
+      - WG_POST_DOWN=VPN_IF=$$(ip -4 addr show | grep 'inet 172.31.0.' | awk '{print $$NF}'); ip rule del from 10.8.0.0/24 table 200; ip route del default via 172.31.0.10 dev $$VPN_IF table 200; iptables -t nat -D POSTROUTING -o $VPN_IF -j MASQUERADE
     depends_on:
       gluetun:
         condition: service_healthy
