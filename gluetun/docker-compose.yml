@@ -8,7 +8,6 @@ services:
     container_name: gluetun
     environment:
       - DNS_KEEP_NAMESERVER=${DNS_KEEP_NAMESERVER}
-      - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
       - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
       - SERVER_COUNTRIES=${SERVER_COUNTRIES}
       - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
@@ -18,11 +17,14 @@ services:
       - WIREGUARD_MTU=${WIREGUARD_MTU}
       - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - FIREWALL_VPN_INPUT_PORTS=${FIREWALL_VPN_INPUT_PORTS}
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
-      - proxy
-      - media_int
+      proxy:
+      media_int:
+      vpn_net:
+        ipv4_address: 172.31.0.10
     privileged: true
     configs:
       - source: post-rules.txt
@@ -36,7 +38,6 @@ services:
       - "8388:8388/udp" # Shadowsocks
       - "5274:5274/tcp" # Nicotine+
       - "8191:8191" # Flaresolverr
-      - "51821:51821/tcp" # Wireguard WebUI
       - "65223:65223/udp"
       - "65144:65144/tcp"
       - "65144:65144/udp"
@@ -49,6 +50,9 @@ services:
       - net.ipv4.conf.default.rp_filter=0
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=1
+      - net.ipv4.conf.all.forwarding=1
+      - net.ipv4.conf.eth0.forwarding=1
+      - net.ipv4.conf.wgc.forwarding=1
     healthcheck:
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s
@@ -96,12 +100,6 @@ services:
       - "traefik.http.routers.autobrr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.autobrr-secure.service=autobrr"
       - "traefik.http.services.autobrr.loadbalancer.server.port=7474"
-      - "traefik.http.routers.wg-secure.tls=true"
-      - "traefik.http.routers.wg-secure.entrypoints=https"
-      - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
-      - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.wg-secure.service=wg"
-      - "traefik.http.services.wg.loadbalancer.server.port=51821"
       - "traefik.http.routers.deemix-secure.entrypoints=https"
       - "traefik.http.routers.deemix-secure.rule=Host(`deemix.${DOMAIN}`)"
       - "traefik.http.routers.deemix-secure.tls=true"
@@ -256,7 +254,11 @@ services:
       - INIT_IPV6_CIDR=${INIT_IPV6_CIDR}
       - DISABLE_IPV6=${DISABLE_IPV6}
       - WG_MTU=${WG_MTU}
-    network_mode: service:gluetun
+      - WG_HOST=${WG_HOST}
+      - WG_PORT=${WG_PORT}
+      - WG_DEFAULT_DNS=${WG_DEFAULT_DNS}
+      - WG_POST_UP=${WG_POST_UP}
+      - WG_POST_DOWN=${WG_POST_DOWN}
     depends_on:
       gluetun:
         condition: service_healthy
@@ -266,6 +268,19 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
+    networks:
+      proxy:
+      vpn_net:
+        ipv4_address: 172.31.0.20
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.wg-secure.tls=true"
+      - "traefik.http.routers.wg-secure.entrypoints=https"
+      - "traefik.http.routers.wg-secure.rule=Host(`wg.${DOMAIN}`)"
+      - "traefik.http.routers.wg-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.wg-secure.service=wg"
+      - "traefik.http.services.wg.loadbalancer.server.port=51821"
     healthcheck:
       test: ["CMD-SHELL", "timeout 5s wg show | grep -q interface >/dev/null"]
       interval: 30s
@@ -303,9 +318,16 @@ networks:
     external: true
   media_int:
     external: true
+  vpn_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
 configs:
   post-rules.txt:
     content: |-
+      iptables -t nat -A PREROUTING -i tun0 -p udp --dport 65223 -j DNAT --to-destination 172.31.0.20:65223
+      iptables -t nat -A PREROUTING -i wgc -p udp --dport 65223 -j DNAT --to-destination 172.31.0.20:65223
       iptables -t nat -A POSTROUTING -o wgc -s 10.8.0.0/24 -j MASQUERADE
       iptables -A FORWARD -i wg0 -o wgc -j ACCEPT
       iptables -A FORWARD -i wgc -o wg0 -j ACCEPT
