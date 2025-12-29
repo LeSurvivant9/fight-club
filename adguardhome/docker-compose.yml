@@ -9,6 +9,8 @@ services:
     networks:
       proxy:
         ipv4_address: 172.19.0.123
+      vpn_net:
+        ipv4_address: 172.31.0.123
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -34,4 +36,6 @@ services:
       - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
 networks:
   proxy:
+    external: true
+  vpn_net:
     external: true
