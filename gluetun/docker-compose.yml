@@ -324,6 +324,7 @@ configs:
       iptables -I FORWARD -s 172.31.0.0/16 -d 172.19.0.0/16 -j ACCEPT
       iptables -I FORWARD -s 172.19.0.0/16 -d 172.31.0.0/16 -j ACCEPT
       iptables -I FORWARD -s 172.31.0.0/16 -o tun0 -j ACCEPT
+      iptables -t nat -I POSTROUTING -s 172.31.0.0/16 -d 172.19.0.0/16 -j MASQUERADE
 
       # Bypass le tracking pour le port Jellyfin
       iptables -t raw -I PREROUTING -p tcp --sport 8096 -j NOTRACK
