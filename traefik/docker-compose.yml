@@ -12,7 +12,8 @@ services:
       - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - DOMAIN=${DOMAIN}
     networks:
-      - proxy
+      proxy:
+        ipv4_address: 172.19.0.80
     ports:
       - "80:80"
       - "443:443"

@@ -7,8 +7,7 @@ services:
     image: lscr.io/linuxserver/jellyfin:arm64v8-latest
     container_name: jellyfin
     networks:
-      proxy:
-        ipv4_address: 172.19.0.96
+      - proxy
     ports:
       - "8096:8096"
     volumes:
