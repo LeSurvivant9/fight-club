@@ -320,11 +320,12 @@ networks:
 configs:
   post-rules.txt:
     content: |-
-      # Autoriser le forwarding local entre wg-easy (eth0) et le réseau proxy (eth2)
+      # Autoriser le forwarding local entre les sous-réseaux
       iptables -I FORWARD -s 172.31.0.0/16 -d 172.19.0.0/16 -j ACCEPT
       iptables -I FORWARD -s 172.19.0.0/16 -d 172.31.0.0/16 -j ACCEPT
+      iptables -I FORWARD -s 172.31.0.0/16 -o tun0 -j ACCEPT
 
-      # Bypass le tracking pour le port Jellyfin (gain CPU/Latence)
+      # Bypass le tracking pour le port Jellyfin
       iptables -t raw -I PREROUTING -p tcp --sport 8096 -j NOTRACK
       iptables -t raw -I PREROUTING -p tcp --dport 8096 -j NOTRACK
 
