@@ -328,3 +328,5 @@ configs:
       iptables -A FORWARD -i tun0 -d 172.31.0.20 -p udp --dport 65223 -j ACCEPT
       iptables -A FORWARD -d 172.31.0.123 -p udp --dport 53 -j ACCEPT
       iptables -A FORWARD -d 172.31.0.123 -p tcp --dport 53 -j ACCEPT
+      iptables -A FORWARD -d 192.168.1.0/24 -j ACCEPT
+      iptables -A FORWARD -s 192.168.1.0/24 -j ACCEPT
