@@ -14,10 +14,10 @@ services:
       - /opt/deemix/config:/config
       - ${MEDIA}/downloads/deemix:/downloads
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=0 --spider http://localhost:6595/ >/dev/null"]
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:6595/ >/dev/null || exit 1"]
       interval: 30s
       timeout: 10s
-      retries: 2
+      retries: 3
       start_period: 10s
     labels:
       - "traefik.enable=true"
