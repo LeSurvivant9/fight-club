@@ -97,12 +97,6 @@ services:
       - "traefik.http.routers.autobrr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.autobrr-secure.service=autobrr"
       - "traefik.http.services.autobrr.loadbalancer.server.port=7474"
-      - "traefik.http.routers.deemix-secure.entrypoints=https"
-      - "traefik.http.routers.deemix-secure.rule=Host(`deemix.${DOMAIN}`)"
-      - "traefik.http.routers.deemix-secure.tls=true"
-      - "traefik.http.routers.deemix-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.deemix-secure.service=deemix"
-      - "traefik.http.services.deemix.loadbalancer.server.port=6595"
   qbittorrent:
     extends:
       file: ../common.yml
@@ -289,27 +283,6 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.conf.all.rp_filter=0
       - net.ipv4.conf.default.rp_filter=0
-  deemix:
-    extends:
-      file: ../common.yml
-      service: common-config
-    image: ghcr.io/bambanah/deemix:latest
-    container_name: deemix
-    environment:
-      - DEEMIX_SINGLE_USER=${DEEMIX_SINGLE_USER}
-    network_mode: service:gluetun
-    depends_on:
-      gluetun:
-        condition: service_healthy
-    volumes:
-      - /opt/deemix/config:/config
-      - ${MEDIA}/downloads/deemix:/downloads
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:6595/ >/dev/null"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
 networks:
   proxy:
     external: true
@@ -320,6 +293,10 @@ networks:
 configs:
   post-rules.txt:
     content: |-
+      # 0. Optimisation MSS (Fix pour Lag/Timeouts WireGuard)
+      iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1240
+      iptables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1240
+
       # 1. Accès Internet via VPN pour les clients (wg-easy -> tun0)
       iptables -I FORWARD -s 172.31.0.0/16 -o tun0 -j ACCEPT
       iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
