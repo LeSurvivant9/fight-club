@@ -52,7 +52,6 @@ match:
     - 'None'
     - 'Other'
     - ''
-    - 'CD'
     - 'Vinyl'
     - '12" Vinyl'
     - '7" Vinyl'
