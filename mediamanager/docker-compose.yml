@@ -35,7 +35,7 @@ services:
       - "traefik.http.services.mediamanager.loadbalancer.server.port=8000"
   db:
     container_name: mediamanager_postgres
-    image: postgres:17
+    image: postgres:18
     restart: unless-stopped
     networks:
       - default
