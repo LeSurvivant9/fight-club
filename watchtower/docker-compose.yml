@@ -1,6 +1,9 @@
-version: "3"
+---
 services:
   watchtower:
+    extends:
+      file: ../common.yml
+      service: common-config
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
