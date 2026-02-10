@@ -1,7 +1,22 @@
 ---
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        files: \.(yaml|yml)$
+      - id: check-json
+        exclude: traefik/config/
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: mixed-line-ending
+        args: ['--fix=lf']
   - repo: https://github.com/google/yamlfmt
-    rev: v0.20.0
+    rev: v0.21.0
     hooks:
       - id: yamlfmt
         files: \.(yaml|yml)$
@@ -9,7 +24,50 @@ repos:
           - -conf
           - yamlfmt.yml
           - -gitignore_excludes
-          - -v
+  - repo: local
+    hooks:
+      - id: docker-compose-validate
+        name: Validate Docker Compose files
+        entry: bash scripts/validate_compose.sh
+        language: system
+        files: docker-compose\.ya?ml$
+        pass_filenames: true
+      - id: validate-all-compose
+        name: Validate all Docker Compose conventions
+        entry: uv run python scripts/validate_all.py
+        language: system
+        pass_filenames: false
+        always_run: true
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.14.0
+    hooks:
+      - id: hadolint-docker
+        files: Dockerfile.*$
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: |
+          (?x)^(
+            .*\.lock$|
+            .*\.lockb$|
+            \.secrets\.baseline$
+          )$
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: uv run mypy
+        language: system
+        types: [python]
+        pass_filenames: true
   - repo: local
     hooks:
       - id: sops-auto-encrypt
@@ -17,11 +75,23 @@ repos:
         entry: bash ./encrypt-sops.sh
         language: system
         files: '(\.secrets\.ya?ml$)'
-  - repo: local
-    hooks:
       - id: whitelist-sort-unique
         name: Whitelist Sort and Unique
         entry: bash -c 'sort -u -o beets/whitelist.txt beets/whitelist.txt'
         language: system
-        files: beets/whitelist\.txt
+        files: beets/whitelist\.txt$
         pass_filenames: false
+default_stages:
+  - pre-commit
+default_language_version:
+  python: python3
+fail_fast: false
+exclude: |-
+  (?x)^(
+    \.venv/|
+    \.mypy_cache/|
+    \.git/|
+    \.idea/|
+    .*\.md$|
+    LICENSE$
+  )$

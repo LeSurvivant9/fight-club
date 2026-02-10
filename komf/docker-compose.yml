@@ -8,21 +8,18 @@ services:
     container_name: komf
     env_file:
       - .env
-    ports:
-      - "8085:8085"
     networks:
       - proxy
+    ports:
+      - "8085:8085"
     volumes:
       - /opt/komf/config:/config
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.komf-secure.entrypoints=https"
-      - "traefik.http.routers.komf-secure.rule=Host(`komf.${DOMAIN}`)"
-      - "traefik.http.routers.komf-secure.tls=true"
-      - "traefik.http.routers.komf-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.komf-secure.service=komf"
-      - "traefik.http.services.komf.loadbalancer.server.port=8085"
-networks:
-  proxy:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.komf-secure.entrypoints=https
+      - traefik.http.routers.komf-secure.rule=Host(`komf.${DOMAIN}`)
+      - traefik.http.routers.komf-secure.tls=true
+      - traefik.http.routers.komf-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.komf-secure.service=komf
+      - traefik.http.services.komf.loadbalancer.server.port=8085

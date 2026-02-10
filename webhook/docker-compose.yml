@@ -4,10 +4,10 @@ services:
     extends:
       file: ../common.yml
       service: common-config
+    image: local/webhook
     build:
       context: .
       dockerfile: Dockerfile
-    image: local/webhook
     container_name: webhook
     env_file:
       - .env
@@ -18,10 +18,10 @@ services:
       - ./scripts:/opt/scripts
       - /etc/komodo/repos/fight-club:/etc/komodo/repos/fight-club
       - /var/run/docker.sock:/var/run/docker.sock
-    command: -verbose -hooks=/etc/webhook/hooks.json -hotreload
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9000/"]
+      test: [CMD, wget, --no-verbose, --tries=1, --spider, 'http://localhost:9000/']
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
+    command: -verbose -hooks=/etc/webhook/hooks.json -hotreload

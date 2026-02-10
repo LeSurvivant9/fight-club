@@ -6,11 +6,6 @@ services:
       service: common-config
     image: golift/unpackerr:latest
     container_name: unpackerr
-    networks:
-      - media_int
-    mem_limit: 512M
-    volumes:
-      - ${MEDIA}:/media
     environment:
       - UN_ACTIVITY=${UN_ACTIVITY}
       - UN_DEBUG=${UN_DEBUG}
@@ -30,6 +25,8 @@ services:
       - UN_RETRY_DELAY=${UN_RETRY_DELAY}
       - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
       - UN_START_DELAY=${UN_START_DELAY}
-networks:
-  media_int:
-    external: true
+    networks:
+      - media_int
+    volumes:
+      - ${MEDIA}:/media
+    mem_limit: 512M

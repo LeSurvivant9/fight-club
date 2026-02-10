@@ -8,4 +8,6 @@ services:
     container_name: sops
     volumes:
       - ~/.config/sops/age:/root/.config/sops:ro
-    entrypoint: ["sleep", "infinity"]
+    entrypoint:
+      - sleep
+      - infinity

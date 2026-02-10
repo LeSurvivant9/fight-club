@@ -6,22 +6,19 @@ services:
       service: common-config
     image: ghcr.io/autobrr/qui:latest
     container_name: qui
-    networks:
-      - proxy
     env_file:
       - .env
+    networks:
+      - proxy
     volumes:
       - /opt/qui:/config
       - ${MEDIA}:/media
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.qui-secure.entrypoints=https"
-      - "traefik.http.routers.qui-secure.rule=Host(`qui.${DOMAIN}`)"
-      - "traefik.http.routers.qui-secure.tls=true"
-      - "traefik.http.routers.qui-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.qui-secure.service=qui"
-      - "traefik.http.services.qui.loadbalancer.server.port=7476"
-networks:
-  proxy:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.qui-secure.entrypoints=https
+      - traefik.http.routers.qui-secure.rule=Host(`qui.${DOMAIN}`)
+      - traefik.http.routers.qui-secure.tls=true
+      - traefik.http.routers.qui-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.qui-secure.service=qui
+      - traefik.http.services.qui.loadbalancer.server.port=7476

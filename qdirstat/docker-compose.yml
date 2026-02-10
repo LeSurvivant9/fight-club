@@ -13,16 +13,13 @@ services:
     volumes:
       - /opt/qdirstat/config:/config
       - /:/data:ro
-    shm_size: "1gb"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.qdirstat-secure.entrypoints=https"
-      - "traefik.http.routers.qdirstat-secure.rule=Host(`qdirstat.${DOMAIN}`)"
-      - "traefik.http.routers.qdirstat-secure.tls=true"
-      - "traefik.http.routers.qdirstat-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.qdirstat-secure.service=qdirstat"
-      - "traefik.http.services.qdirstat.loadbalancer.server.port=3000"
-networks:
-  proxy:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.qdirstat-secure.entrypoints=https
+      - traefik.http.routers.qdirstat-secure.rule=Host(`qdirstat.${DOMAIN}`)
+      - traefik.http.routers.qdirstat-secure.tls=true
+      - traefik.http.routers.qdirstat-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.qdirstat-secure.service=qdirstat
+      - traefik.http.services.qdirstat.loadbalancer.server.port=3000
+    shm_size: 1gb

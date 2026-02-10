@@ -1,58 +1,56 @@
 ---
 services:
-  mediamanager:
-    extends:
-      file: ../common.yml
-      service: common-config
-    container_name: mediamanager_server
-    image: quay.io/maxdorninger/mediamanager:latest
-    networks:
-      - proxy
-      - default
-    environment:
-      - CONFIG_DIR=/app/config
-    volumes:
-      - ${MEDIA}:/data/
-      - /opt/mediamanager/config/:/app/config/
-      - ${MEDIA}/images/:/data/images/
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8000/ >/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-    depends_on:
-      db:
-        condition: service_healthy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.mediamanager-secure.entrypoints=https"
-      - "traefik.http.routers.mediamanager-secure.rule=Host(`mediamanager.${DOMAIN}`)"
-      - "traefik.http.routers.mediamanager-secure.tls=true"
-      - "traefik.http.routers.mediamanager-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.mediamanager-secure.service=mediamanager"
-      - "traefik.http.services.mediamanager.loadbalancer.server.port=8000"
   db:
-    container_name: mediamanager_postgres
     image: postgres:17
-    restart: unless-stopped
+    container_name: mediamanager_postgres
+    environment:
+      POSTGRES_USER: MediaManager
+      POSTGRES_DB: MediaManager
+      POSTGRES_PASSWORD: MediaManager
     networks:
       - default
     volumes:
       - /opt/mediamanager/postgres:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: [CMD-SHELL, 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+  mediamanager:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: quay.io/maxdorninger/mediamanager:latest
+    container_name: mediamanager_server
     environment:
-      POSTGRES_USER: MediaManager
-      POSTGRES_DB: MediaManager
-      POSTGRES_PASSWORD: MediaManager
+      - CONFIG_DIR=/app/config
+    networks:
+      - proxy
+      - default
+    volumes:
+      - ${MEDIA}:/data/
+      - /opt/mediamanager/config/:/app/config/
+      - ${MEDIA}/images/:/data/images/
+    healthcheck:
+      test: [CMD-SHELL, 'curl -f http://127.0.0.1:8000/ >/dev/null || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.mediamanager-secure.entrypoints=https
+      - traefik.http.routers.mediamanager-secure.rule=Host(`mediamanager.${DOMAIN}`)
+      - traefik.http.routers.mediamanager-secure.tls=true
+      - traefik.http.routers.mediamanager-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.mediamanager-secure.service=mediamanager
+      - traefik.http.services.mediamanager.loadbalancer.server.port=8000
+    depends_on:
+      db:
+        condition: service_healthy
 networks:
-  proxy:
-    external: true
   default:
     driver: bridge
     name: mediamanager_network

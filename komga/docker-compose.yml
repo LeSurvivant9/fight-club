@@ -14,14 +14,11 @@ services:
       - /opt/komga/config:/config
       - ${MEDIA}/books:/data
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.komga-secure.entrypoints=https"
-      - "traefik.http.routers.komga-secure.rule=Host(`komga.${DOMAIN}`)"
-      - "traefik.http.routers.komga-secure.tls=true"
-      - "traefik.http.routers.komga-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.komga-secure.service=komga"
-      - "traefik.http.services.komga.loadbalancer.server.port=25600"
-networks:
-  proxy:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.komga-secure.entrypoints=https
+      - traefik.http.routers.komga-secure.rule=Host(`komga.${DOMAIN}`)
+      - traefik.http.routers.komga-secure.tls=true
+      - traefik.http.routers.komga-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.komga-secure.service=komga
+      - traefik.http.services.komga.loadbalancer.server.port=25600

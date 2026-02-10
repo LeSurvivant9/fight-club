@@ -1,11 +1,37 @@
 ---
 services:
+  jellystat:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: cyfershepard/jellystat:latest
+    container_name: jellystat
+    environment:
+      POSTGRES_IP: jellystat-db
+      POSTGRES_PORT: 5432
+    env_file:
+      - .env
+    networks:
+      - jellystat_int
+      - proxy
+    volumes:
+      - /opt/jellystat:/app/backend/backup-data
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.jellystat-secure.entrypoints=https
+      - traefik.http.routers.jellystat-secure.rule=Host(`jellystat.${DOMAIN}`)
+      - traefik.http.routers.jellystat-secure.tls=true
+      - traefik.http.routers.jellystat-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.jellystat-secure.service=jellystat
+      - traefik.http.services.jellystat.loadbalancer.server.port=3000
+    depends_on:
+      - jellystat-db
   jellystat-db:
     extends:
       file: ../common.yml
       service: common-config
     image: postgres:15
-    shm_size: 1gb
     container_name: jellystat-db
     env_file:
       - .env
@@ -13,35 +39,7 @@ services:
       - jellystat_int
     volumes:
       - /opt/postgres:/var/lib/postgresql/data
-  jellystat:
-    extends:
-      file: ../common.yml
-      service: common-config
-    image: cyfershepard/jellystat:latest
-    container_name: jellystat
-    env_file:
-      - .env
-    networks:
-      - jellystat_int
-      - proxy
-    environment:
-      POSTGRES_IP: jellystat-db
-      POSTGRES_PORT: 5432
-    volumes:
-      - /opt/jellystat:/app/backend/backup-data
-    depends_on:
-      - jellystat-db
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.jellystat-secure.entrypoints=https"
-      - "traefik.http.routers.jellystat-secure.rule=Host(`jellystat.${DOMAIN}`)"
-      - "traefik.http.routers.jellystat-secure.tls=true"
-      - "traefik.http.routers.jellystat-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.jellystat-secure.service=jellystat"
-      - "traefik.http.services.jellystat.loadbalancer.server.port=3000"
+    shm_size: 1gb
 networks:
   jellystat_int:
     internal: true
-  proxy:
-    external: true

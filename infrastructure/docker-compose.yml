@@ -1,0 +1,34 @@
+---
+services:
+  networks-init:
+    image: alpine:latest
+    container_name: networks-init
+    networks:
+      - proxy
+      - media_int
+      - vpn_net
+    restart: 'no'
+    command:
+      - sh
+      - -c
+      - echo 'Networks initialized' && sleep 10
+networks:
+  proxy:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+          gateway: 172.19.0.1
+  media_int:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+  vpn_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
+          gateway: 172.31.0.1

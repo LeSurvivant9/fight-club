@@ -22,7 +22,7 @@ wait_for_gluetun() {
   SLEEP_SECONDS=5
   elapsed=0
   status="$(get_status $GLUETUN_CONTAINER)"
-  
+
   echo "Vérification de l'état de $GLUETUN_CONTAINER..."
   while [ "$status" != "healthy" ]; do
     case "$status" in
@@ -51,27 +51,27 @@ wait_for_gluetun() {
 process_service() {
   SERVICE_NAME=$1
   SERVICE_DIR="$BASE_DIR/$SERVICE_NAME"
-  
+
   # On vérifie si le conteneur est unhealthy
   # Note: autoheal l'a peut-être déjà redémarré, mais l'utilisateur veut forcer une recréation si c'était unhealthy
   # Le webhook est déclenché par autoheal.
-  
+
   STATUS=$(get_status "$SERVICE_NAME")
   echo "Vérification de $SERVICE_NAME (statut actuel: $STATUS)..."
-  
+
   # L'utilisateur veut s'assurer qu'ils sont bien unhealthy chacun.
   # Si autoheal vient de le redémarrer, il est peut-être en 'starting' ou 'running' (mais pas encore healthy).
   # Si le webhook est appelé AVANT le restart d'autoheal, il est 'unhealthy'.
   # Si l'utilisateur veut filtrer, on ne traite que si c'est unhealthy ou si on veut forcer le traitement.
-  
+
   if [ "$STATUS" = "unhealthy" ]; then
     echo "Traitement de $SERVICE_NAME..."
-    
+
     # Pour qbit, nicotine et znc, ils dépendent de Gluetun
     if [ "$SERVICE_NAME" = "qbittorrent" ] || [ "$SERVICE_NAME" = "nicotine" ] || [ "$SERVICE_NAME" = "znc" ]; then
       wait_for_gluetun
     fi
-    
+
     if [ -d "$SERVICE_DIR" ]; then
       cd "$SERVICE_DIR"
       echo "Génération du fichier .env via Infisical pour $SERVICE_NAME..."

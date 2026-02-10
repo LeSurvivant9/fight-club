@@ -11,27 +11,22 @@ services:
     networks:
       - proxy
       - media_int
-    mem_limit: 1024M
     volumes:
       - /opt/sonarr/config:/config
       - ${MEDIA}:/media
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8989/"]
+      test: [CMD, curl, -f, 'http://localhost:8989/']
       interval: 60s
       timeout: 10s
       retries: 3
       start_period: 30s
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.sonarr-secure.entrypoints=https"
-      - "traefik.http.routers.sonarr-secure.rule=Host(`sonarr.${DOMAIN}`)"
-      - "traefik.http.routers.sonarr-secure.tls=true"
-      - "traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.sonarr-secure.service=sonarr"
-      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
-networks:
-  proxy:
-    external: true
-  media_int:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.sonarr-secure.entrypoints=https
+      - traefik.http.routers.sonarr-secure.rule=Host(`sonarr.${DOMAIN}`)
+      - traefik.http.routers.sonarr-secure.tls=true
+      - traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.sonarr-secure.service=sonarr
+      - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    mem_limit: 1024M

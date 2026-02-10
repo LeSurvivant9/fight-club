@@ -4,25 +4,22 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    container_name: homarr
     image: ghcr.io/homarr-labs/homarr:latest
+    container_name: homarr
     environment:
       - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
-    mem_limit: 512M
     networks:
       - proxy
     volumes:
       - /opt/homarr/appdata:/appdata
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.homarr-secure.entrypoints=https"
-      - "traefik.http.routers.homarr-secure.rule=Host(`homarr.${DOMAIN}`)"
-      - "traefik.http.routers.homarr-secure.tls=true"
-      - "traefik.http.routers.homarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.homarr-secure.service=homarr"
-      - "traefik.http.services.homarr.loadbalancer.server.port=7575"
-networks:
-  proxy:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.homarr-secure.entrypoints=https
+      - traefik.http.routers.homarr-secure.rule=Host(`homarr.${DOMAIN}`)
+      - traefik.http.routers.homarr-secure.tls=true
+      - traefik.http.routers.homarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.homarr-secure.service=homarr
+      - traefik.http.services.homarr.loadbalancer.server.port=7575
+    mem_limit: 512M

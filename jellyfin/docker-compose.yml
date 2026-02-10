@@ -18,20 +18,17 @@ services:
       - /dev/video19:/dev/video19
       - /dev/dma_heap:/dev/dma_heap
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8096/"]
+      test: [CMD, curl, -f, 'http://localhost:8096/']
       interval: 60s
       timeout: 10s
       retries: 3
       start_period: 30s
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.jellyfin-secure.entrypoints=https"
-      - "traefik.http.routers.jellyfin-secure.rule=Host(`jellyfin.${DOMAIN}`)"
-      - "traefik.http.routers.jellyfin-secure.tls=true"
-      - "traefik.http.routers.jellyfin-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.jellyfin-secure.service=jellyfin"
-      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-networks:
-  proxy:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.jellyfin-secure.entrypoints=https
+      - traefik.http.routers.jellyfin-secure.rule=Host(`jellyfin.${DOMAIN}`)
+      - traefik.http.routers.jellyfin-secure.tls=true
+      - traefik.http.routers.jellyfin-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.jellyfin-secure.service=jellyfin
+      - traefik.http.services.jellyfin.loadbalancer.server.port=8096

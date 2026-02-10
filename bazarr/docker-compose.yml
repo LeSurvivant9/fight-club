@@ -9,27 +9,22 @@ services:
     networks:
       - proxy
       - media_int
-    mem_limit: 512M
     volumes:
       - /opt/bazarr/config:/config
       - ${MEDIA}:/media
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6767"]
+      test: [CMD, curl, -f, 'http://localhost:6767']
       interval: 60s
       timeout: 10s
       retries: 3
       start_period: 30s
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.bazarr-secure.entrypoints=https"
-      - "traefik.http.routers.bazarr-secure.rule=Host(`bazarr.${DOMAIN}`)"
-      - "traefik.http.routers.bazarr-secure.tls=true"
-      - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.bazarr-secure.service=bazarr"
-      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
-networks:
-  proxy:
-    external: true
-  media_int:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.bazarr-secure.entrypoints=https
+      - traefik.http.routers.bazarr-secure.rule=Host(`bazarr.${DOMAIN}`)
+      - traefik.http.routers.bazarr-secure.tls=true
+      - traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.bazarr-secure.service=bazarr
+      - traefik.http.services.bazarr.loadbalancer.server.port=6767
+    mem_limit: 512M

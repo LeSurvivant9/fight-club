@@ -4,32 +4,29 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    container_name: notifiarr
     image: golift/notifiarr:latest
-    env_file:
-      - .env
-    mem_limit: 512M
-    networks:
-      - proxy
+    container_name: notifiarr
     environment:
       - DN_API_KEY=${DN_API_KEY}
       - DN_UI_PASSWORD=${DN_UI_PASSWORD}
       - DN_PROWLARR_0_API_KEY=${PROWLARR_API_KEY}
       - DN_RADARR_0_API_KEY=${RADARR_API_KEY}
       - DN_SONARR_0_API_KEY=${SONARR_API_KEY}
+    env_file:
+      - .env
+    networks:
+      - proxy
     volumes:
       - /opt/notifiarr/config:/config
       - /var/run/utmp:/var/run/utmp
       - /etc/machine-id:/etc/machine-id
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.notifiarr-secure.entrypoints=https"
-      - "traefik.http.routers.notifiarr-secure.rule=Host(`notifiarr.${DOMAIN}`)"
-      - "traefik.http.routers.notifiarr-secure.tls=true"
-      - "traefik.http.routers.notifiarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.notifiarr-secure.service=notifiarr"
-      - "traefik.http.services.notifiarr.loadbalancer.server.port=5454"
-networks:
-  proxy:
-    external: true
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.notifiarr-secure.entrypoints=https
+      - traefik.http.routers.notifiarr-secure.rule=Host(`notifiarr.${DOMAIN}`)
+      - traefik.http.routers.notifiarr-secure.tls=true
+      - traefik.http.routers.notifiarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.notifiarr-secure.service=notifiarr
+      - traefik.http.services.notifiarr.loadbalancer.server.port=5454
+    mem_limit: 512M

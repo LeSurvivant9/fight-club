@@ -6,7 +6,6 @@ services:
       service: common-config
     image: crazymax/diun:latest
     container_name: diun
-    command: serve
     environment:
       - DIUN_NOTIF_DISCORD_WEBHOOKURL=${DIUN_NOTIF_DISCORD_WEBHOOKURL}
       - LOG_JSON=${LOG_JSON}
@@ -17,8 +16,9 @@ services:
       - ./images.yml:/data/images.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock
     healthcheck:
-      test: ["CMD", "diun", "--version"]
+      test: [CMD, diun, --version]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
+    command: serve
