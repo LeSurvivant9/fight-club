@@ -22,3 +22,6 @@ services:
       - traefik.http.routers.jellyseerr-secure.service=jellyseerr
       - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
     mem_limit: 1024M
+networks:
+  proxy:
+    external: true

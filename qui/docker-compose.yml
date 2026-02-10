@@ -22,3 +22,6 @@ services:
       - traefik.http.routers.qui-secure.tls.certresolver=cloudflare
       - traefik.http.routers.qui-secure.service=qui
       - traefik.http.services.qui.loadbalancer.server.port=7476
+networks:
+  proxy:
+    external: true

@@ -54,10 +54,12 @@ EXPECTED_SERVICE_ORDER = [
     "profiles",
 ]
 
+INFRASTRUCTURE_NETWORKS = {"proxy", "media_int", "vpn_net"}
+
 
 def check_root_keys_order(content: dict[str, Any]) -> list[str]:
     """Check if root keys are in correct order with services first."""
-    errors = []
+    errors: list[str] = []
     root_keys = list(content.keys())
 
     def get_root_index(key: str) -> int:
@@ -79,7 +81,7 @@ def check_root_keys_order(content: dict[str, Any]) -> list[str]:
 
 def check_service_keys_order(service_name: str, service_config: dict[str, Any]) -> list[str]:
     """Check if service keys are in correct order."""
-    errors = []
+    errors: list[str] = []
     if not isinstance(service_config, dict):
         return errors
 
@@ -103,41 +105,61 @@ def check_service_keys_order(service_name: str, service_config: dict[str, Any]) 
     return errors
 
 
-def check_networks_usage(content: dict[str, Any], filepath: Path) -> list[str]:
-    """Check networks usage - should reference infrastructure networks without external."""
-    errors = []
+def get_networks_used_by_services(content: dict[str, Any]) -> set[str]:
+    """Extract all network names used by services in the compose file."""
+    networks_used: set[str] = set()
+    services = content.get("services", {})
 
-    infrastructure_networks = {"proxy", "media_int", "vpn_net"}
+    if isinstance(services, dict):
+        for service_config in services.values():
+            if isinstance(service_config, dict):
+                service_networks = service_config.get("networks", {})
+                if isinstance(service_networks, list):
+                    networks_used.update(service_networks)
+                elif isinstance(service_networks, dict):
+                    networks_used.update(service_networks.keys())
+
+    return networks_used
+
+
+def check_networks_usage(content: dict[str, Any], filepath: Path) -> list[str]:
+    """Check networks usage - infrastructure networks must be defined as external."""
+    errors: list[str] = []
 
     # Skip infrastructure file - it's supposed to define networks
     is_infrastructure = "infrastructure" in str(filepath)
 
-    if "networks" in content and not is_infrastructure:
-        networks = content["networks"]
-        if isinstance(networks, dict):
-            for net_name, net_config in networks.items():
-                if net_name in infrastructure_networks:
-                    errors.append(
-                        f"Network '{net_name}' should not be defined at root level "
-                        "(managed by infrastructure)"
-                    )
-                if isinstance(net_config, dict) and net_config.get("external") is True:
-                    errors.append(
-                        f"Network '{net_name}' uses external: true "
-                        "(should use infrastructure stack)"
-                    )
+    if is_infrastructure:
+        return errors
 
+    networks_used = get_networks_used_by_services(content)
+    infrastructure_networks_used = networks_used.intersection(INFRASTRUCTURE_NETWORKS)
+
+    # Check that infrastructure networks are properly defined as external
+    root_networks = content.get("networks", {})
+    if not isinstance(root_networks, dict):
+        root_networks = {}
+
+    for net_name in infrastructure_networks_used:
+        if net_name not in root_networks:
+            errors.append(
+                f"Network '{net_name}' is used by services but not defined at root level "
+                f"(must be defined with external: true)"
+            )
+        elif not root_networks[net_name] or root_networks[net_name].get("external") is not True:
+            errors.append(
+                f"Network '{net_name}' must be defined with external: true "
+                f"(managed by infrastructure stack)"
+            )
+
+    # Check for unknown networks in services
     if "services" in content and isinstance(content["services"], dict):
         for service_name, service_config in content["services"].items():
             if isinstance(service_config, dict) and "networks" in service_config:
                 service_networks = service_config["networks"]
-                if isinstance(service_networks, list):
-                    for net in service_networks:
-                        if net in infrastructure_networks:
-                            pass
-                elif isinstance(service_networks, dict):
+                if isinstance(service_networks, dict):
                     for net_name in service_networks:
-                        if net_name not in infrastructure_networks and net_name != "default":
+                        if net_name not in INFRASTRUCTURE_NETWORKS and net_name != "default":
                             errors.append(
                                 f"Service '{service_name}' uses unknown network '{net_name}'"
                             )
@@ -168,17 +190,14 @@ def check_extends_usage(content: dict[str, Any], filepath: Path) -> tuple[list[s
                     if extends.get("service") != "common-config":
                         svc_val = extends.get("service")
                         errors.append(f"Service '{service_name}' extends wrong service: {svc_val}")
-                    if extends.get("service") != "common-config":
-                        svc_val = extends.get("service")
-                        errors.append(f"Service '{service_name}' extends wrong service: {svc_val}")
 
     return errors, warnings
 
 
 def validate_file(filepath: Path) -> tuple[list[str], list[str]]:
     """Validate a single Docker Compose file. Returns (errors, warnings)."""
-    errors = []
-    warnings = []
+    errors: list[str] = []
+    warnings: list[str] = []
 
     try:
         with open(filepath) as f:
@@ -220,20 +239,20 @@ def main() -> None:
 
     total_errors = 0
     total_warnings = 0
-    files_with_issues = []
+    files_with_issues: list[str] = []
 
     for filepath in compose_files:
-        errors, warnings = validate_file(filepath)
+        file_errors, file_warnings = validate_file(filepath)
 
-        if errors or warnings:
+        if file_errors or file_warnings:
             rel_path = filepath.relative_to(Path("."))
             print(f"\n{rel_path}")
 
-            for error in errors:
+            for error in file_errors:
                 print(f"  ERROR: {error}")
                 total_errors += 1
 
-            for warning in warnings:
+            for warning in file_warnings:
                 print(f"  WARNING: {warning}")
                 total_warnings += 1
 

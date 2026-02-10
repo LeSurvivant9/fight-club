@@ -28,3 +28,6 @@ services:
       - traefik.http.routers.deemix-secure.tls.certresolver=cloudflare
       - traefik.http.routers.deemix-secure.service=deemix
       - traefik.http.services.deemix.loadbalancer.server.port=6595
+networks:
+  proxy:
+    external: true

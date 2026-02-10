@@ -43,3 +43,6 @@ services:
       - traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - traefik.http.routers.traefik-secure.tls.domains[0].main=${DOMAIN}
       - traefik.http.routers.traefik-secure.tls.domains[0].sans=*.${DOMAIN}
+networks:
+  proxy:
+    external: true

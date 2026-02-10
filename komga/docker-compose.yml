@@ -22,3 +22,6 @@ services:
       - traefik.http.routers.komga-secure.tls.certresolver=cloudflare
       - traefik.http.routers.komga-secure.service=komga
       - traefik.http.services.komga.loadbalancer.server.port=25600
+networks:
+  proxy:
+    external: true

@@ -23,3 +23,6 @@ services:
       - traefik.http.routers.komf-secure.tls.certresolver=cloudflare
       - traefik.http.routers.komf-secure.service=komf
       - traefik.http.services.komf.loadbalancer.server.port=8085
+networks:
+  proxy:
+    external: true

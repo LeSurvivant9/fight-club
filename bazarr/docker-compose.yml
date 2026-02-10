@@ -28,3 +28,8 @@ services:
       - traefik.http.routers.bazarr-secure.service=bazarr
       - traefik.http.services.bazarr.loadbalancer.server.port=6767
     mem_limit: 512M
+networks:
+  media_int:
+    external: true
+  proxy:
+    external: true

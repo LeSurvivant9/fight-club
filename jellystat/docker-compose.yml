@@ -43,3 +43,5 @@ services:
 networks:
   jellystat_int:
     internal: true
+  proxy:
+    external: true

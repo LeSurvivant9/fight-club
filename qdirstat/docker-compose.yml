@@ -23,3 +23,6 @@ services:
       - traefik.http.routers.qdirstat-secure.service=qdirstat
       - traefik.http.services.qdirstat.loadbalancer.server.port=3000
     shm_size: 1gb
+networks:
+  proxy:
+    external: true

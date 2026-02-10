@@ -22,3 +22,6 @@ services:
       - traefik.http.routers.qbit_manage-secure.tls.certresolver=cloudflare
       - traefik.http.routers.qbit_manage-secure.service=qbit_manage
       - traefik.http.services.qbit_manage.loadbalancer.server.port=8080
+networks:
+  proxy:
+    external: true

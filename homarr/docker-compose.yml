@@ -23,3 +23,6 @@ services:
       - traefik.http.routers.homarr-secure.service=homarr
       - traefik.http.services.homarr.loadbalancer.server.port=7575
     mem_limit: 512M
+networks:
+  proxy:
+    external: true

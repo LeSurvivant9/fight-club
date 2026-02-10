@@ -30,3 +30,6 @@ services:
     volumes:
       - ${MEDIA}:/media
     mem_limit: 512M
+networks:
+  media_int:
+    external: true

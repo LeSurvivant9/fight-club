@@ -30,3 +30,6 @@ services:
       - traefik.http.routers.notifiarr-secure.service=notifiarr
       - traefik.http.services.notifiarr.loadbalancer.server.port=5454
     mem_limit: 512M
+networks:
+  proxy:
+    external: true

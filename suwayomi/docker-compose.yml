@@ -21,3 +21,6 @@ services:
       - traefik.http.routers.suwayomi-secure.tls.certresolver=cloudflare
       - traefik.http.routers.suwayomi-secure.service=suwayomi
       - traefik.http.services.suwayomi.loadbalancer.server.port=4567
+networks:
+  proxy:
+    external: true

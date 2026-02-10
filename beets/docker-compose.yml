@@ -30,3 +30,6 @@ services:
       - traefik.http.routers.beets-secure.tls.certresolver=cloudflare
       - traefik.http.routers.beets-secure.service=beets
       - traefik.http.services.beets.loadbalancer.server.port=8337
+networks:
+  proxy:
+    external: true

@@ -30,3 +30,8 @@ services:
       - traefik.http.routers.sonarr-secure.service=sonarr
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
     mem_limit: 1024M
+networks:
+  media_int:
+    external: true
+  proxy:
+    external: true

@@ -54,3 +54,5 @@ networks:
   default:
     driver: bridge
     name: mediamanager_network
+  proxy:
+    external: true

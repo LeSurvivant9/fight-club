@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Update docker-compose files to use infrastructure-managed networks."""
+"""Ensure docker-compose files define infrastructure networks as external."""
 
 import logging
 import sys
@@ -17,8 +17,25 @@ logger = logging.getLogger(__name__)
 INFRASTRUCTURE_NETWORKS = {"proxy", "media_int", "vpn_net"}
 
 
+def get_networks_used_by_services(content: dict[str, Any]) -> set[str]:
+    """Extract all network names used by services in the compose file."""
+    networks_used = set()
+    services = content.get("services", {})
+
+    if isinstance(services, dict):
+        for service_config in services.values():
+            if isinstance(service_config, dict):
+                service_networks = service_config.get("networks", {})
+                if isinstance(service_networks, list):
+                    networks_used.update(service_networks)
+                elif isinstance(service_networks, dict):
+                    networks_used.update(service_networks.keys())
+
+    return networks_used
+
+
 def update_networks_in_file(filepath: Path) -> bool:
-    """Update a single Docker Compose file to use infrastructure networks."""
+    """Ensure infrastructure networks are defined as external in compose file."""
     try:
         with open(filepath) as f:
             content: dict[str, Any] = yaml.safe_load(f)
@@ -31,22 +48,34 @@ def update_networks_in_file(filepath: Path) -> bool:
 
     updated = False
 
-    if "networks" in content:
-        networks = content["networks"]
-        if isinstance(networks, dict):
-            for network_name in list(networks.keys()):
-                if (
-                    network_name in INFRASTRUCTURE_NETWORKS
-                    and networks[network_name]
-                    and networks[network_name].get("external") is True
-                ):
-                    del networks[network_name]
-                    updated = True
-                    logger.info("Removed external network '%s' from %s", network_name, filepath)
+    networks_used = get_networks_used_by_services(content)
+    infrastructure_networks_used = networks_used.intersection(INFRASTRUCTURE_NETWORKS)
 
-            if not networks:
-                del content["networks"]
-                updated = True
+    if not infrastructure_networks_used:
+        return True
+
+    if "networks" not in content:
+        content["networks"] = {}
+        updated = True
+
+    root_networks = content.get("networks", {})
+    if not isinstance(root_networks, dict):
+        root_networks = {}
+        content["networks"] = root_networks
+        updated = True
+
+    for network_name in infrastructure_networks_used:
+        if network_name not in root_networks:
+            root_networks[network_name] = {"external": True}
+            updated = True
+            logger.info("Added external network '%s' to %s", network_name, filepath)
+        elif (
+            not root_networks[network_name]
+            or root_networks[network_name].get("external") is not True
+        ):
+            root_networks[network_name] = {"external": True}
+            updated = True
+            logger.info("Updated network '%s' to external in %s", network_name, filepath)
 
     if updated:
         try:

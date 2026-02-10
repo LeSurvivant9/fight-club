@@ -23,3 +23,6 @@ services:
       - traefik.http.routers.meilisearch-secure.tls.certresolver=cloudflare
       - traefik.http.routers.meilisearch-secure.service=meilisearch
       - traefik.http.services.meilisearch.loadbalancer.server.port=7700
+networks:
+  proxy:
+    external: true

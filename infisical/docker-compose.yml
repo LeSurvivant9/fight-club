@@ -67,6 +67,8 @@ services:
 networks:
   infisical_int:
     internal: true
+  proxy:
+    external: true
 volumes:
   pg_data:
     driver: local

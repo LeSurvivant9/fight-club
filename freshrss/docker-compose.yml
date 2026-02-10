@@ -35,3 +35,6 @@ services:
     logging:
       options:
         max-size: 10m
+networks:
+  proxy:
+    external: true

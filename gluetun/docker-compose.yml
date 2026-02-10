@@ -283,6 +283,13 @@ services:
     depends_on:
       gluetun:
         condition: service_healthy
+networks:
+  media_int:
+    external: true
+  vpn_net:
+    external: true
+  proxy:
+    external: true
 configs:
   post-rules.txt:
     content: |-
