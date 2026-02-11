@@ -24,21 +24,24 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
-      # Router API (SANS Authentik) - Pour applications mobiles
+      # Router API (SANS Authentik) - Pour applications mobiles et API clients
+      # Priorité élevée pour capturer les chemins API avant le router web
       - traefik.http.routers.jellyfin-api.entrypoints=https
-      - traefik.http.routers.jellyfin-api.rule=Host(`jellyfin.${DOMAIN}`) && PathPrefix(`/System`,`/Users`,`/Items`,`/Shows`,`/Movies`,`/MusicAlbums`,`/MusicArtists`,`/Playlists`,`/Sessions`,`/Notifications`,`/ScheduledTasks`,`/Plugins`,`/Branding`,`/DisplayPreferences`,`/Library`,`/hubs`,`/LiveTV`,`/Videos`,`/Audio`,`/Auth`)
+      - traefik.http.routers.jellyfin-api.rule=Host(`jellyfin.${DOMAIN}`) && PathPrefix(`/System`,`/Users`,`/Items`,`/Shows`,`/Movies`,`/MusicAlbums`,`/MusicArtists`,`/Playlists`,`/Sessions`,`/Notifications`,`/ScheduledTasks`,`/Plugins`,`/Branding`,`/DisplayPreferences`,`/Library`,`/hubs`,`/LiveTV`,`/Videos`,`/Audio`,`/Auth`,`/api`,`/web`,`/socket`,`/swagger`)
       - traefik.http.routers.jellyfin-api.tls=true
       - traefik.http.routers.jellyfin-api.tls.certresolver=cloudflare
       - traefik.http.routers.jellyfin-api.service=jellyfin
       - traefik.http.routers.jellyfin-api.middlewares=no-index@file
-      - traefik.http.routers.jellyfin-api.priority=100
-      # Router WEB (AVEC Authentik) - Pour interface web
+      - traefik.http.routers.jellyfin-api.priority=200
+      # Router WEB (AVEC Authentik) - Pour interface web uniquement
+      # Explicite: tout ce qui n'est pas API doit passer par Authentik
       - traefik.http.routers.jellyfin-web.entrypoints=https
       - traefik.http.routers.jellyfin-web.rule=Host(`jellyfin.${DOMAIN}`)
       - traefik.http.routers.jellyfin-web.tls=true
       - traefik.http.routers.jellyfin-web.tls.certresolver=cloudflare
       - traefik.http.routers.jellyfin-web.service=jellyfin
       - traefik.http.routers.jellyfin-web.middlewares=authentik-forwardauth@file,no-index@file
+      - traefik.http.routers.jellyfin-web.priority=100
       # Service
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
 networks:
