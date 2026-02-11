@@ -54,7 +54,7 @@ EXPECTED_SERVICE_ORDER = [
     "profiles",
 ]
 
-INFRASTRUCTURE_NETWORKS = {"proxy", "media_int", "vpn_net"}
+INFRASTRUCTURE_NETWORKS = {"proxy", "media_int", "vpn_net", "socket_proxy"}
 
 
 def check_root_keys_order(content: dict[str, Any]) -> list[str]:

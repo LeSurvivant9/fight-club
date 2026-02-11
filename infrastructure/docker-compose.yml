@@ -1,12 +1,13 @@
 ---
 services:
   networks-init:
-    image: alpine:latest
+    image: alpine:3.20
     container_name: networks-init
     networks:
       - proxy
       - media_int
       - vpn_net
+      - socket_proxy
     restart: 'no'
     command:
       - sh
@@ -32,3 +33,10 @@ networks:
       config:
         - subnet: 172.31.0.0/16
           gateway: 172.31.0.1
+  socket_proxy:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+          gateway: 172.21.0.1

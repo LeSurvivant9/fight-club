@@ -11,9 +11,11 @@ services:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
       - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - DOMAIN=${DOMAIN}
+      - DOCKER_HOST=tcp://socket-proxy:2375
     networks:
       proxy:
         ipv4_address: 172.19.0.80
+      socket_proxy:
     ports:
       - "80:80"
       - "443:443"
@@ -23,7 +25,6 @@ services:
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./config/dynamic:/etc/traefik/dynamic:ro
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /opt/traefik/config/acme.json:/etc/traefik/acme.json
     healthcheck:
       test: [CMD, traefik, healthcheck]
@@ -43,6 +44,11 @@ services:
       - traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - traefik.http.routers.traefik-secure.tls.domains[0].main=${DOMAIN}
       - traefik.http.routers.traefik-secure.tls.domains[0].sans=*.${DOMAIN}
+    depends_on:
+      socket-proxy:
+        condition: service_healthy
 networks:
   proxy:
+    external: true
+  socket_proxy:
     external: true

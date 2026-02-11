@@ -4,6 +4,20 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    environment:
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
+      - WATCHTOWER_SCHEDULE=0 0 4 * * *
+      - WATCHTOWER_INCLUDE_STOPPED=true
+      - WATCHTOWER_REVIVE_STOPPED=false
+      - WATCHTOWER_ROLLING_RESTART=true
+    networks:
+      - socket_proxy
+    depends_on:
+      socket-proxy:
+        condition: service_healthy
+networks:
+  socket_proxy:
+    external: true
