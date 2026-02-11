@@ -10,8 +10,6 @@ services:
       - .env
     networks:
       - proxy
-    ports:
-      - "7700:7700"
     volumes:
       - /opt/meilisearch:/meili_data
     labels:

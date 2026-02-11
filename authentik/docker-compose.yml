@@ -1,0 +1,110 @@
+---
+services:
+  postgresql:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: docker.io/library/postgres:16-alpine
+    container_name: authentik-postgresql
+    env_file:
+      - .env
+    networks:
+      - proxy
+    volumes:
+      - /opt/authentik/database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+  redis:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: docker.io/library/redis:alpine
+    container_name: authentik-redis
+    env_file:
+      - .env
+    networks:
+      - proxy
+    volumes:
+      - /opt/authentik/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+  server:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/goauthentik/server:2025.12.3
+    container_name: authentik-server
+    env_file:
+      - .env
+    networks:
+      - proxy
+      - socket_proxy
+    volumes:
+      - /opt/authentik/media:/media
+      - /opt/authentik/certs:/certs
+      - /opt/authentik/custom-templates:/templates
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9000/-/health/ready/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.authentik-secure.entrypoints=https
+      - traefik.http.routers.authentik-secure.rule=Host(`authentik.${DOMAIN}`)
+      - traefik.http.routers.authentik-secure.tls=true
+      - traefik.http.routers.authentik-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.authentik-secure.service=authentik-server
+      - traefik.http.services.authentik-server.loadbalancer.server.port=9000
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  worker:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/goauthentik/server:2025.12.3
+    container_name: authentik-worker
+    env_file:
+      - .env
+    networks:
+      - proxy
+      - socket_proxy
+    volumes:
+      - /opt/authentik/media:/media
+      - /opt/authentik/certs:/certs
+      - /opt/authentik/custom-templates:/templates
+      - /opt/authentik/geoip:/geoip
+    healthcheck:
+      test: ["CMD", "ak", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      server:
+        condition: service_healthy
+    command: worker
+networks:
+  proxy:
+    external: true
+    name: proxy
+  socket_proxy:
+    external: true
+    name: socket_proxy

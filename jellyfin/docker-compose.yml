@@ -8,8 +8,6 @@ services:
     container_name: jellyfin
     networks:
       - proxy
-    ports:
-      - "8096:8096"
     volumes:
       - /opt/jellyfin/config:/config
       - /opt/jellyfin/cache:/cache
