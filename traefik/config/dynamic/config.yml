@@ -30,6 +30,11 @@ http:
           - video/*
           - application/pdf
           - application/zip
+    # Anti-indexation pour les moteurs de recherche
+    no-index:
+      headers:
+        customResponseHeaders:
+          X-Robots-Tag: "noindex, nofollow, noarchive, nosnippet"
 # Configuration TLS
 tls:
   options:

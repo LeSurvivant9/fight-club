@@ -21,6 +21,7 @@ services:
       - traefik.http.routers.jellyseerr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.jellyseerr-secure.service=jellyseerr
       - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+      - traefik.http.routers.jellyseerr-secure.middlewares=authentik-forwardauth@file,no-index@file
     mem_limit: 1024M
 networks:
   proxy:
