@@ -75,6 +75,11 @@ services:
       redis:
         condition: service_healthy
     command: server
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
   worker:
     extends:
       file: ../common.yml
@@ -108,6 +113,11 @@ services:
       server:
         condition: service_healthy
     command: worker
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 networks:
   proxy:
     external: true
