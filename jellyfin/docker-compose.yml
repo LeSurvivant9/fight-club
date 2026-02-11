@@ -27,7 +27,7 @@ services:
       # Router API (SANS Authentik) - Pour applications mobiles et API clients
       # Priorité élevée pour capturer les chemins API avant le router web
       - traefik.http.routers.jellyfin-api.entrypoints=https
-      - traefik.http.routers.jellyfin-api.rule=Host(`jellyfin.${DOMAIN}`) && PathPrefix(`/System`,`/Users`,`/Items`,`/Shows`,`/Movies`,`/MusicAlbums`,`/MusicArtists`,`/Playlists`,`/Sessions`,`/Notifications`,`/ScheduledTasks`,`/Plugins`,`/Branding`,`/DisplayPreferences`,`/Library`,`/hubs`,`/LiveTV`,`/Videos`,`/Audio`,`/Auth`,`/api`,`/web`,`/socket`,`/swagger`)
+      - traefik.http.routers.jellyfin-api.rule=Host(`jellyfin.${DOMAIN}`) && (PathPrefix(`/System`) || PathPrefix(`/Users`) || PathPrefix(`/Items`) || PathPrefix(`/Shows`) || PathPrefix(`/Movies`) || PathPrefix(`/MusicAlbums`) || PathPrefix(`/MusicArtists`) || PathPrefix(`/Playlists`) || PathPrefix(`/Sessions`) || PathPrefix(`/Notifications`) || PathPrefix(`/ScheduledTasks`) || PathPrefix(`/Plugins`) || PathPrefix(`/Branding`) || PathPrefix(`/DisplayPreferences`) || PathPrefix(`/Library`) || PathPrefix(`/hubs`) || PathPrefix(`/LiveTV`) || PathPrefix(`/Videos`) || PathPrefix(`/Audio`) || PathPrefix(`/Auth`) || PathPrefix(`/api`) || PathPrefix(`/web`) || PathPrefix(`/socket`))
       - traefik.http.routers.jellyfin-api.tls=true
       - traefik.http.routers.jellyfin-api.tls.certresolver=cloudflare
       - traefik.http.routers.jellyfin-api.service=jellyfin
