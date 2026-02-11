@@ -12,8 +12,8 @@ services:
       vpn_net:
         ipv4_address: 172.31.0.123
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
+      - "192.168.1.24:53:53/tcp"
+      - "192.168.1.24:53:53/udp"
       - "784:784/udp"
       - "853:853/tcp"
     volumes:
