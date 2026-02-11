@@ -15,9 +15,6 @@ services:
       - WATCHTOWER_ROLLING_RESTART=true
     networks:
       - socket_proxy
-    depends_on:
-      socket-proxy:
-        condition: service_healthy
 networks:
   socket_proxy:
     external: true

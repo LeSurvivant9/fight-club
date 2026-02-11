@@ -26,9 +26,6 @@ services:
       - traefik.http.routers.dozzle-secure.tls.certresolver=cloudflare
       - traefik.http.routers.dozzle-secure.service=dozzle
       - traefik.http.services.dozzle.loadbalancer.server.port=8080
-    depends_on:
-      socket-proxy:
-        condition: service_healthy
 networks:
   proxy:
     external: true
