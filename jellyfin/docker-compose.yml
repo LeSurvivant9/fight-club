@@ -27,21 +27,30 @@ services:
       # Router API (SANS Authentik) - Pour applications mobiles et API clients
       # Priorité élevée pour capturer les chemins API avant le router web
       - traefik.http.routers.jellyfin-api.entrypoints=https
-      - traefik.http.routers.jellyfin-api.rule=Host(`jellyfin.${DOMAIN}`) && (PathPrefix(`/System`) || PathPrefix(`/Users`) || PathPrefix(`/Items`) || PathPrefix(`/Shows`) || PathPrefix(`/Movies`) || PathPrefix(`/MusicAlbums`) || PathPrefix(`/MusicArtists`) || PathPrefix(`/Playlists`) || PathPrefix(`/Sessions`) || PathPrefix(`/Notifications`) || PathPrefix(`/ScheduledTasks`) || PathPrefix(`/Plugins`) || PathPrefix(`/Branding`) || PathPrefix(`/DisplayPreferences`) || PathPrefix(`/Library`) || PathPrefix(`/hubs`) || PathPrefix(`/LiveTV`) || PathPrefix(`/Videos`) || PathPrefix(`/Audio`) || PathPrefix(`/Auth`) || PathPrefix(`/api`) || PathPrefix(`/web`) || PathPrefix(`/socket`))
+      - traefik.http.routers.jellyfin-api.rule=Host(`jellyfin.${DOMAIN}`) && (PathPrefix(`/System`) || PathPrefix(`/Users`) || PathPrefix(`/Items`) || PathPrefix(`/Shows`) || PathPrefix(`/Movies`) || PathPrefix(`/MusicAlbums`) || PathPrefix(`/MusicArtists`) || PathPrefix(`/Playlists`) || PathPrefix(`/Sessions`) || PathPrefix(`/Notifications`) || PathPrefix(`/ScheduledTasks`) || PathPrefix(`/Plugins`) || PathPrefix(`/Branding`) || PathPrefix(`/DisplayPreferences`) || PathPrefix(`/Library`) || PathPrefix(`/hubs`) || PathPrefix(`/LiveTV`) || PathPrefix(`/Videos`) || PathPrefix(`/Audio`) || PathPrefix(`/Auth`) || PathPrefix(`/api`) || PathPrefix(`/socket`))
       - traefik.http.routers.jellyfin-api.tls=true
       - traefik.http.routers.jellyfin-api.tls.certresolver=cloudflare
       - traefik.http.routers.jellyfin-api.service=jellyfin
       - traefik.http.routers.jellyfin-api.middlewares=no-index@file
       - traefik.http.routers.jellyfin-api.priority=200
-      # Router WEB (AVEC Authentik) - Pour interface web uniquement
-      # Explicite: tout ce qui n'est pas API doit passer par Authentik
+      # Router ASSETS (SANS Authentik) - Pour app officielle et assets web
+      # Priorité la plus haute pour servir les assets sans authentification
+      - traefik.http.routers.jellyfin-assets.entrypoints=https
+      - traefik.http.routers.jellyfin-assets.rule=Host(`jellyfin.${DOMAIN}`) && (Path(`/`) || PathPrefix(`/web`))
+      - traefik.http.routers.jellyfin-assets.tls=true
+      - traefik.http.routers.jellyfin-assets.tls.certresolver=cloudflare
+      - traefik.http.routers.jellyfin-assets.service=jellyfin
+      - traefik.http.routers.jellyfin-assets.middlewares=no-index@file
+      - traefik.http.routers.jellyfin-assets.priority=300
+      # Router WEB (AVEC Authentik) - Pour interface web navigateur
+      # Capture tout le reste (pages protégées, settings, etc.)
       - traefik.http.routers.jellyfin-web.entrypoints=https
       - traefik.http.routers.jellyfin-web.rule=Host(`jellyfin.${DOMAIN}`)
       - traefik.http.routers.jellyfin-web.tls=true
       - traefik.http.routers.jellyfin-web.tls.certresolver=cloudflare
       - traefik.http.routers.jellyfin-web.service=jellyfin
       - traefik.http.routers.jellyfin-web.middlewares=authentik-forwardauth@file,no-index@file
-      - traefik.http.routers.jellyfin-web.priority=100
+      - traefik.http.routers.jellyfin-web.priority=50
       # Service
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
 networks:
