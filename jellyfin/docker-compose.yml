@@ -24,13 +24,23 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
-      - traefik.http.routers.jellyfin-secure.entrypoints=https
-      - traefik.http.routers.jellyfin-secure.rule=Host(`jellyfin.${DOMAIN}`)
-      - traefik.http.routers.jellyfin-secure.tls=true
-      - traefik.http.routers.jellyfin-secure.tls.certresolver=cloudflare
-      - traefik.http.routers.jellyfin-secure.service=jellyfin
+      # Router API (SANS Authentik) - Pour applications mobiles
+      - traefik.http.routers.jellyfin-api.entrypoints=https
+      - traefik.http.routers.jellyfin-api.rule=Host(`jellyfin.${DOMAIN}`) && PathPrefix(`/System`,`/Users`,`/Items`,`/Shows`,`/Movies`,`/MusicAlbums`,`/MusicArtists`,`/Playlists`,`/Sessions`,`/Notifications`,`/ScheduledTasks`,`/Plugins`,`/Branding`,`/DisplayPreferences`,`/Library`,`/hubs`,`/LiveTV`,`/Videos`,`/Audio`,`/Auth`)
+      - traefik.http.routers.jellyfin-api.tls=true
+      - traefik.http.routers.jellyfin-api.tls.certresolver=cloudflare
+      - traefik.http.routers.jellyfin-api.service=jellyfin
+      - traefik.http.routers.jellyfin-api.middlewares=no-index@file
+      - traefik.http.routers.jellyfin-api.priority=100
+      # Router WEB (AVEC Authentik) - Pour interface web
+      - traefik.http.routers.jellyfin-web.entrypoints=https
+      - traefik.http.routers.jellyfin-web.rule=Host(`jellyfin.${DOMAIN}`)
+      - traefik.http.routers.jellyfin-web.tls=true
+      - traefik.http.routers.jellyfin-web.tls.certresolver=cloudflare
+      - traefik.http.routers.jellyfin-web.service=jellyfin
+      - traefik.http.routers.jellyfin-web.middlewares=authentik-forwardauth@file,no-index@file
+      # Service
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-      - traefik.http.routers.jellyfin-secure.middlewares=authentik-forwardauth@file,no-index@file
 networks:
   proxy:
     external: true
