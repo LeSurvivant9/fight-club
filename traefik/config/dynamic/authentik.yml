@@ -18,7 +18,3 @@ http:
           - X-authentik-meta-provider
           - X-authentik-meta-app
           - X-authentik-meta-version
-    no-index:
-      headers:
-        customResponseHeaders:
-          X-Robots-Tag: "noindex, nofollow, noarchive, nosnippet"
