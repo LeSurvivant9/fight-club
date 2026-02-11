@@ -31,13 +31,26 @@
   - Authentification par service (pas de SSO)
 - **Impact**: Tous les services nécessitent une authentification Authentik
 
+## Development & Deployment Architecture
+
+### Environment Separation
+- **Development Machine**: Mac local (`/Users/ls/docker` - Git repository)
+- **Target/Production**: Raspberry Pi distant (exécution réelle des conteneurs)
+- **Workflow**: Code édité sur Mac → Push vers repo → Pull sur Raspberry Pi → Docker Compose up
+
+### Important Notes
+- **Les fichiers créés/modifiés ici** (`/Users/ls/docker/`) sont sur le Mac de développement
+- **Les chemins absolus** (`/opt/authentik/`, `/opt/traefik/`, etc.) se réfèrent au **Raspberry Pi**
+- **Les commandes Docker** (`docker compose up`, etc.) doivent être exécutées sur le Raspberry Pi
+- **Ne pas tester les conteneurs ici** - le Mac est uniquement pour le développement
+
 ## Technical Constraints
 
-- **Réseau**: Network `proxy` externe déjà existant (172.19.0.0/24)
+- **Réseau**: Network `proxy` externe déjà existant (172.19.0.0/24) sur Raspberry Pi
 - **DNS**: Domaine t3f-fight-club.xyz géré par Cloudflare
-- **Certificats**: Cloudflare certresolver déjà configuré dans Traefik
-- **Stockage**: Volumes persistants dans /opt/
-- **Utilisateurs**: 5 utilisateurs maximum sur le home server
+- **Certificats**: Cloudflare certresolver déjà configuré dans Traefik sur Raspberry Pi
+- **Stockage**: Volumes persistants dans `/opt/` sur Raspberry Pi
+- **Utilisateurs**: 5 utilisateurs maximum sur le home server (Raspberry Pi)
 - **Sécurité**: Aucun service exposé actuellement (tout derrière WireGuard)
 
 ## Patterns & Conventions

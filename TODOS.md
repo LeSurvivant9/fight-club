@@ -28,75 +28,119 @@
 
 ---
 
-### Task 2: Créer le répertoire et volumes pour Authentik
-**Objective:** Préparer la structure de stockage persistant pour Authentik
-**Context:** Authentik nécessite des volumes pour la base de données PostgreSQL, les données media, les templates et le GeoIP
+### Task 2: Créer le répertoire et volumes pour Authentik (sur Raspberry Pi)
+**Objective:** Préparer la structure de stockage persistant pour Authentik sur le Raspberry Pi
+**Context:** Authentik nécessite des volumes pour la base de données PostgreSQL, les données media, les templates et le GeoIP. Cette tâche s'exécute sur le Raspberry Pi cible.
 **Prerequisites:** Task 1 complété
 **Inputs:** 
-- Structure existante dans `/opt/`
-- Permissions utilisateur Docker
+- Accès SSH au Raspberry Pi
+- Structure existante dans `/opt/` sur Raspberry Pi
+- Permissions utilisateur Docker sur Raspberry Pi
 **Expected Output:**
-- Répertoire `/opt/authentik/` créé avec sous-répertoires
+- Répertoire `/opt/authentik/` créé avec sous-répertoires sur Raspberry Pi
 - Permissions correctes (UID/GID 1000 ou root selon votre setup)
 **Success Criteria:**
-- [ ] `/opt/authentik/database` créé (PostgreSQL)
-- [ ] `/opt/authentik/media` créé (fichiers uploadés)
-- [ ] `/opt/authentik/certs` créé (certificats custom)
-- [ ] `/opt/authentik/custom-templates` créé (templates personnalisés)
-- [ ] `/opt/authentik/geoip` créé (base GeoIP pour géolocalisation)
+- [ ] `/opt/authentik/database` créé sur Raspberry Pi (PostgreSQL)
+- [ ] `/opt/authentik/media` créé sur Raspberry Pi (fichiers uploadés)
+- [ ] `/opt/authentik/certs` créé sur Raspberry Pi (certificats custom)
+- [ ] `/opt/authentik/custom-templates` créé sur Raspberry Pi (templates personnalisés)
+- [ ] `/opt/authentik/geoip` créé sur Raspberry Pi (base GeoIP pour géolocalisation)
+**Commands to run on Raspberry Pi:**
+```bash
+sudo mkdir -p /opt/authentik/{database,redis,media,certs,custom-templates,geoip}
+sudo chown -R $(id -u):$(id -g) /opt/authentik
+ls -la /opt/authentik/
+```
 **Edge Cases to Handle:**
 - Répertoire existe déjà : vérifier permissions, ne pas écraser
 - Espace disque insuffisant : Authentik nécessite ~2GB minimum
-**Files to Modify:** Aucun (création de répertoires)
-**Testing:** `ls -la /opt/authentik/` et `docker run --rm -v /opt/authentik:/test alpine ls -la /test`
+**Files to Modify:** Aucun (création de répertoires sur le Raspberry Pi)
+**Testing:** `ls -la /opt/authentik/` sur Raspberry Pi
 **Potential Pitfalls:**
 - Mauvaises permissions = Authentik ne pourra pas écrire dans les volumes
 - SELinux peut bloquer l'accès (ajouter `:Z` ou `:z` aux volumes si nécessaire)
 
 ---
 
-### Task 3: Générer les secrets et variables d'environnement
+### Task 3: Générer les secrets et variables d'environnement (sur Raspberry Pi)
 **Objective:** Créer le fichier `.env` avec tous les secrets nécessaires pour Authentik
-**Context:** Authentik nécessite des mots de passe forts pour PostgreSQL et une clé secrète pour la sécurité
+**Context:** Authentik nécessite des mots de passe forts pour PostgreSQL et une clé secrète pour la sécurité. Cette tâche s'exécute sur le Raspberry Pi après avoir copié le template.
 **Prerequisites:** Task 2 complété
 **Inputs:**
-- Variables existantes dans les autres `.env`
+- Variables existantes dans les autres `.env` sur Raspberry Pi
 - Domaine: t3f-fight-club.xyz
 **Expected Output:**
-- Fichier `/Users/ls/docker/authentik/.env` créé avec toutes les variables
+- Fichier `/opt/docker/authentik/.env` créé sur Raspberry Pi avec tous les secrets
 **Success Criteria:**
-- [ ] `PG_PASS` généré (36 caractères base64)
-- [ ] `AUTHENTIK_SECRET_KEY` généré (60 caractères base64)
-- [ ] `AUTHENTIK_HOST` configuré
+- [ ] `POSTGRES_PASSWORD` généré (36 caractères base64) sur Raspberry Pi
+- [ ] `AUTHENTIK_SECRET_KEY` généré (60 caractères base64) sur Raspberry Pi
 - [ ] `AUTHENTIK_ERROR_REPORTING__ENABLED` défini (false recommandé pour privacy)
 - [ ] Variables email configurées (optionnel mais recommandé)
+**Commands to run on Raspberry Pi:**
+```bash
+cd /opt/docker/authentik
+
+# Générer le mot de passe PostgreSQL (36 caractères base64)
+PG_PASS=$(openssl rand -base64 36 | tr -d '\n')
+
+# Générer la clé secrète Authentik (60 caractères base64)
+AUTHENTIK_SECRET_KEY=$(openssl rand -base64 60 | tr -d '\n')
+
+# Créer le fichier .env
+cat > .env << EOF
+# Authentik Configuration - Generated on $(date)
+POSTGRES_DB=authentik
+POSTGRES_USER=authentik
+POSTGRES_PASSWORD=$PG_PASS
+
+AUTHENTIK_SECRET_KEY=$AUTHENTIK_SECRET_KEY
+
+# Authentik Settings
+AUTHENTIK_ERROR_REPORTING__ENABLED=false
+AUTHENTIK_DISABLE_STARTUP_ANALYTICS=true
+AUTHENTIK_DISABLE_UPDATE_CHECK=true
+
+# Internal Database Configuration
+AUTHENTIK_POSTGRESQL__HOST=postgresql
+AUTHENTIK_POSTGRESQL__NAME=authentik
+AUTHENTIK_POSTGRESQL__USER=authentik
+AUTHENTIK_POSTGRESQL__PASSWORD=$PG_PASS
+
+# Redis Configuration
+AUTHENTIK_REDIS__HOST=redis
+EOF
+
+echo "Fichier .env créé avec succès"
+ls -la .env
+```
 **Edge Cases to Handle:**
 - Fichier .env existe déjà : faire une backup avant écrasement
 - Caractères spéciaux dans les secrets : certains caractères peuvent poser problème dans Docker
 **Files to Modify:**
-- `/Users/ls/docker/authentik/.env` (création)
+- `/opt/docker/authentik/.env` sur Raspberry Pi (création)
 **Testing:**
-- Vérifier que les variables sont bien chargées : `docker compose config`
+- Vérifier que les variables sont bien chargées sur Raspberry Pi : `docker compose config`
 - Tester la génération des secrets : `openssl rand -base64 36 | tr -d '\n'`
 **Potential Pitfalls:**
-- Ne JAMAIS commiter le fichier .env
+- Ne JAMAIS commiter le fichier .env dans Git
 - Ne pas utiliser de secrets faibles ou prévisibles
 - La clé AUTHENTIK_SECRET_KEY ne doit JAMAIS changer après l'initialisation (perte de données sinon)
+- Les chemins ici (`/Users/ls/docker`) sont sur Mac, mais l'exécution est sur Raspberry Pi (`/opt/docker`)
 
 ---
 
 ## Phase 2: Déploiement Authentik
 
 ### Task 4: Créer le docker-compose.yml d'Authentik
-**Objective:** Déployer Authentik avec PostgreSQL et Redis
-**Context:** Authentik nécessite une base de données PostgreSQL et Redis pour le cache/task queue
-**Prerequisites:** Tasks 1-3 complétés
+**Objective:** Créer le fichier Docker Compose pour Authentik sur le Mac de développement
+**Context:** Ce fichier est créé/modifié sur le Mac (`/Users/ls/docker/`) puis poussé vers Git. Il sera ensuite récupéré sur le Raspberry Pi pour déploiement.
+**Prerequisites:** Architecture définie
 **Inputs:**
 - Documentation officielle Authentik
-- Configuration Traefik existante
-- Variables d'environnement générées
+- Configuration Traefik existante sur Raspberry Pi
+- Standards du projet (extends, networks, labels)
 **Expected Output:**
-- Fichier `/Users/ls/docker/authentik/docker-compose.yml` fonctionnel
+- Fichier `/Users/ls/docker/authentik/docker-compose.yml` créé sur Mac
 **Success Criteria:**
 - [x] Service `postgresql` configuré avec volume persistant
 - [x] Service `redis` configuré (cache + broker)
@@ -105,21 +149,20 @@
 - [x] Network `proxy` attaché correctement
 - [x] Healthchecks configurés sur tous les services
 - [x] Dépendances entre services définies (depends_on)
-**Edge Cases to Handle:**
-- PostgreSQL déjà existant ailleurs : utiliser un conteneur dédié pour Authentik
-- Conflit de ports : vérifier que 9000 n'est pas utilisé
-- Migration depuis une autre solution : pas applicable ici (fresh install)
+**Architecture Note:**
+- Fichier créé sur Mac : `/Users/ls/docker/authentik/docker-compose.yml`
+- Déployé sur Raspberry Pi : `/opt/docker/authentik/docker-compose.yml`
+- Les chemins de volumes (`/opt/authentik/`) se réfèrent au Raspberry Pi
 **Files to Modify:**
-- `/Users/ls/docker/authentik/docker-compose.yml` (création)
+- `/Users/ls/docker/authentik/docker-compose.yml` (création sur Mac)
 **Testing:**
-- `docker compose config` (validation syntaxique)
-- `docker compose up -d` (démarrage)
-- `docker compose ps` (vérifier que tous les services sont healthy)
-- `docker compose logs -f` (vérifier les erreurs de démarrage)
+- Validation syntaxique : `docker compose config` (sur Raspberry Pi après déploiement)
+- Démarrage : `docker compose up -d` (sur Raspberry Pi)
+- Vérification santé : `docker compose ps` (sur Raspberry Pi)
 **Potential Pitfalls:**
-- Ne pas oublier le network `proxy` externe
+- Les chemins absolus dans les volumes (`/opt/authentik/`) sont sur Raspberry Pi, pas Mac
+- Le network `proxy` doit exister sur Raspberry Pi avant démarrage
 - La première initialisation peut prendre 2-3 minutes (migrations DB)
-- Le worker doit avoir accès au Docker socket pour les outposts (si utilisé)
 
 ---
 

@@ -42,6 +42,9 @@ services:
       service: common-config
     image: ghcr.io/goauthentik/server:2025.12.3
     container_name: authentik-server
+    environment:
+      - AUTHENTIK_POSTGRESQL__HOST=postgresql
+      - AUTHENTIK_REDIS__HOST=redis
     env_file:
       - .env
     networks:
@@ -77,6 +80,9 @@ services:
       service: common-config
     image: ghcr.io/goauthentik/server:2025.12.3
     container_name: authentik-worker
+    environment:
+      - AUTHENTIK_POSTGRESQL__HOST=postgresql
+      - AUTHENTIK_REDIS__HOST=redis
     env_file:
       - .env
     networks:
