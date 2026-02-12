@@ -31,7 +31,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: postgres:15
+    image: postgres:18
     container_name: jellystat-db
     env_file:
       - .env
