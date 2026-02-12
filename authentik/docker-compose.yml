@@ -40,7 +40,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: ghcr.io/goauthentik/server:2025.12.3
+    image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-server
     environment:
       - AUTHENTIK_POSTGRESQL__HOST=postgresql
@@ -84,7 +84,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: ghcr.io/goauthentik/server:2025.12.3
+    image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-worker
     environment:
       - AUTHENTIK_POSTGRESQL__HOST=postgresql
