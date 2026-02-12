@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
     -a -installsuffix cgo \
     -o /usr/local/bin/webhook
 
-FROM docker:27-cli
+FROM docker:29-cli
 
 RUN addgroup -g 999 docker 2>/dev/null || true && \
     addgroup -g 1000 webhook && \
