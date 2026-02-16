@@ -7,12 +7,12 @@ services:
     image: containrrr/watchtower:latest
     container_name: watchtower
     environment:
-      - DOCKER_HOST=tcp://socket-proxy:2375
+      - DOCKER_HOST=${DOCKER_HOST}
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
-      - WATCHTOWER_SCHEDULE=0 0 4 * * *
-      - WATCHTOWER_INCLUDE_STOPPED=true
-      - WATCHTOWER_REVIVE_STOPPED=false
-      - WATCHTOWER_ROLLING_RESTART=true
+      - WATCHTOWER_DISABLE_CONTAINERS=${WATCHTOWER_DISABLE_CONTAINERS}
+      - WATCHTOWER_INCLUDE_STOPPED=${WATCHTOWER_INCLUDE_STOPPED}
+      - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
+      - WATCHTOWER_ROLLING_RESTART=${WATCHTOWER_ROLLING_RESTART}
     networks:
       - socket_proxy
 networks:
