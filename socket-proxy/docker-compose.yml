@@ -14,7 +14,7 @@ services:
       # Watchtower needs: containers, images
       - IMAGES=1
       # Dozzle needs: containers
-      - POST=0
+      - POST=1
       - BUILD=0
       - COMMIT=0
       - CONFIGS=0
