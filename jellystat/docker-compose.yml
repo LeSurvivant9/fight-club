@@ -38,7 +38,7 @@ services:
     networks:
       - jellystat_int
     volumes:
-      - /opt/postgres:/var/lib/postgresql/data
+      - /opt/jellystat/postgres:/var/lib/postgresql/data
     shm_size: 1gb
 networks:
   jellystat_int:
