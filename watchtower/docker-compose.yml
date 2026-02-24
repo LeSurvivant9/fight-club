@@ -15,8 +15,9 @@ services:
       - WATCHTOWER_ROLLING_RESTART=${WATCHTOWER_ROLLING_RESTART}
     networks:
       - socket_proxy
-    dns:
-      - 9.9.9.9
+      - proxy
 networks:
   socket_proxy:
+    external: true
+  proxy:
     external: true
