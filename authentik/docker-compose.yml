@@ -4,7 +4,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     container_name: authentik-postgresql
     env_file:
       - .env
@@ -22,7 +22,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: redis:7.4-alpine
+    image: redis:8.6-alpine
     container_name: authentik-redis
     env_file:
       - .env
@@ -40,7 +40,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: ghcr.io/goauthentik/server:2025.12.3
+    image: ghcr.io/goauthentik/server:2026.2.1
     container_name: authentik-server
     environment:
       - AUTHENTIK_POSTGRESQL__HOST=postgresql
@@ -84,7 +84,7 @@ services:
     extends:
       file: ../common.yml
       service: common-config
-    image: ghcr.io/goauthentik/server:2025.12.3
+    image: ghcr.io/goauthentik/server:2026.2.1
     container_name: authentik-worker
     environment:
       - AUTHENTIK_POSTGRESQL__HOST=postgresql
