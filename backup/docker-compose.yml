@@ -1,0 +1,20 @@
+---
+services:
+  backup-runner:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: fight-club-backup:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backup-runner
+    env_file:
+      - .env
+    volumes:
+      - /opt:/opt
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../scripts:/workspace/scripts:ro
+    command: /workspace/scripts/backup/run-weekly-backup.sh
+    entrypoint: ["/bin/sh", "-c"]
+    working_dir: /workspace

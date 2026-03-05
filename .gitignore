@@ -8,3 +8,5 @@
 **/appdata/
 .venv/
 **/*.plain.*
+docs/
+.worktrees/

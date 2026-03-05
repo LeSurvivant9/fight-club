@@ -21,7 +21,6 @@
 ├── jellystat/
 ├── komf/
 ├── komga/
-├── mediamanager/
 ├── meilisearch/
 ├── notifiarr/
 ├── qbit_manage/
@@ -42,6 +41,8 @@
 
 La stack actuelle est gérée grâce a **Komodo**.
 Chaque fichier d'environnement est produit automatiquement a l'aide d'**Infisical**.
+
+Le clone distant utilise par Komodo est: `/etc/komodo/repos/fight-club`.
 
 ## Infrastructure
 
@@ -118,6 +119,14 @@ uv run pre-commit run --all-files
 - `scripts/check_compose_order.py` : Verifie l'ordre des clés
 - `scripts/update_networks.py` : Met a jour les references reseau
 - `scripts/validate_compose.sh` : Valide la syntaxe des fichiers compose
+- `scripts/migrations/infisical-volumes-to-opt.sh` : Migre les volumes nommes Infisical vers `/opt/infisical/*`
+- `scripts/backup/run-weekly-backup.sh` : Execute le backup hebdomadaire
+
+## Workflow backup
+
+1. Copier `backup/.env.example` vers `backup/.env` et renseigner `AGE_RECIPIENT`, `INFISICAL_TOKEN`, `INFISICAL_PROJECT_ID`.
+2. Lancer le job via la stack backup (`backup/docker-compose.yml`) depuis le repo distant Komodo `/etc/komodo/repos/fight-club`.
+3. Le job effectue les dumps Postgres, exporte les secrets Infisical en JSON chiffre, puis archive `/opt` (hors `/opt/backups`) avec checksums.
 
 ### Ajouter un nouveau service
 
