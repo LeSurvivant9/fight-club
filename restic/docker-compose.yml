@@ -1,0 +1,23 @@
+---
+services:
+  restic:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: restic/rest-server:0.14.0
+    container_name: restic
+    networks:
+      - proxy
+    volumes:
+      - /opt/backups/restic:/data
+    command:
+      - /rest-server
+      - --path
+      - /data
+      - --append-only
+      - --private-repos
+      - --listen
+      - :8000
+networks:
+  proxy:
+    external: true

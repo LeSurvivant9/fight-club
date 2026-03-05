@@ -21,6 +21,8 @@
 ├── jellystat/
 ├── komf/
 ├── komga/
+├── backup/
+├── restic/
 ├── meilisearch/
 ├── notifiarr/
 ├── qbit_manage/
@@ -120,13 +122,51 @@ uv run pre-commit run --all-files
 - `scripts/update_networks.py` : Met a jour les references reseau
 - `scripts/validate_compose.sh` : Valide la syntaxe des fichiers compose
 - `scripts/migrations/infisical-volumes-to-opt.sh` : Migre les volumes nommes Infisical vers `/opt/infisical/*`
-- `scripts/backup/run-weekly-backup.sh` : Execute le backup hebdomadaire
+- `scripts/backup/run-weekly-backup.sh` : Lance le workflow backup hybride
 
-## Workflow backup
+## Backup hybride (prod-ready)
 
-1. Copier `backup/.env.example` vers `backup/.env` et renseigner `AGE_RECIPIENT`, `INFISICAL_TOKEN`, `INFISICAL_PROJECT_ID`.
-2. Lancer le job via la stack backup (`backup/docker-compose.yml`) depuis le repo distant Komodo `/etc/komodo/repos/fight-club`.
-3. Le job effectue les dumps Postgres, exporte les secrets Infisical en JSON chiffre, puis archive `/opt` (hors `/opt/backups`) avec checksums.
+Le dossier `backup/` combine:
+
+- **Service dedie Restic** (stack `restic`, service `restic`) pour stocker les snapshots en mode append-only.
+- **Image personnalisee backup** (`backup-runner`) pour orchestrer les actions specifiques a l'infra:
+  - dumps Postgres (`authentik`, `infisical`, `jellystat`)
+  - export secrets Infisical chiffre avec `age`
+  - snapshot Restic (`/opt` + artefacts de backup)
+  - retention/prune Restic
+  - mirror optionnel vers 2e disque
+
+### Mise en place
+
+```bash
+cd backup
+cp .env.example .env
+# Renseigner RESTIC_PASSWORD, INFISICAL_TOKEN, INFISICAL_PROJECT_ID, AGE_RECIPIENT
+docker compose build backup-runner
+cd ../restic
+docker compose up -d restic
+```
+
+### Execution manuelle (test)
+
+```bash
+cd backup
+docker compose run --rm backup-runner
+```
+
+### Execution via Komodo
+
+- Deployer d'abord la stack `restic` depuis `/etc/komodo/repos/fight-club/restic`.
+- Puis deployer la stack `backup` depuis `/etc/komodo/repos/fight-club/backup`.
+- Planifier un job hebdomadaire Komodo qui execute: `docker compose run --rm backup-runner`.
+
+### Pourquoi hybride
+
+- **Restic dedie**: snapshots robustes, verification, retention, restore fiable.
+- **Runner personnalise**: logique metier de ton infra (DB + Infisical + chiffrement) sans multiplier les stacks.
+- **Evolution**: quand le 2e disque est pret, activer `USE_SECOND_DISK=true` et `SECOND_DISK_BACKUP_ROOT`.
+
+Note: cette stack n'expose pas d'interface web pour limiter la surface d'attaque. Si tu ajoutes une UI plus tard (ex: Backrest), il faudra appliquer les labels Traefik + ForwardAuth comme les autres services.
 
 ### Ajouter un nouveau service
 

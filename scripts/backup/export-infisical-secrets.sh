@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BACKUP_ROOT="${BACKUP_ROOT:-/opt/backups}"
+OUTPUT_DIR="${BACKUP_OUTPUT_DIR:?BACKUP_OUTPUT_DIR is required}"
+TIMESTAMP="${BACKUP_TIMESTAMP:?BACKUP_TIMESTAMP is required}"
 INFISICAL_CLI_BIN="${INFISICAL_CLI_BIN:-infisical}"
 INFISICAL_ENV="${INFISICAL_ENV:-prod}"
 
@@ -14,14 +15,8 @@ if ! command -v "$INFISICAL_CLI_BIN" >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! command -v age >/dev/null 2>&1; then
-  echo "age binary not found" >&2
-  exit 1
-fi
-
-TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
-SECRETS_DIR="$BACKUP_ROOT/infisical"
-PLAIN_FILE="$SECRETS_DIR/infisical-${TIMESTAMP}.json"
+SECRETS_DIR="$OUTPUT_DIR/infisical"
+PLAIN_FILE="$SECRETS_DIR/infisical-${INFISICAL_ENV}-${TIMESTAMP}.json"
 ENCRYPTED_FILE="$PLAIN_FILE.age"
 
 mkdir -p "$SECRETS_DIR"
@@ -38,6 +33,7 @@ cleanup_plain() {
 
 trap cleanup_plain EXIT INT TERM
 
+export INFISICAL_DISABLE_UPDATE_CHECK=true
 "$INFISICAL_CLI_BIN" export \
   --projectId "$INFISICAL_PROJECT_ID" \
   --env "$INFISICAL_ENV" \
