@@ -1,0 +1,19 @@
+{
+  "trash_id": "fc-sonarr-release-group-top-tier",
+  "trash_scores": {
+    "default": 150
+  },
+  "name": "FC Release Group Top Tier",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "Top Tier Groups",
+      "implementation": "ReleaseGroupSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b(OPTIMUM|BOUC|FW|FLOP|NTb|FraMeSToR)\\b"
+      }
+    }
+  ]
+}

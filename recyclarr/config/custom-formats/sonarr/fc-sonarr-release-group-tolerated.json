@@ -1,0 +1,19 @@
+{
+  "trash_id": "fc-sonarr-release-group-tolerated",
+  "trash_scores": {
+    "default": 25
+  },
+  "name": "FC Release Group Tolerated",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "Tolerated Groups",
+      "implementation": "ReleaseGroupSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b(LOST|Slay3R|GHT|CAKES|PopHD)\\b"
+      }
+    }
+  ]
+}

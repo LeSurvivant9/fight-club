@@ -1,0 +1,29 @@
+{
+  "trash_id": "fc-sonarr-episode-1080p-size-guard",
+  "trash_scores": {
+    "default": -10000
+  },
+  "name": "FC Episode 1080p Size Guard",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "1080p Marker",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b1080p\\b"
+      }
+    },
+    {
+      "name": "Too Large",
+      "implementation": "SizeSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "min": 6145,
+        "max": 999999
+      }
+    }
+  ]
+}

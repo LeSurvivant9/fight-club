@@ -13,6 +13,7 @@ services:
       - .env
     networks:
       - media_int
+      - proxy
     volumes:
       - ./config:/config
       - /opt/recyclarr/data:/data
@@ -23,4 +24,6 @@ services:
       - /tmp
 networks:
   media_int:
+    external: true
+  proxy:
     external: true

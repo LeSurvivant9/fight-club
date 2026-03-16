@@ -1,0 +1,19 @@
+{
+  "trash_id": "fc-radarr-title-artifact-hard-block",
+  "trash_scores": {
+    "default": -10000
+  },
+  "name": "FC Artifact Hard Block",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "Artifact Keywords",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b(60FPS|HFR|SVP|SMOOTH|AI[ ._-]?UPSCALE|TOPAZ|ENHANCED[ ._-]?IA|CUSTOM[ ._-]?IMAX)\\b"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "trash_id": "fc-sonarr-french-audio-gate",
+  "trash_scores": {
+    "default": 5000
+  },
+  "name": "FC French Audio Gate",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "French Audio",
+      "implementation": "LanguageSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": 2
+      }
+    }
+  ]
+}

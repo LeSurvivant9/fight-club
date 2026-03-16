@@ -1,0 +1,28 @@
+{
+  "trash_id": "fc-sonarr-release-group-hard-block",
+  "trash_scores": {
+    "default": -10000
+  },
+  "name": "FC Release Group Hard Block",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "Hard Block Groups",
+      "implementation": "ReleaseGroupSpecification",
+      "negate": false,
+      "required": false,
+      "fields": {
+        "value": "(?i)\\b(YTS|YIFY|MeGusta|mSD|SUPPLY)\\b"
+      }
+    },
+    {
+      "name": "Hard Block Title",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": false,
+      "fields": {
+        "value": "(?i)\\b(HDLight)\\b"
+      }
+    }
+  ]
+}

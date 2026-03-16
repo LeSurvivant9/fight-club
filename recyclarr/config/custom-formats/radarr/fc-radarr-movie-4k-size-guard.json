@@ -1,0 +1,39 @@
+{
+  "trash_id": "fc-radarr-movie-4k-size-guard",
+  "trash_scores": {
+    "default": -10000
+  },
+  "name": "FC Movie 4K Size Guard",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "4K Marker",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b(2160p|4k)\\b"
+      }
+    },
+    {
+      "name": "Too Small",
+      "implementation": "SizeSpecification",
+      "negate": false,
+      "required": false,
+      "fields": {
+        "min": 1,
+        "max": 12287
+      }
+    },
+    {
+      "name": "Too Large",
+      "implementation": "SizeSpecification",
+      "negate": false,
+      "required": false,
+      "fields": {
+        "min": 56321,
+        "max": 999999
+      }
+    }
+  ]
+}

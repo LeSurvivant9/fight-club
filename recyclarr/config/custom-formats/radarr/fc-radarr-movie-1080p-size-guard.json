@@ -1,0 +1,39 @@
+{
+  "trash_id": "fc-radarr-movie-1080p-size-guard",
+  "trash_scores": {
+    "default": -10000
+  },
+  "name": "FC Movie 1080p Size Guard",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "1080p Marker",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b1080p\\b"
+      }
+    },
+    {
+      "name": "Too Small",
+      "implementation": "SizeSpecification",
+      "negate": false,
+      "required": false,
+      "fields": {
+        "min": 1,
+        "max": 5119
+      }
+    },
+    {
+      "name": "Too Large",
+      "implementation": "SizeSpecification",
+      "negate": false,
+      "required": false,
+      "fields": {
+        "min": 35841,
+        "max": 999999
+      }
+    }
+  ]
+}

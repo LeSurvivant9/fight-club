@@ -1,0 +1,19 @@
+{
+  "trash_id": "fc-radarr-release-group-penalty",
+  "trash_scores": {
+    "default": -500
+  },
+  "name": "FC Release Group Penalty",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "Penalty Groups",
+      "implementation": "ReleaseGroupSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b(QTZ|TFA|D5T0|SQUEAK)\\b"
+      }
+    }
+  ]
+}

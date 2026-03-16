@@ -1,0 +1,10 @@
+---
+resource_providers:
+  - name: fc-radarr-cfs
+    type: custom-formats
+    path: custom-formats/radarr
+    service: radarr
+  - name: fc-sonarr-cfs
+    type: custom-formats
+    path: custom-formats/sonarr
+    service: sonarr

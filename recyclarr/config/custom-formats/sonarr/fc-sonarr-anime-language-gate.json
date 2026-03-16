@@ -1,0 +1,19 @@
+{
+  "trash_id": "fc-sonarr-anime-language-gate",
+  "trash_scores": {
+    "default": 5000
+  },
+  "name": "FC Anime Language Gate",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "Anime VOSTFR or MULTI",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b(MULTI|VOSTFR)\\b"
+      }
+    }
+  ]
+}

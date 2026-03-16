@@ -8,63 +8,150 @@ radarr:
     quality_definition:
       type: movie
     quality_profiles:
-      - trash_id: 500ecc23572575511fd81893777d1e06 # [French MULTi.VF] HD Bluray + WEB
-        name: FC Shared FR-MULTi.VF HD
+      - name: FC Shared Movies
         reset_unmatched_scores:
           enabled: true
-      - trash_id: e64b266178c7f70e208f493f00e0e50a # [French MULTi.VF] UHD Bluray + WEB
-        name: FC Shared FR-MULTi.VF UHD
-        reset_unmatched_scores:
-          enabled: true
-      - trash_id: 2572ce3ea4eef1c19d59e0e20ed1cea7 # [French MULTi.VO] HD Bluray + WEB
-        name: FC Personal FR-MULTi.VO HD
-        reset_unmatched_scores:
-          enabled: true
-      - trash_id: 92ead7022d13a7858d54e328e6a2f8f9 # [French MULTi.VO] UHD Bluray + WEB
-        name: FC Personal FR-MULTi.VO UHD
-        reset_unmatched_scores:
-          enabled: true
-    custom_format_groups:
-      add:
-        - trash_id: f8bf8eab4617f12dfdbd16303d8da245 # [Required] Golden Rule HD
-          select:
-            - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
-        - trash_id: ff204bbcecdd487d1cefcefdbf0c278d # [Required] Golden Rule UHD
-          select:
-            - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
+        min_format_score: 4000
+        min_upgrade_format_score: 4000
+        upgrade:
+          allowed: true
+          until_quality: Bluray-2160p
+        quality_sort: top
+        qualities:
+          - name: Remux-2160p
+          - name: Bluray-2160p
+          - name: WEB 2160p
+            qualities:
+              - WEBRip-2160p
+              - WEBDL-2160p
+          - name: Remux-1080p
+          - name: Bluray-1080p
+          - name: WEB 1080p
+            qualities:
+              - WEBRip-1080p
+              - WEBDL-1080p
     custom_formats:
       - trash_ids:
+          - fc-radarr-french-audio-gate
+          - fc-radarr-french-audio-preferred
+          - 9172b2f683f6223e3a1846427b417a3d # VOSTFR
           - 404c08fd0bd67f39b4d8e5709319094e # VFF
           - 29b5f7b1a5f20f64228786c3ab1bdc7d # VF2
-        assign_scores_to:
-          - name: FC Shared FR-MULTi.VF HD
-            score: 25
-          - name: FC Shared FR-MULTi.VF UHD
-            score: 25
-          - name: FC Personal FR-MULTi.VO HD
-            score: 25
-          - name: FC Personal FR-MULTi.VO UHD
-            score: 25
-      - trash_ids:
           - b6ace47331a1d3b77942fc18156f6df6 # VFQ
         assign_scores_to:
-          - name: FC Shared FR-MULTi.VF HD
-            score: -25
-          - name: FC Shared FR-MULTi.VF UHD
-            score: -25
-          - name: FC Personal FR-MULTi.VO HD
-            score: -25
-          - name: FC Personal FR-MULTi.VO UHD
-            score: -25
+          - name: FC Shared Movies
+      - trash_ids:
+          - 64f8f12bbf7472a6ccf838bfd6b5e3e8 # FR UHD Bluray Tier 01
+          - 0dcf0c8a386d82e3f2d424189af14065 # FR UHD Bluray Tier 02
+          - 5583260016e0b9f683f53af41fb42e4a # FR Remux Tier 01
+          - 9019d81307e68cd4a7eb06a567e833b8 # FR Remux Tier 02
+          - 5322da05b19d857acc1e75be3edf47b3 # FR HD Bluray Tier 01
+          - 57f34251344be2e283fc30e00e458be6 # FR HD Bluray Tier 02
+          - 9790a618cec1aeac8ce75601a17ea40d # FR WEB Tier 01
+          - 3c83a765f84239716bd5fd2d7af188f9 # FR WEB Tier 02
+          - 0d94489c0d5828cd3bf9409d309fb32b # FR Scene Groups
+          - 48f031e76111f17ea94898f4cdc34fdc # FR LQ
+        assign_scores_to:
+          - name: FC Shared Movies
+      - trash_ids:
+          - 3a3ff47579026e76d6504ebea39390de # Remux Tier 01
+          - 9f98181fe5a3fbeb0cc29340da2a468a # Remux Tier 02
+          - 8baaf0b3142bf4d94c42a724f034e27a # Remux Tier 03
+          - 4d74ac4c4db0b64bff6ce0cffef99bf0 # UHD Bluray Tier 01
+          - a58f517a70193f8e578056642178419d # UHD Bluray Tier 02
+          - e71939fae578037e7aed3ee219bbe7c1 # UHD Bluray Tier 03
+          - c20f169ef63c5f40c2def54abaf4438e # WEB Tier 01
+          - 403816d65392c79236dcb6dd591aeda4 # WEB Tier 02
+          - af94e0fe497124d1f9ce732069ec8c3b # WEB Tier 03
+        assign_scores_to:
+          - name: FC Shared Movies
+      - trash_ids:
+          - 0f12c086e289cf966fa5948eac571f44 # Hybrid
+          - b337d6812e06c200ec9a2d3cfa9d20a7 # DV Boost
+          - caa37d0df9c348912df1fb1d88f9273a # HDR10+ Boost
+          - 493b6d1dbec3c3364c59d7607f7e3405 # HDR
+          - 9c38ebb7384dada637be8899efa68e6f # SDR
+        assign_scores_to:
+          - name: FC Shared Movies
       - trash_ids:
           - 496f355514737f7d83bf7aa4d24f8169 # TrueHD ATMOS
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 220
+      - trash_ids:
           - 2f22d89048b01681dde8afe203bf2e95 # DTS X
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 210
+      - trash_ids:
           - 3cafb66171b47f226146a0770576870f # TrueHD
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 200
+      - trash_ids:
           - dcf3ec6938fa32445f590a4da84256cd # DTS-HD MA
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 190
+      - trash_ids:
           - a570d4a0e56a2874b64e5bfa55202a1b # FLAC
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 180
+      - trash_ids:
           - e7c2fcae07cbada050a0af3357491d7b # PCM
         assign_scores_to:
-          - name: FC Shared FR-MULTi.VF UHD
-            score: 75
-          - name: FC Personal FR-MULTi.VO UHD
-            score: 75
+          - name: FC Shared Movies
+            score: 170
+      - trash_ids:
+          - 417804f7f2c4308c1f4c5d380d4c4475 # ATMOS (undefined)
+          - 1af239278386be2919e1bcee0bde047e # DD+ ATMOS
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 160
+      - trash_ids:
+          - 185f1dd7264c4562b9022d963ac37424 # DD+
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 150
+      - trash_ids:
+          - 1c1a4c5e823891c75bc50380a6866f73 # DTS
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 140
+      - trash_ids:
+          - 240770601cc226190c367ef59aba7463 # AAC
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 130
+      - trash_ids:
+          - 2899d84dc9372de3408e6d8cc18e9666 # x264
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: -25
+      - trash_ids:
+          - 9170d55c319f4fe40da8711ba9d8050d # x265
+          - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 25
+      - trash_ids:
+          - ed38b889b31be83fda192888e2286d83 # BR-DISK
+          - 90a6f9a284dff5103f6346090e6280c8 # LQ
+          - e204b80c87be9497a8a6eaff48f72905 # LQ (Release Title)
+          - b8cd450cbfa689c0259a01d9e29ba3d6 # 3D
+          - bfd8eb01832d646a0a89c4deb46f8564 # Upscaled
+          - 0a3f082873eb454bde444150b70253cc # Extras
+          - cae4ca30163749b891686f95532519bd # AV1
+          - e6886871085226c3da1830830146846c # Generated Dynamic HDR
+          - 712d74cd88bceb883ee32f773656b1f5 # Sing-Along Versions
+          - 73613461ac2cea99d52c4cd6e177ab82 # HFR
+          - fc-radarr-release-group-top-tier
+          - fc-radarr-release-group-tolerated
+          - fc-radarr-release-group-penalty
+          - fc-radarr-release-group-hard-block
+          - fc-radarr-title-artifact-hard-block
+          - fc-radarr-movie-4k-size-guard
+          - fc-radarr-movie-1080p-size-guard
+        assign_scores_to:
+          - name: FC Shared Movies
