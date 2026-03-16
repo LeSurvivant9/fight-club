@@ -1,0 +1,108 @@
+---
+commands:
+  dry_run: false
+  recheck: false
+  cat_update: false
+  tag_update: true
+  rem_unregistered: false
+  tag_tracker_error: true
+  rem_orphaned: false
+  tag_nohardlinks: false
+  share_limits: true
+  skip_qb_version_check: false
+  skip_cleanup: false
+qbt:
+  host: 127.0.0.1:8081
+  user: ""
+  pass: ""
+settings:
+  force_auto_tmm: false
+  tracker_error_tag: issue
+  stalled_tag: stalledDL
+  share_limits_tag: ~share_limit
+  share_limits_min_seeding_time_tag: MinSeedTimeNotReached
+  share_limits_min_num_seeds_tag: MinSeedsNotMet
+  share_limits_filter_completed: true
+  disable_qbt_default_share_limits: true
+  tag_stalled_torrents: true
+  nohardlinks_tag: noHL
+  private_tag:
+  share_limits_last_active_tag: LastActiveLimitNotReached
+  cat_filter_completed: true
+  tag_nohardlinks_filter_completed: true
+  rem_unregistered_filter_completed: false
+  cat_update_all: true
+  force_auto_tmm_ignore_tags: []
+  rem_unregistered_ignore_list: []
+  rem_unregistered_grace_minutes: 10
+  rem_unregistered_max_torrents: 10
+directory:
+  root_dir: /media/downloads
+  recycle_bin: /media/downloads/.RecycleBin
+  torrents_dir:
+cat:
+  autobrr-c411-buffer: /media/downloads/autobrr/c411-buffer
+  autobrr-torr9-buffer: /media/downloads/autobrr/torr9-buffer
+  cross-seed-link: /media/downloads/cross-seed-link
+share_limits:
+  c411_buffer:
+    priority: 10
+    categories:
+      - autobrr-c411-buffer
+    max_ratio: 1.5
+    max_seeding_time: 21d
+    min_seeding_time: 72h
+    min_num_seeds: 3
+    cleanup: false
+  torr9_buffer:
+    priority: 20
+    categories:
+      - autobrr-torr9-buffer
+    max_ratio: 1.5
+    max_seeding_time: 30d
+    min_seeding_time: 7d
+    min_num_seeds: 3
+    cleanup: false
+  cross_seed:
+    priority: 30
+    categories:
+      - cross-seed-link
+    max_ratio: -1
+    max_seeding_time: -1
+    cleanup: false
+  default:
+    priority: 999
+    max_ratio: -1
+    max_seeding_time: -1
+    cleanup: false
+webhooks:
+  error:
+  run_start:
+  run_end:
+  function:
+    recheck:
+    cat_update:
+    tag_update:
+    rem_unregistered:
+    tag_tracker_error:
+    rem_orphaned:
+    tag_nohardlinks:
+    share_limits:
+    cleanup_dirs:
+tracker:
+  c411.org:
+    tag: c411
+  torr9:
+    tag: torr9
+  other:
+    tag: other
+recyclebin:
+  enabled: true
+  empty_after_x_days:
+  save_torrents: false
+  split_by_category: false
+orphaned:
+  empty_after_x_days:
+  exclude_patterns:
+  max_orphaned_files_to_delete: 50
+  min_file_age_minutes: 0
