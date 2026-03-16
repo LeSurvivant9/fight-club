@@ -206,6 +206,24 @@ services:
         condition: service_healthy
     mem_limit: 2048M
     memswap_limit: 4096M
+  qbit_manage:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/stuffanthings/qbit_manage:latest
+    container_name: qbit_manage
+    environment:
+      - QBT_CONFIG_DIR=/config
+      - QBT_SCHEDULE=360
+      - QBT_STARTUP_DELAY=180
+      - QBT_LOG_LEVEL=INFO
+    network_mode: service:gluetun
+    volumes:
+      - /opt/qbit_manage/config:/config:rw
+      - ${MEDIA}/downloads:/data/torrents:rw
+    depends_on:
+      gluetun:
+        condition: service_healthy
   wg-easy:
     extends:
       file: ../common.yml
