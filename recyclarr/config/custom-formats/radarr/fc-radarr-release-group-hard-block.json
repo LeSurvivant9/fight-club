@@ -21,7 +21,7 @@
       "negate": false,
       "required": false,
       "fields": {
-        "value": "(?i)\\b(HDLight)\\b"
+        "value": "(?i)\\b(YTS|YIFY|MeGusta|mSD|SUPPLY|HDLight)\\b"
       }
     }
   ]

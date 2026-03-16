@@ -10,7 +10,16 @@
       "name": "Penalty Groups",
       "implementation": "ReleaseGroupSpecification",
       "negate": false,
-      "required": true,
+      "required": false,
+      "fields": {
+        "value": "(?i)\\b(QTZ|TFA|D5T0|SQUEAK)\\b"
+      }
+    },
+    {
+      "name": "Penalty Title",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": false,
       "fields": {
         "value": "(?i)\\b(QTZ|TFA|D5T0|SQUEAK)\\b"
       }
