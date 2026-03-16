@@ -176,22 +176,16 @@ sonarr:
           - ea0bb4b6ba388992fad1092703b5ff7b # FastSUB
           - fc-sonarr-anime-group-top-tier
           - fc-sonarr-anime-group-tolerated
+          - fc-sonarr-anime-simulcast-preferred
           - fc-sonarr-anime-hard-block
           - fc-sonarr-anime-language-gate
+          - fc-sonarr-anime-generic-multisubs
+          - fc-sonarr-anime-small-multisubs-penalty
           - fc-sonarr-anime-size-guard
           - fc-sonarr-title-artifact-hard-block
+          - fc-sonarr-anime-vostfr-preferred
         assign_scores_to:
           - name: FC Anime 1080p
-      - trash_ids:
-          - 07a32f77690263bb9fda1842db7e273f # VOSTFR
-        assign_scores_to:
-          - name: FC Anime 1080p
-            score: 50
-      - trash_ids:
-          - 7ba05c6e0e14e793538174c679126996 # MULTi
-        assign_scores_to:
-          - name: FC Anime 1080p
-            score: 100
       - trash_ids:
           - b2550eb333d27b75833e25b8c2557b38 # 10bit
         assign_scores_to:

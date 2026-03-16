@@ -1,18 +1,18 @@
 {
-  "trash_id": "fc-sonarr-anime-language-gate",
+  "trash_id": "fc-sonarr-anime-generic-multisubs",
   "trash_scores": {
-    "default": 5000
+    "default": 25
   },
-  "name": "FC Anime Gate",
+  "name": "FC Anime Generic Multi-Subs",
   "includeCustomFormatWhenRenaming": false,
   "specifications": [
     {
-      "name": "Anime VOSTFR or Multi-Subs",
+      "name": "Generic Multi-Subs",
       "implementation": "ReleaseTitleSpecification",
       "negate": false,
       "required": true,
       "fields": {
-        "value": "(?i)(\\bVOSTFR\\b|\\bMULTI[- ._]?SUBS?\\b|\\bMSUBS\\b)"
+        "value": "(?i)(\\bMULTI[- ._]?SUBS?\\b|\\bMSUBS\\b)"
       }
     }
   ]

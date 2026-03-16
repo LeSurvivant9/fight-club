@@ -1,18 +1,18 @@
 {
-  "trash_id": "fc-sonarr-anime-group-tolerated",
+  "trash_id": "fc-sonarr-anime-simulcast-preferred",
   "trash_scores": {
-    "default": 100
+    "default": 150
   },
-  "name": "FC Anime Group Tolerated",
+  "name": "FC Anime Simulcast Preferred",
   "includeCustomFormatWhenRenaming": false,
   "specifications": [
     {
-      "name": "Anime Tolerated Groups",
+      "name": "Preferred Simulcast Group",
       "implementation": "ReleaseGroupSpecification",
       "negate": false,
       "required": true,
       "fields": {
-        "value": "(?i)\\b(Erai[- ._]?raws|SubsPlease|Judas|Ember)\\b"
+        "value": "(?i)\\b(Tsundere[- ._]?Raws)\\b"
       }
     }
   ]

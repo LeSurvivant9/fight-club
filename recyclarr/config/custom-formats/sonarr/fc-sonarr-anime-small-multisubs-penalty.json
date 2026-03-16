@@ -1,0 +1,38 @@
+{
+  "trash_id": "fc-sonarr-anime-small-multisubs-penalty",
+  "trash_scores": {
+    "default": -150
+  },
+  "name": "FC Anime Small Multi-Subs Penalty",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "1080p Marker",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\b1080p\\b"
+      }
+    },
+    {
+      "name": "Generic Multi-Subs",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)(\\bMULTI[- ._]?SUBS?\\b|\\bMSUBS\\b)"
+      }
+    },
+    {
+      "name": "Under 900 MiB",
+      "implementation": "SizeSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "min": 1,
+        "max": 899
+      }
+    }
+  ]
+}
