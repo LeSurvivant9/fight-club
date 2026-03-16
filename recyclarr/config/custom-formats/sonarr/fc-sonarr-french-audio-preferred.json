@@ -3,16 +3,16 @@
   "trash_scores": {
     "default": 100
   },
-  "name": "FC French Audio Preferred",
+  "name": "FC Shared VF Preferred",
   "includeCustomFormatWhenRenaming": false,
   "specifications": [
     {
-      "name": "French Audio",
-      "implementation": "LanguageSpecification",
+      "name": "TRUEFRENCH or VF",
+      "implementation": "ReleaseTitleSpecification",
       "negate": false,
       "required": true,
       "fields": {
-        "value": 2
+        "value": "(?i)(\\bTRUEFRENCH\\b|\\bFRENCH\\b|(?<![A-Z0-9])VF(?![A-Z0-9]))"
       }
     }
   ]

@@ -47,12 +47,33 @@ sonarr:
       - trash_ids:
           - fc-sonarr-french-audio-gate
           - fc-sonarr-french-audio-preferred
-          - 07a32f77690263bb9fda1842db7e273f # VOSTFR
+        assign_scores_to:
+          - name: FC Shared Shows
+      - trash_ids:
+          - 7ba05c6e0e14e793538174c679126996 # MULTi
+        assign_scores_to:
+          - name: FC Shared Shows
+            score: 100
+      - trash_ids:
           - 2c29a39a4fdfd6d258799bc4c09731b9 # VFF
+        assign_scores_to:
+          - name: FC Shared Shows
+            score: 175
+      - trash_ids:
           - 34789ec3caa819f087e23bbf9999daf7 # VF2
+        assign_scores_to:
+          - name: FC Shared Shows
+            score: 160
+      - trash_ids:
+          - 07a32f77690263bb9fda1842db7e273f # VOSTFR
+        assign_scores_to:
+          - name: FC Shared Shows
+            score: 25
+      - trash_ids:
           - 7a7f4e4f58bd1058440236d033a90b67 # VFQ
         assign_scores_to:
           - name: FC Shared Shows
+            score: -300
       - trash_ids:
           - d844321db5e126d2e7e46152f0706532 # FR HD Bluray Tier 01
           - ddb8eaa9c85a549c50034d280539d54d # FR WEB Tier 01
@@ -68,7 +89,6 @@ sonarr:
           - 7c3a61a9c6cb04f52f1544be6d44a026 # DV Boost
           - 0c4b99df9206d2cfac3c05ab897dd62a # HDR10+ Boost
           - 505d871304820ba7106b693be6fe4a9e # HDR
-          - 2016d1676f5ee13a5b7257ff86ac9a93 # SDR
           - 218e93e5702f44a68ad9e3c6ba87d2f0 # HD Streaming Boost
           - 43b3cf48cb385cd3eac608ee6bca7f09 # UHD Streaming Boost
         assign_scores_to:
@@ -149,11 +169,9 @@ sonarr:
         assign_scores_to:
           - name: FC Shared Shows
       - trash_ids:
-          - fc-sonarr-french-audio-gate
-          - fc-sonarr-french-audio-preferred
           - 07a32f77690263bb9fda1842db7e273f # VOSTFR
           - 7ba05c6e0e14e793538174c679126996 # MULTi
-          - a5d148168c4506b55cf53984107c396e # 10bit
+          - b2550eb333d27b75833e25b8c2557b38 # 10bit
           - 9c14d194486c4014d422adc64092d794 # Dubs Only
           - e3515e519f3b1360cbfc17651944354c # Anime LQ Groups
           - b4a1b3d705159cdca36d71e57ca86871 # Anime Raws
@@ -167,3 +185,18 @@ sonarr:
           - fc-sonarr-title-artifact-hard-block
         assign_scores_to:
           - name: FC Anime 1080p
+      - trash_ids:
+          - 07a32f77690263bb9fda1842db7e273f # VOSTFR
+        assign_scores_to:
+          - name: FC Anime 1080p
+            score: 50
+      - trash_ids:
+          - 7ba05c6e0e14e793538174c679126996 # MULTi
+        assign_scores_to:
+          - name: FC Anime 1080p
+            score: 100
+      - trash_ids:
+          - b2550eb333d27b75833e25b8c2557b38 # 10bit
+        assign_scores_to:
+          - name: FC Anime 1080p
+            score: 50

@@ -15,7 +15,7 @@ radarr:
         min_upgrade_format_score: 4000
         upgrade:
           allowed: true
-          until_quality: Bluray-2160p
+          until_quality: Remux-2160p
         quality_sort: top
         qualities:
           - name: Remux-2160p
@@ -34,12 +34,33 @@ radarr:
       - trash_ids:
           - fc-radarr-french-audio-gate
           - fc-radarr-french-audio-preferred
-          - 9172b2f683f6223e3a1846427b417a3d # VOSTFR
+        assign_scores_to:
+          - name: FC Shared Movies
+      - trash_ids:
+          - 4b900e171accbfb172729b63323ea8ca # MULTi
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 100
+      - trash_ids:
           - 404c08fd0bd67f39b4d8e5709319094e # VFF
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 175
+      - trash_ids:
           - 29b5f7b1a5f20f64228786c3ab1bdc7d # VF2
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 160
+      - trash_ids:
+          - 9172b2f683f6223e3a1846427b417a3d # VOSTFR
+        assign_scores_to:
+          - name: FC Shared Movies
+            score: 25
+      - trash_ids:
           - b6ace47331a1d3b77942fc18156f6df6 # VFQ
         assign_scores_to:
           - name: FC Shared Movies
+            score: -300
       - trash_ids:
           - 64f8f12bbf7472a6ccf838bfd6b5e3e8 # FR UHD Bluray Tier 01
           - 0dcf0c8a386d82e3f2d424189af14065 # FR UHD Bluray Tier 02
@@ -70,7 +91,6 @@ radarr:
           - b337d6812e06c200ec9a2d3cfa9d20a7 # DV Boost
           - caa37d0df9c348912df1fb1d88f9273a # HDR10+ Boost
           - 493b6d1dbec3c3364c59d7607f7e3405 # HDR
-          - 9c38ebb7384dada637be8899efa68e6f # SDR
         assign_scores_to:
           - name: FC Shared Movies
       - trash_ids:
