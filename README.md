@@ -28,6 +28,7 @@
 ├── qbit_manage/
 ├── qdirstat/
 ├── qui/
+├── recyclarr/
 ├── radarr/
 ├── sonarr/
 ├── sops/

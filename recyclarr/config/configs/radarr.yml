@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=https://schemas.recyclarr.dev/v8/config-schema.json
+---
+radarr:
+  movies:
+    base_url: http://radarr:7878
+    api_key: !env_var RADARR_API_KEY
+    delete_old_custom_formats: true
+    quality_definition:
+      type: movie
+    quality_profiles:
+      - trash_id: 500ecc23572575511fd81893777d1e06 # [French MULTi.VF] HD Bluray + WEB
+        name: FC Shared FR-MULTi.VF HD
+        reset_unmatched_scores:
+          enabled: true
+      - trash_id: e64b266178c7f70e208f493f00e0e50a # [French MULTi.VF] UHD Bluray + WEB
+        name: FC Shared FR-MULTi.VF UHD
+        reset_unmatched_scores:
+          enabled: true
+      - trash_id: 2572ce3ea4eef1c19d59e0e20ed1cea7 # [French MULTi.VO] HD Bluray + WEB
+        name: FC Personal FR-MULTi.VO HD
+        reset_unmatched_scores:
+          enabled: true
+      - trash_id: 92ead7022d13a7858d54e328e6a2f8f9 # [French MULTi.VO] UHD Bluray + WEB
+        name: FC Personal FR-MULTi.VO UHD
+        reset_unmatched_scores:
+          enabled: true
+    custom_format_groups:
+      add:
+        - trash_id: f8bf8eab4617f12dfdbd16303d8da245 # [Required] Golden Rule HD
+          select:
+            - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
+        - trash_id: ff204bbcecdd487d1cefcefdbf0c278d # [Required] Golden Rule UHD
+          select:
+            - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
+    custom_formats:
+      - trash_ids:
+          - 404c08fd0bd67f39b4d8e5709319094e # VFF
+          - 29b5f7b1a5f20f64228786c3ab1bdc7d # VF2
+        assign_scores_to:
+          - name: FC Shared FR-MULTi.VF HD
+            score: 25
+          - name: FC Shared FR-MULTi.VF UHD
+            score: 25
+          - name: FC Personal FR-MULTi.VO HD
+            score: 25
+          - name: FC Personal FR-MULTi.VO UHD
+            score: 25
+      - trash_ids:
+          - b6ace47331a1d3b77942fc18156f6df6 # VFQ
+        assign_scores_to:
+          - name: FC Shared FR-MULTi.VF HD
+            score: -25
+          - name: FC Shared FR-MULTi.VF UHD
+            score: -25
+          - name: FC Personal FR-MULTi.VO HD
+            score: -25
+          - name: FC Personal FR-MULTi.VO UHD
+            score: -25
+      - trash_ids:
+          - 496f355514737f7d83bf7aa4d24f8169 # TrueHD ATMOS
+          - 2f22d89048b01681dde8afe203bf2e95 # DTS X
+          - 3cafb66171b47f226146a0770576870f # TrueHD
+          - dcf3ec6938fa32445f590a4da84256cd # DTS-HD MA
+          - a570d4a0e56a2874b64e5bfa55202a1b # FLAC
+          - e7c2fcae07cbada050a0af3357491d7b # PCM
+        assign_scores_to:
+          - name: FC Shared FR-MULTi.VF UHD
+            score: 75
+          - name: FC Personal FR-MULTi.VO UHD
+            score: 75

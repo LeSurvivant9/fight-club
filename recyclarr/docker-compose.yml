@@ -1,0 +1,26 @@
+---
+services:
+  recyclarr:
+    extends:
+      file: ../common.yml
+      service: common-config
+    image: ghcr.io/recyclarr/recyclarr:8
+    container_name: recyclarr
+    environment:
+      - CRON_SCHEDULE=${RECYCLARR_CRON_SCHEDULE:-@daily}
+      - RECYCLARR_DATA_DIR=/data
+    env_file:
+      - .env
+    networks:
+      - media_int
+    volumes:
+      - ./config:/config
+      - /opt/recyclarr/data:/data
+    mem_limit: 512M
+    user: "${PUID}:${PGID}"
+    read_only: true
+    tmpfs:
+      - /tmp
+networks:
+  media_int:
+    external: true
