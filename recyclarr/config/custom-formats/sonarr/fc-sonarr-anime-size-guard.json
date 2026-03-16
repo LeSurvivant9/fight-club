@@ -3,36 +3,17 @@
   "trash_scores": {
     "default": -10000
   },
-  "name": "FC Anime Size Guard",
+  "name": "FC Anime Too Small",
   "includeCustomFormatWhenRenaming": false,
   "specifications": [
-    {
-      "name": "1080p Marker",
-      "implementation": "ReleaseTitleSpecification",
-      "negate": false,
-      "required": true,
-      "fields": {
-        "value": "(?i)\\b1080p\\b"
-      }
-    },
     {
       "name": "Too Small",
       "implementation": "SizeSpecification",
       "negate": false,
-      "required": false,
+      "required": true,
       "fields": {
         "min": 1,
         "max": 599
-      }
-    },
-    {
-      "name": "Too Large",
-      "implementation": "SizeSpecification",
-      "negate": false,
-      "required": false,
-      "fields": {
-        "min": 2049,
-        "max": 999999
       }
     }
   ]

@@ -182,6 +182,7 @@ sonarr:
           - fc-sonarr-anime-generic-multisubs
           - fc-sonarr-anime-small-multisubs-penalty
           - fc-sonarr-anime-size-guard
+          - fc-sonarr-anime-web-too-large
           - fc-sonarr-title-artifact-hard-block
           - fc-sonarr-anime-vostfr-preferred
         assign_scores_to:

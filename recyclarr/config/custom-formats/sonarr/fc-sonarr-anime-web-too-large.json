@@ -1,0 +1,29 @@
+{
+  "trash_id": "fc-sonarr-anime-web-too-large",
+  "trash_scores": {
+    "default": -10000
+  },
+  "name": "FC Anime WEB Too Large",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "WEB Marker",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "value": "(?i)\\bWEB(?:[- ._]?(DL|RIP))?\\b"
+      }
+    },
+    {
+      "name": "Too Large",
+      "implementation": "SizeSpecification",
+      "negate": false,
+      "required": true,
+      "fields": {
+        "min": 2049,
+        "max": 999999
+      }
+    }
+  ]
+}
