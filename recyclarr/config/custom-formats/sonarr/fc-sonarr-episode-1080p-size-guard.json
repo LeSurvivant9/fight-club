@@ -21,7 +21,7 @@
       "negate": false,
       "required": true,
       "fields": {
-        "min": 6145,
+        "min": 6.01,
         "max": 999999
       }
     }

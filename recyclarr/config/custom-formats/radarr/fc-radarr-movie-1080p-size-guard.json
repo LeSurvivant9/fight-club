@@ -21,8 +21,8 @@
       "negate": false,
       "required": false,
       "fields": {
-        "min": 1,
-        "max": 5119
+        "min": 0,
+        "max": 4.99
       }
     },
     {
@@ -31,7 +31,7 @@
       "negate": false,
       "required": false,
       "fields": {
-        "min": 35841,
+        "min": 35.01,
         "max": 999999
       }
     }

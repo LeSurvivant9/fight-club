@@ -12,8 +12,8 @@
       "negate": false,
       "required": true,
       "fields": {
-        "min": 1,
-        "max": 599
+        "min": 0,
+        "max": 0.59
       }
     }
   ]
