@@ -17,7 +17,7 @@
 ├── homarr/
 ├── infisical/
 ├── jellyfin/
-├── jellyseerr/
+├── seerr/
 ├── jellystat/
 ├── komf/
 ├── komga/

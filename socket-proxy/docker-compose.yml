@@ -36,8 +36,7 @@ services:
       - TIMEOUT_CONNECT=5s
       - TIMEOUT_SERVER=30s
     networks:
-      socket_proxy:
-        ipv4_address: 172.21.0.2
+      - socket_proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     healthcheck:
