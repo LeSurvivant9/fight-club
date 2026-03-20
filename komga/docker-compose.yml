@@ -18,10 +18,12 @@ services:
       - traefik.docker.network=proxy
       - traefik.http.routers.komga-secure.entrypoints=https
       - traefik.http.routers.komga-secure.rule=Host(`komga.${DOMAIN}`)
+      - traefik.http.routers.komga-secure.middlewares=no-index@file
       - traefik.http.routers.komga-secure.tls=true
       - traefik.http.routers.komga-secure.tls.certresolver=cloudflare
       - traefik.http.routers.komga-secure.service=komga
       - traefik.http.services.komga.loadbalancer.server.port=25600
+    user: "${PUID}:${PGID}"
 networks:
   proxy:
     external: true

@@ -12,6 +12,7 @@ services:
       - proxy
     volumes:
       - /opt/suwayomi/data:/home/suwayomi/.local/share/Tachidesk
+      - ${MEDIA}/books/mangas:/home/suwayomi/.local/share/Tachidesk/downloads
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
