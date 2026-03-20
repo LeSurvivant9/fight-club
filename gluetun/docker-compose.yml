@@ -219,7 +219,7 @@ services:
       - QBT_LOG_LEVEL=INFO
     network_mode: service:gluetun
     volumes:
-      - ./qbit_manage.config.yml:/config/config.yml:ro
+      - ./qbit_manage:/config
       - ${MEDIA}/downloads:/data/torrents:rw
     depends_on:
       gluetun:
