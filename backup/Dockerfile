@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.23
 
 # hadolint ignore=DL3018
 RUN apk add --no-cache bash docker-cli age coreutils gzip rsync tar nodejs npm restic \
